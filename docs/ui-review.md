@@ -7,8 +7,11 @@
   native island switching, late/out-of-order responses, and efficiency edge cases.
 - JavaScript syntax, local module references and diff whitespace checked.
 - No real-game, LAN, rendered-layout or chart-interaction verification claimed.
-- Owner screenshots establish the previous desktop dark home/efficiency layout.
-  This follow-up addresses their empty overview, region grouping and meter layout.
+- Owner screenshots establish the German desktop dark home/efficiency layout
+  after region grouping and meter alignment. They exposed a zero-deficit grid
+  placement conflict: the muted-link style also matched the product-count rule.
+  The selector now targets the product-count span only. This CSS correction
+  still needs a rendered check; mobile, light theme and charts remain open.
 - Browser preview is blocked by URL security policy (after the earlier usage
   limit). The follow-up CSS has not been rendered here.
 - `./scripts/check.sh` cannot run here because Go is not installed.
