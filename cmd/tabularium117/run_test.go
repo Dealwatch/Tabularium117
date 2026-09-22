@@ -204,10 +204,14 @@ func TestResolveDataDir(t *testing.T) {
 	if !strings.HasSuffix(dir, "Tabularium117") {
 		t.Errorf("default data dir = %q, want it to end in Tabularium117", dir)
 	}
-	if dir, err = resolveDataDir("relative/path"); err != nil {
+	// The separator is the host's, so the expectation is built with
+	// filepath rather than spelled out: on Windows an absolute path
+	// starts with a drive letter and has no leading slash.
+	rel := filepath.Join("relative", "path")
+	if dir, err = resolveDataDir(rel); err != nil {
 		t.Fatalf("resolveDataDir: %v", err)
 	}
-	if !strings.HasSuffix(dir, "relative/path") || !strings.HasPrefix(dir, "/") {
+	if !strings.HasSuffix(dir, rel) || !filepath.IsAbs(dir) {
 		t.Errorf("--data-dir was not made absolute: %q", dir)
 	}
 }
