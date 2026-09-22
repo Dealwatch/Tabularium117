@@ -7,6 +7,19 @@ function locale() {
   return i18n.lang === "de" ? "de-DE" : "en-US";
 }
 
+// hint renders a value that needs a sentence to be read correctly. The
+// explanation is a native title tooltip - no build step, no popup library -
+// and the dotted underline is what tells a reader there is one at all. A
+// phone has no hover, so the same sentence is in the paragraph above the
+// table as well (i18n efficiencyExplain).
+function hint(text, explanation) {
+  const span = document.createElement("span");
+  span.className = "hint";
+  span.title = explanation;
+  span.textContent = text;
+  return span;
+}
+
 export async function renderEfficiency(container, islandId, store) {
   const back = document.createElement("a");
   back.href = `#/island/${encodeURIComponent(islandId)}`;
@@ -107,11 +120,20 @@ export async function renderEfficiency(container, islandId, store) {
       // buildings run, rather than how the output compares with its optimum
       // (KONZEPT.md section 2.3). Without buildings there is nothing to
       // average, and the field is then a zero that means "not applicable".
+      //
+      // The numbers alone cannot separate the two ways of producing nothing:
+      // "0.0 / 10.0 / 0 %" means the buildings stand still, while "-" means
+      // there are no buildings at all. Both get the sentence that says so,
+      // because a reader new to the view reads them as the same row.
       const productivityTd = document.createElement("td");
       productivityTd.className = "num";
-      productivityTd.textContent = p.perfectGeneration === 0 && p.avgProductivity === 0
-        ? "-"
-        : `${fmt0.format(p.avgProductivity)} %`;
+      if (p.perfectGeneration === 0 && p.avgProductivity === 0) {
+        productivityTd.append(hint("-", i18n.t("productivityNoBuildingsHint")));
+      } else if (p.generation === 0 && p.perfectGeneration > 0) {
+        productivityTd.append(hint(`${fmt0.format(p.avgProductivity)} %`, i18n.t("productivityIdleHint")));
+      } else {
+        productivityTd.textContent = `${fmt0.format(p.avgProductivity)} %`;
+      }
 
       const wastedTd = document.createElement("td");
       wastedTd.className = "num";

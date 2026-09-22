@@ -257,6 +257,15 @@ td.delta-positive { color: var(--surplus); }
 .efficiency-bar > span { display: block; height: 100%; background: var(--accent); }
 tr.no-data { opacity: .5; }
 
+/* A value that needs a sentence to be read correctly (views/efficiency.js).
+   The dotted underline is the only thing that says an explanation exists,
+   so it stays visible in both themes rather than relying on colour. */
+.hint {
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+  cursor: help;
+}
+
 /* The first tick after a savegame is loaded carries no products at all, so
    the islands are known but empty. Greying them says "not yet", where full
    contrast would say "nothing here". */

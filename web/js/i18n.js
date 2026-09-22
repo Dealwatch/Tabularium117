@@ -46,7 +46,13 @@ const dictionaries = {
     efficiencyHeading: "Efficiency",
     efficiencyExplain: "\"Wasted production\" is the perfect generation minus the actual generation: "
       + "buildings that are not running at full potential, for example because of missing workforce "
-      + "or missing input goods. A higher wasted value means more room for improvement.",
+      + "or missing input goods. A higher wasted value means more room for improvement. "
+      + "A productivity of 0 % next to a perfect generation means the buildings are standing still; "
+      + "a \"-\" means there are no producing buildings for that good here.",
+    productivityIdleHint: "There are buildings for this good, but they produce nothing right now: "
+      + "paused, without workforce, or without their input goods.",
+    productivityNoBuildingsHint: "No producing buildings for this good on this island, "
+      + "so there is nothing to compare against.",
     colEfficiency: "Efficiency",
     colProductivity: "Productivity",
     colWasted: "Wasted",
@@ -165,7 +171,13 @@ const dictionaries = {
     efficiencyExplain: "„Verschenkte Produktion“ ist die perfekte Produktion minus der "
       + "tatsächlichen: Gebäude, die nicht mit voller Kapazität laufen, zum Beispiel wegen "
       + "fehlender Arbeitskräfte oder fehlender Rohstoffe. Ein höherer Wert bedeutet mehr "
-      + "Verbesserungspotenzial.",
+      + "Verbesserungspotenzial. Produktivität 0 % neben einer perfekten Produktion heißt: "
+      + "die Gebäude stehen. Ein „-“ heißt: für diese Ware gibt es hier keine produzierenden "
+      + "Gebäude.",
+    productivityIdleHint: "Für diese Ware gibt es Gebäude, sie produzieren gerade aber nichts: "
+      + "pausiert, ohne Arbeitskräfte oder ohne Rohstoffe.",
+    productivityNoBuildingsHint: "Keine produzierenden Gebäude für diese Ware auf dieser Insel, "
+      + "es gibt also nichts zu vergleichen.",
     colEfficiency: "Effizienz",
     colProductivity: "Produktivität",
     colWasted: "Verschenkt",

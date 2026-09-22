@@ -18,6 +18,11 @@ First beta release, for testing by a small group of real players before a
 - Efficiency view: actual production against the theoretical perfect
   production per good, plus a productivity column showing the average
   productivity of that good's buildings.
+- The efficiency view explains the two ways a good can produce nothing: a
+  productivity of 0 % next to a perfect generation means the buildings are
+  standing still, a "-" means there are no producing buildings for that good
+  on the island. Both carry the sentence as a tooltip, and the paragraph
+  above the table says it too, because a phone has no hover.
 - Rule-based alerts with hysteresis: a sustained deficit (default 3
   consecutive negative-delta measurements) or an efficiency drop (default 20
   percentage points below its 15-minute mean) raises a warning, optionally
