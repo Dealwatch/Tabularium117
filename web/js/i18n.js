@@ -8,6 +8,11 @@ const STORAGE_KEY = "tabularium.lang";
 
 const dictionaries = {
   en: {
+    negativeBalances: "Negative goods balances",
+    deficitCount: "{count} goods in deficit",
+    overviewExplain: "Negative balances count goods whose consumption exceeds production, separately for each island. Active warnings require a rule to hold over several measurements.",
+    recordedAt: "Recorded data: {date}",
+
     goods: "Goods",
     allGoods: "All",
     onlyDeficits: "Deficits",
@@ -33,7 +38,7 @@ const dictionaries = {
     statusConnected: "connected",
     statusWaiting: "waiting for Anno 117",
     statusDisconnected: "disconnected",
-    statusReplaying: "replaying",
+    statusReplaying: "Recorded data",
     protocolVersion: "protocol v{version}",
     lastFrame: "Updated {age} ago",
     lastFrameNever: "no data received yet",
@@ -65,9 +70,7 @@ const dictionaries = {
     legendConsumption: "Consumption",
     legendDelta: "Delta",
     efficiencyHeading: "Efficiency",
-    efficiencyExplain: "\"Wasted production\" is the perfect generation minus the actual generation: "
-      + "buildings that are not running at full potential, for example because of missing workforce "
-      + "or missing input goods. A higher wasted value means more room for improvement.",
+    efficiencyExplain: "Unused/min is potential minus actual production. Efficiency compares actual production with potential; productivity is the average building modifier and can exceed 100%.",
     colEfficiency: "Efficiency",
     colProductivity: "Productivity",
     colWasted: "Unused/min",
@@ -146,6 +149,11 @@ const dictionaries = {
     connectionLost: "Connection to Tabularium 117 lost - retrying…",
   },
   de: {
+    negativeBalances: "Negative Warenbilanzen",
+    deficitCount: "{count} Waren im Defizit",
+    overviewExplain: "Negative Bilanzen zählen Waren mit höherem Verbrauch als Produktion – pro Insel getrennt. Aktive Warnungen entstehen erst, wenn eine Regel über mehrere Messungen zutrifft.",
+    recordedAt: "Daten der Aufzeichnung: {date}",
+
     goods: "Waren",
     allGoods: "Alle",
     onlyDeficits: "Defizite",
@@ -171,7 +179,7 @@ const dictionaries = {
     statusConnected: "verbunden",
     statusWaiting: "warte auf Anno 117",
     statusDisconnected: "getrennt",
-    statusReplaying: "Wiedergabe",
+    statusReplaying: "Aufzeichnungsdaten",
     protocolVersion: "Protokoll v{version}",
     lastFrame: "Aktualisiert vor {age}",
     lastFrameNever: "noch keine Daten empfangen",
@@ -204,10 +212,7 @@ const dictionaries = {
     legendConsumption: "Verbrauch",
     legendDelta: "Delta",
     efficiencyHeading: "Effizienz",
-    efficiencyExplain: "„Verschenkte Produktion“ ist die perfekte Produktion minus der "
-      + "tatsächlichen: Gebäude, die nicht mit voller Kapazität laufen, zum Beispiel wegen "
-      + "fehlender Arbeitskräfte oder fehlender Rohstoffe. Ein höherer Wert bedeutet mehr "
-      + "Verbesserungspotenzial.",
+    efficiencyExplain: "Ungenutzt/min ist Potenzial minus tatsächliche Produktion. Effizienz vergleicht Produktion mit Potenzial; Produktivität ist der durchschnittliche Gebäudemodifikator und kann über 100 % liegen.",
     colEfficiency: "Effizienz",
     colProductivity: "Produktivität",
     colWasted: "Ungenutzt/min",

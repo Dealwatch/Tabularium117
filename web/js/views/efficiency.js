@@ -100,7 +100,11 @@ export async function renderEfficiency(container, islandId, store) {
         const ratio = Math.max(0, Math.min(1, p.efficiency));
         fill.style.width = `${(ratio * 100).toFixed(0)}%`;
         bar.append(fill);
-        effTd.append(document.createTextNode(pct.format(p.efficiency) + " "), bar);
+        bar.setAttribute("aria-hidden", "true");
+        const value = document.createElement("span"); value.className = "efficiency-value";
+        value.textContent = pct.format(p.efficiency);
+        const meter = document.createElement("div"); meter.className = "efficiency-meter";
+        meter.append(bar, value); effTd.append(meter);
       }
 
       // Productivity is a different question from efficiency: how hard the

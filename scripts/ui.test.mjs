@@ -116,3 +116,36 @@ test('efficiency preserves zero-baseline and boosted values', async () => {
   const root = new Element(); const cleanup = await renderEfficiency(root, island.id, state());
   assert.match(bodyText(root), /150%/); assert.equal(nodes(root, 'tbody')[0].children[1].className, 'no-data'); cleanup();
 });
+
+test('region grouping preserves session identity, unknown regions and interleaved islands', async () => {
+  const { groupIslands } = await import('../web/js/regions.js');
+  const islands = [
+    { ...island, sessionGuid: 1 },
+    { ...island, id: '2-1', sessionGuid: 2, sessionName: 'Albion' },
+    { ...island, id: '1-2', sessionGuid: 1 },
+    { ...island, id: '3-1', sessionGuid: 3, sessionName: '' },
+  ];
+  const groups = groupIslands(islands);
+  assert.deepEqual(groups.map(g => g.name), ['Latium', 'Albion', '#3']);
+  assert.deepEqual(groups[0].islands.map(i => i.id), [island.id, '1-2']);
+  const nav = islandNavigation(island.id, { islands }, 'goods');
+  assert.deepEqual(nodes(nav, 'optgroup').map(g => g.label), ['Latium', 'Albion', '#3']);
+  assert.equal(nodes(nav, 'option').length, 4);
+});
+test('overview links open an island with the deficit filter; warm-up avoids false zero balances', async () => {
+  const { renderRegionOverview } = await import('../web/js/views/overview.js');
+  i18n.lang = 'en'; const store = state();
+  const overview = renderRegionOverview(store);
+  const link = nodes(overview, 'a').find(a => a.href.endsWith('?filter=deficits'));
+  assert.equal(link.href, '#/island/3245-1?filter=deficits');
+  assert.match(link.getAttribute('aria-label'), /Juliana/);
+  api.products = async () => ({ island, products });
+  const root = new Element();
+  const cleanup = await renderIslandDetail(root, island.id, store, 'deficits');
+  assert.match(bodyText(root), /Wheat/); assert.doesNotMatch(bodyText(root), /Bread/);
+  assert.equal(button(root, 'Deficits').getAttribute('aria-pressed'), 'true'); cleanup();
+  store.status.warmingUp = true;
+  const waiting = renderRegionOverview(store);
+  assert.equal(nodes(waiting, 'a').length, 1);
+  assert.match(waiting.textContent, /waiting for statistics/);
+});

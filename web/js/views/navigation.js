@@ -1,4 +1,5 @@
 // Shared island context and native navigation; no extra requests or dependencies.
+import { groupIslands } from "../regions.js";
 import { i18n } from "../i18n.js";
 
 export function islandNavigation(islandId, store, active) {
@@ -11,10 +12,14 @@ export function islandNavigation(islandId, store, active) {
   const title = document.createElement("h1"); title.textContent = island?.name || islandId;
   const select = document.createElement("select");
   select.setAttribute("aria-label", i18n.t("islandSwitch"));
-  for (const i of store.islands) {
-    const option = document.createElement("option"); option.value = i.id;
-    option.textContent = `${i.name} · ${i.sessionName}`; option.selected = i.id === islandId;
-    select.append(option);
+  for (const group of groupIslands(store.islands)) {
+      const options = document.createElement("optgroup"); options.label = group.name;
+      for (const i of group.islands) {
+      const option = document.createElement("option"); option.value = i.id;
+      option.textContent = `${i.name} · ${i.sessionName}`; option.selected = i.id === islandId;
+      options.append(option);
+    }
+    select.append(options);
   }
   select.addEventListener("change", () => {
     window.location.hash = `#/island/${encodeURIComponent(select.value)}${active === "efficiency" ? "/efficiency" : ""}`;

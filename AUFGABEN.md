@@ -171,11 +171,12 @@ Reihenfolge einhalten – spätere Phasen bauen auf früheren auf. Referenz: `KO
   Waren/Effizienz, permanente Warnungsnavigation und kompakte Verbindungsdetails.
 - [x] **UI.2 Handy und Tabellen.** Direkte Detailansicht, Zurück-Link, Inselwähler,
   Warenfilter, Einheiten, leere Suchergebnisse und zugängliche Verlaufslinks.
-- [x] **UI.3 Logikprüfung.** Sechs Node-DOM-Tests für Filter/Suche, Sortierung,
+- [x] **UI.3 Logikprüfung.** Acht Node-DOM-Tests für Filter/Suche, Sortierung,
   Lokalisierung, Inselwechsel, verspätete Antworten und Effizienz-Sonderwerte.
 - [ ] **UI.4 Visuelle Abnahme.** Desktop und Handy, beide Sprachen und Themes,
   einschließlich Diagramm und LAN-Panel prüfen; README-Screenshots erneuern.
-  Browser-Vorschau in der Bearbeitung durch automatisches Nutzungslimit blockiert.
+  Desktop-Screenshots des Owners geprüft; Nachbesserung noch nicht visuell abgenommen.
+  Browser-Vorschau derzeit durch URL-Sicherheitsrichtlinie blockiert.
   Die alten Screenshot-Dateien bleiben erhalten, sind aber nicht mehr im README
   eingebunden. Go-Prüfung steht mangels installiertem Go ebenfalls noch aus.
 
@@ -199,3 +200,7 @@ Reihenfolge einhalten – spätere Phasen bauen auf früheren auf. Referenz: `KO
 ## Projektregeln
 
 Die Projektregeln stehen in `CONTRIBUTING.md`.
+
+- [x] **UI.5 Abschlussüberarbeitung.** Gebietsüberschriften in Seitenleiste,
+  Startübersicht und Inselwähler; direkte Defizitfilter-Links, Erklärung der
+  Kennzahlen, kompakte Effizienzbalken und eindeutige Aufzeichnungsbeschriftung.

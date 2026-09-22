@@ -12,6 +12,8 @@ import { renderPhone } from "./views/phone.js";
 import { renderAlerts } from "./views/alerts.js";
 import { buildPipeHelp } from "./pipe-help.js";
 import { alertKey, announce, countByIsland } from "./alerts.js";
+import { groupIslands } from "./regions.js";
+import { renderRegionOverview } from "./views/overview.js";
 import { formatAge } from "./format.js";
 
 const THEME_KEY = "tabularium.theme";
@@ -157,7 +159,10 @@ function tickLastFrame() {
     els.lastFrame.textContent = i18n.t("lastFrameNever");
     return;
   }
-  els.lastFrame.textContent = i18n.t("lastFrame", { age: formatAge(Date.now() - lastFrameAt.getTime()) });
+  const replay = store.status?.connection?.mode === "replay" || store.status?.connection?.state === "replaying";
+  els.lastFrame.textContent = replay
+    ? i18n.t("recordedAt", { date: lastFrameAt.toLocaleString(i18n.lang === "de" ? "de-DE" : "en-GB") })
+    : i18n.t("lastFrame", { age: formatAge(Date.now() - lastFrameAt.getTime()) });
 }
 setInterval(tickLastFrame, 1000);
 
@@ -232,51 +237,58 @@ function renderIslandList() {
   const alertCounts = countByIsland(store.alerts);
   const warming = !!store.status?.warmingUp;
   els.islandList.replaceChildren();
-  for (const island of store.islands) {
-    const li = document.createElement("li");
-    li.className = warming ? "island-item warming" : "island-item";
-    if (warming) li.title = i18n.t("warmingUp");
-    const btn = document.createElement("button");
-    btn.type = "button";
-    if (hash.islandId === island.id) btn.setAttribute("aria-current", "true");
+  for (const group of groupIslands(store.islands)) {
+    const section = document.createElement("li"); section.className = "island-region";
+    const heading = document.createElement("h3"); heading.textContent = group.name;
+    const list = document.createElement("ul");
+    section.append(heading, list); els.islandList.append(section);
+    for (const island of group.islands) {
+      const li = document.createElement("li");
+      li.className = warming ? "island-item warming" : "island-item";
+      if (warming) li.title = i18n.t("warmingUp");
+      const btn = document.createElement("button");
+      btn.type = "button";
+      if (hash.islandId === island.id) btn.setAttribute("aria-current", "true");
 
-    const left = document.createElement("span");
-    const name = document.createElement("div");
-    name.className = "name";
-    name.textContent = island.name || `#${island.islandId}`;
-    const meta = document.createElement("div");
-    meta.className = "meta";
-    meta.textContent = warming
-      ? `${island.sessionName} · ${i18n.t("warmingUpShort")}`
-      : `${island.sessionName} · ${island.products} ${i18n.t("products")}`;
-    left.append(name, meta);
+      const left = document.createElement("span");
+      const name = document.createElement("div");
+      name.className = "name";
+      name.textContent = island.name || `#${island.islandId}`;
+      const meta = document.createElement("div");
+      meta.className = "meta";
+      meta.textContent = warming
+        ? i18n.t("warmingUpShort")
+        : `${island.products} ${i18n.t("products")}`;
+      left.append(name, meta);
 
-    btn.append(left);
-    const badges = document.createElement("span");
-    badges.className = "badges";
-    const alertCount = alertCounts.get(island.id) || 0;
-    if (alertCount > 0) {
-      // Two different things, so two different badges: deficits are "delta
-      // is negative right now", warnings are "a rule has held for a while".
-      const badge = document.createElement("span");
-      badge.className = "badge alert";
-      badge.textContent = `\u26A0 ${alertCount}`;
-      badge.title = i18n.t("alertsBadge", { count: alertCount });
-      badges.append(badge);
+      btn.append(left);
+      const badges = document.createElement("span");
+      badges.className = "badges";
+      const alertCount = alertCounts.get(island.id) || 0;
+      if (alertCount > 0) {
+        // Two different things, so two different badges: deficits are "delta
+        // is negative right now", warnings are "a rule has held for a while".
+        const badge = document.createElement("span");
+        badge.className = "badge alert";
+        badge.textContent = `\u26A0 ${alertCount}`;
+        badge.title = i18n.t("alertsBadge", { count: alertCount });
+        badges.append(badge);
+      }
+      if (island.deficits > 0) {
+        const badge = document.createElement("span");
+        badge.className = "badge";
+        badge.textContent = `− ${island.deficits}`;
+        badge.title = i18n.t("deficitCount", { count: island.deficits });
+        badge.setAttribute("aria-label", badge.title);
+        badges.append(badge);
+      }
+      if (badges.childElementCount > 0) btn.append(badges);
+      btn.addEventListener("click", () => {
+        window.location.hash = `#/island/${encodeURIComponent(island.id)}`;
+      });
+      li.append(btn);
+      list.append(li);
     }
-    if (island.deficits > 0) {
-      const badge = document.createElement("span");
-      badge.className = "badge";
-      badge.textContent = String(island.deficits);
-      badge.title = `${island.deficits} ${i18n.t("deficits")}`;
-      badges.append(badge);
-    }
-    if (badges.childElementCount > 0) btn.append(badges);
-    btn.addEventListener("click", () => {
-      window.location.hash = `#/island/${encodeURIComponent(island.id)}`;
-    });
-    li.append(btn);
-    els.islandList.append(li);
   }
 }
 
@@ -357,7 +369,7 @@ function parseHash() {
     if (parts[2] === "product" && parts[3]) {
       return { route: "history", islandId, guid: decodeURIComponent(parts[3]) };
     }
-    return { route: "island", islandId };
+    return { route: "island", islandId, filter: query.get("filter") === "deficits" ? "deficits" : "all" };
   }
   return { route: "home" };
 }
@@ -405,7 +417,7 @@ async function route() {
         unmount = await renderAlerts(content, store, r.all);
         break;
       case "island":
-        unmount = await renderIslandDetail(content, r.islandId, store);
+        unmount = await renderIslandDetail(content, r.islandId, store, r.filter);
         break;
       case "history":
         unmount = await renderHistory(content, r.islandId, r.guid, store);
@@ -448,13 +460,16 @@ function renderHome(container) {
   const title = document.createElement("h1"); title.textContent = i18n.t("overviewHeading");
   p.textContent = i18n.t("overviewIntro");
   const stats = document.createElement("div"); stats.className = "summary-cards";
-  for (const [value, label] of [[store.islands.length, "islandCount"], [store.islands.reduce((n, i) => n + i.deficits, 0), "onlyDeficits"], [store.alerts.length, "activeWarnings"]]) {
-    const card = document.createElement("div"); card.className = "stat-card";
+  for (const [value, label] of [[store.islands.length, "islandCount"], [store.islands.reduce((n, i) => n + i.deficits, 0), "negativeBalances"], [store.alerts.length, "activeWarnings"]]) {
+    const card = document.createElement(label === "activeWarnings" ? "a" : "div"); card.className = "stat-card";
+    if (label === "activeWarnings") card.href = "#/alerts";
     const number = document.createElement("strong"); number.textContent = value;
     const caption = document.createElement("span"); caption.textContent = i18n.t(label);
     card.append(number, caption); stats.append(card);
   }
-  container.append(title, p, stats);
+  const explain = document.createElement("p"); explain.className = "overview-explain muted";
+  explain.textContent = i18n.t("overviewExplain");
+  container.append(title, p, stats, explain, renderRegionOverview(store));
 }
 
 // renderHomeIfShown repaints the start page when it is the one on screen.
@@ -463,8 +478,12 @@ function renderHome(container) {
 // start the game, and otherwise it asks for an island to be picked.
 function renderHomeIfShown() {
   if (parseHash().route !== "home") return;
+  const focusedHref = els.view.contains(document.activeElement) ? document.activeElement.getAttribute("href") : null;
   els.view.replaceChildren();
   renderHome(els.view);
+  if (focusedHref) {
+    [...els.view.querySelectorAll("a")].find(a => a.getAttribute("href") === focusedHref)?.focus({ preventScroll: true });
+  }
 }
 
 window.addEventListener("hashchange", () => {

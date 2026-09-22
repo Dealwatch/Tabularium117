@@ -499,3 +499,29 @@ tr:last-child td { border-bottom: 0; }
 
 .table-scroll:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .table-scroll td[colspan] { position: static; max-width: none; padding: 1.5rem; color: var(--fg-muted); }
+
+/* Region headings are shared by the navigation and the actionable overview. */
+.island-region h3 { margin: 1rem .8rem .45rem; color: var(--accent); font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; }
+.island-region:first-child h3 { margin-top: .4rem; }
+.island-region ul { list-style: none; padding: 0; display: grid; gap: .35rem; }
+.overview-explain { max-width: 80ch; font-size: .9rem; line-height: 1.6; }
+.region-overview { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 1.5rem; margin-top: 1.8rem; }
+.overview-region { min-width: 0; }
+.overview-region h2 { font-size: 1rem; color: var(--accent); margin: 0 0 .8rem; }
+.overview-islands { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border); border-radius: .8rem; overflow: hidden; background: var(--bg-elevated); }
+.overview-island { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .1rem 1rem; padding: .65rem 1rem; align-items: center; }
+.overview-island + .overview-island { border-top: 1px solid var(--border); }
+.overview-island-name { font-weight: 600; overflow-wrap: anywhere; min-height: 44px; display: flex; align-items: center; }
+.overview-island > .muted { grid-column: 1; font-size: .8rem; }
+.overview-deficit { grid-column: 2; grid-row: 1 / 3; font-size: .85rem; min-height: 44px; display: flex; align-items: center; }
+.efficiency-meter { display: flex; align-items: center; justify-content: flex-end; gap: .8rem; }
+.efficiency-meter .efficiency-bar { width: 6rem; flex: 0 0 6rem; }
+.efficiency-value { min-width: 3.5em; font-variant-numeric: tabular-nums; }
+@media (max-width: 899px) {
+  body:not(.detail-route) #sidebar { display: none; }
+}
+@media (max-width: 399px) {
+  .summary-cards { grid-template-columns: 1fr; }
+  .stat-card { flex-direction: row; align-items: center; gap: 1rem; }
+  .overview-island { gap: .1rem .5rem; padding: .6rem .75rem; }
+}

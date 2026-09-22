@@ -10,6 +10,10 @@ First beta release, for testing by a small group of real players before a
 
 ### Added
 
+- Region-grouped island navigation and overview, with direct deficit-filter links
+  and explanations of negative balances versus sustained warnings (DE/EN).
+- Aligned efficiency meters and recorded-data timestamps for replay mode.
+
 - Bronze-accented dashboard with a remembered light/dark mode, island context,
   goods/efficiency navigation and a permanent warnings entry.
 - Goods filters for deficits and active warnings, per-minute column labels,

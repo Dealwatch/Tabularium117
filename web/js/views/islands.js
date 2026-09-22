@@ -29,11 +29,11 @@ const columns = [
 
 // renderIslandDetail fetches the island's products and mounts the table. It
 // returns an unmount function that stops listening for live updates.
-export async function renderIslandDetail(container, islandId, store) {
+export async function renderIslandDetail(container, islandId, store, initialFilter = "all") {
   let sortKey = "delta";
   let sortAsc = true; // deficits (most negative delta) first by default
   let search = "";
-  let filter = "all";
+  let filter = initialFilter === "deficits" ? "deficits" : "all";
   let disposed = false;
   let request = 0;
 

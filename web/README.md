@@ -18,7 +18,10 @@ New top-level directories must be added to the `//go:embed` pattern in
 
 The dashboard defaults to dark mode and stores explicit theme and language
 choices locally. `views/navigation.js` provides island context and the picker.
-Below 900 px, non-home routes hide the island list and expose a return link;
+`regions.js` groups islands by session identity, including unknown regions.
+The home view lists islands by region with direct deficit-filter links; the
+mobile sidebar is hidden because the overview already provides navigation.
+Below 900 px, detail routes expose a return link;
 tables retain their own horizontal scrolling region. Warnings remain reachable
 without active alerts. The goods filters operate only on received data and do
 not change backend calculations or alert thresholds.
