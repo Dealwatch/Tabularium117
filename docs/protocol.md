@@ -250,6 +250,10 @@ game paused, minimised, maximised; main menu; save reloaded; stop.
   percent (range 0–270 % live, boosts included). **[live]** The connector
   capture's odd values (e.g. Summed 27.87 with 6 buildings, Average 464.6)
   fit the same formula (27.87 / 6 × 100 = 464.5). **[capture]**
+- **Units:** `ProductGeneration`, `ProductConsumption`, `ProductDelta` and
+  their perfect counterparts are rates per minute, which is the unit the
+  game's own production figures use. The UI labels those columns `/min`.
+  **[inferred]**
 - **Efficiency** as `Generation / PerfectGeneration` ranges 0–1.5 live
   (boosts push it above 1). **[live]**
 - **Entries:** 236 per tick, 0–75 per island; 103 product GUIDs (all but `0`

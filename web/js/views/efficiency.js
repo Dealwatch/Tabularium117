@@ -73,10 +73,11 @@ export async function renderEfficiency(container, islandId, store) {
     const fmt1 = new Intl.NumberFormat(locale(), { minimumFractionDigits: 1, maximumFractionDigits: 1 });
     const pct = new Intl.NumberFormat(locale(), { style: "percent", maximumFractionDigits: 0 });
     // avgProductivity arrives already in percent (SummedProductivity /
-    // AmountOfBuildings x 100, KONZEPT.md section 12), so it is formatted as
-    // a plain number with a percent sign, not through a percent formatter
-    // that would multiply it again.
-    const fmt0 = new Intl.NumberFormat(locale(), { maximumFractionDigits: 0 });
+    // AmountOfBuildings x 100, KONZEPT.md section 12), so it goes back to a
+    // ratio before it is formatted. Writing the sign by hand instead put a
+    // space in front of it in English, where the two percentages in this
+    // table then disagreed with each other ("49%" beside "220 %").
+    const percent = (valueInPercent) => pct.format(valueInPercent / 100);
 
     // The server already sorts by wasted desc; products with efficiency ==
     // null (perfectGeneration 0) have wasted 0 or negative and are moved to
@@ -137,9 +138,9 @@ export async function renderEfficiency(container, islandId, store) {
       if (p.perfectGeneration === 0 && p.avgProductivity === 0) {
         productivityTd.append(hint("-", i18n.t("productivityNoBuildingsHint")));
       } else if (p.generation === 0 && p.perfectGeneration > 0) {
-        productivityTd.append(hint(`${fmt0.format(p.avgProductivity)} %`, i18n.t("productivityIdleHint")));
+        productivityTd.append(hint(percent(p.avgProductivity), i18n.t("productivityIdleHint")));
       } else {
-        productivityTd.textContent = `${fmt0.format(p.avgProductivity)} %`;
+        productivityTd.textContent = percent(p.avgProductivity);
       }
 
       const wastedTd = document.createElement("td");
