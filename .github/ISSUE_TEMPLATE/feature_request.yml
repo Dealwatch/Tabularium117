@@ -1,0 +1,22 @@
+name: Feature request
+description: Suggest an idea for Tabularium 117.
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        English is preferred but German is fine too. / Englisch ist
+        bevorzugt, Deutsch ist aber auch in Ordnung.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: false

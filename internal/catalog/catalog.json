@@ -1,0 +1,6880 @@
+{
+  "source": "anno-mods/anno-117-calculator",
+  "revision": "16ce9aa4e49c7baac45d8c3f75da6d2ba27ab564",
+  "license": "MIT",
+  "languages": [
+    "brazilian",
+    "english",
+    "french",
+    "german",
+    "italian",
+    "japanese",
+    "korean",
+    "polish",
+    "russian",
+    "simplified_chinese",
+    "spanish",
+    "traditional_chinese"
+  ],
+  "products": [
+    {
+      "guid": 0,
+      "names": {
+        "english": "(no product)",
+        "german": "(kein Produkt)"
+      },
+      "category": "",
+      "regions": [],
+      "abstract": false
+    },
+    {
+      "guid": 2063,
+      "names": {
+        "brazilian": "Linho",
+        "english": "Flax",
+        "french": "Lin",
+        "german": "Flachs",
+        "italian": "Lino",
+        "japanese": "​亜麻",
+        "korean": "​아마",
+        "polish": "Len",
+        "russian": "Лен",
+        "simplified_chinese": "​亚麻",
+        "spanish": "Lino",
+        "traditional_chinese": "​亞麻"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2068,
+      "names": {
+        "brazilian": "Aveia",
+        "english": "Oats",
+        "french": "Avoine",
+        "german": "Hafer",
+        "italian": "Avena",
+        "japanese": "​オーツ​麦",
+        "korean": "​귀리",
+        "polish": "Owies",
+        "russian": "Овес",
+        "simplified_chinese": "​燕麦",
+        "spanish": "Avena",
+        "traditional_chinese": "​燕麥"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Roman",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2069,
+      "names": {
+        "brazilian": "Trigo",
+        "english": "Wheat",
+        "french": "Blé",
+        "german": "Weizen",
+        "italian": "Grano",
+        "japanese": "​小麦",
+        "korean": "​밀",
+        "polish": "Pszenica",
+        "russian": "Пшеница",
+        "simplified_chinese": "​小麦",
+        "spanish": "Trigo",
+        "traditional_chinese": "​小麥"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2070,
+      "names": {
+        "brazilian": "Uvas",
+        "english": "Grapes",
+        "french": "Raisin",
+        "german": "Weintrauben",
+        "italian": "Uva",
+        "japanese": "​ブドウ",
+        "korean": "​포도",
+        "polish": "Winogrona",
+        "russian": "Виноград",
+        "simplified_chinese": "​葡萄",
+        "spanish": "Uvas",
+        "traditional_chinese": "​葡萄"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2071,
+      "names": {
+        "brazilian": "Lavanda",
+        "english": "Lavender",
+        "french": "Lavande",
+        "german": "Lavandula",
+        "italian": "Lavanda",
+        "japanese": "​ラベンダー",
+        "korean": "​라벤더",
+        "polish": "Lawenda",
+        "russian": "Лаванда",
+        "simplified_chinese": "​薰​衣​草",
+        "spanish": "Lavanda",
+        "traditional_chinese": "​薰​衣​草"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Roman",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2072,
+      "names": {
+        "brazilian": "Azeitonas",
+        "english": "Olives",
+        "french": "Olives",
+        "german": "Oliven",
+        "italian": "Olive",
+        "japanese": "​オリーブ",
+        "korean": "​올리브",
+        "polish": "Oliwki",
+        "russian": "Оливки",
+        "simplified_chinese": "​橄榄",
+        "spanish": "Aceitunas",
+        "traditional_chinese": "​橄欖"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Roman",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2073,
+      "names": {
+        "brazilian": "Ovelhas",
+        "english": "Sheep",
+        "french": "Moutons",
+        "german": "Schafe",
+        "italian": "Pecora",
+        "japanese": "​羊",
+        "korean": "​양",
+        "polish": "Owce",
+        "russian": "Овцы",
+        "simplified_chinese": "​绵羊",
+        "spanish": "Ovejas",
+        "traditional_chinese": "​綿羊"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2074,
+      "names": {
+        "brazilian": "Porcos",
+        "english": "Pigs",
+        "french": "Porcs",
+        "german": "Schweine",
+        "italian": "Maiali",
+        "japanese": "​豚",
+        "korean": "​돼지",
+        "polish": "Świnie",
+        "russian": "Свиньи",
+        "simplified_chinese": "​猪",
+        "spanish": "Cerdos",
+        "traditional_chinese": "​豬"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Roman",
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2075,
+      "names": {
+        "brazilian": "Cavalos",
+        "english": "Horses",
+        "french": "Chevaux",
+        "german": "Pferde",
+        "italian": "Cavalli",
+        "japanese": "​馬",
+        "korean": "​말",
+        "polish": "Konie",
+        "russian": "Лошади",
+        "simplified_chinese": "​马",
+        "spanish": "Caballos",
+        "traditional_chinese": "​馬"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2076,
+      "names": {
+        "brazilian": "Favos de mel",
+        "english": "Honeycombs",
+        "french": "Rayons de miel",
+        "german": "Honigwaben",
+        "italian": "Favi",
+        "japanese": "​蜂の巣",
+        "korean": "​벌집",
+        "polish": "Plastry miodu",
+        "russian": "Соты",
+        "simplified_chinese": "​蜂​窝",
+        "spanish": "Panales",
+        "traditional_chinese": "​蜂窩"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2077,
+      "names": {
+        "brazilian": "Madeira",
+        "english": "Wood",
+        "french": "Bois",
+        "german": "Holz",
+        "italian": "Legno",
+        "japanese": "​木材",
+        "korean": "​나무",
+        "polish": "Drewno",
+        "russian": "Дерево",
+        "simplified_chinese": "​原木",
+        "spanish": "Madera",
+        "traditional_chinese": "​原木"
+      },
+      "category": "raw",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2078,
+      "names": {
+        "brazilian": "Calcário",
+        "english": "Limestone",
+        "french": "Calcaire",
+        "german": "Kalkstein",
+        "italian": "Calcare",
+        "japanese": "​石灰岩",
+        "korean": "​석회석",
+        "polish": "Wapień",
+        "russian": "Известняк",
+        "simplified_chinese": "​石灰岩",
+        "spanish": "Caliza",
+        "traditional_chinese": "​石灰岩"
+      },
+      "category": "raw",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2079,
+      "names": {
+        "brazilian": "Minério de prata",
+        "english": "Silver Ore",
+        "french": "Minerai d'argent",
+        "german": "Silbererz",
+        "italian": "Minerale d'argento",
+        "japanese": "​銀​鉱石",
+        "korean": "​은광석",
+        "polish": "Ruda srebra",
+        "russian": "Серебряная руда",
+        "simplified_chinese": "​银​矿石",
+        "spanish": "Mena de plata",
+        "traditional_chinese": "​銀​礦石"
+      },
+      "category": "raw",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2080,
+      "names": {
+        "brazilian": "Minério de ferro",
+        "english": "Iron Ore",
+        "french": "Minerai de fer",
+        "german": "Eisenerz",
+        "italian": "Minerale di ferro",
+        "japanese": "​鉄​鉱石",
+        "korean": "​철광석",
+        "polish": "Ruda żelaza",
+        "russian": "Железная руда",
+        "simplified_chinese": "​铁矿石",
+        "spanish": "Mena de hierro",
+        "traditional_chinese": "​鐵礦石"
+      },
+      "category": "raw",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2084,
+      "names": {
+        "brazilian": "Mármore bruto",
+        "english": "Uncut Marble",
+        "french": "Marbre brut",
+        "german": "Rohmarmor",
+        "italian": "Marmo grezzo",
+        "japanese": "​未​加工​の​大理石",
+        "korean": "​미가공 ​대리석",
+        "polish": "Nieociosany marmur",
+        "russian": "Необработанный мрамор",
+        "simplified_chinese": "​大理石​原石",
+        "spanish": "Mármol bruto",
+        "traditional_chinese": "​大理石​原石"
+      },
+      "category": "raw",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2085,
+      "names": {
+        "brazilian": "Carvão",
+        "english": "Coal",
+        "french": "Charbon",
+        "german": "Kohle",
+        "italian": "Carbone",
+        "japanese": "​石炭",
+        "korean": "​탄",
+        "polish": "Węgiel",
+        "russian": "Уголь",
+        "simplified_chinese": "​煤炭",
+        "spanish": "Carbón",
+        "traditional_chinese": "​煤"
+      },
+      "category": "raw",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2086,
+      "names": {
+        "brazilian": "Argila",
+        "english": "Clay",
+        "french": "Argile",
+        "german": "Lehm",
+        "italian": "Creta",
+        "japanese": "​粘土",
+        "korean": "​점토",
+        "polish": "Glina",
+        "russian": "Глина",
+        "simplified_chinese": "​陶土",
+        "spanish": "Arcilla",
+        "traditional_chinese": "​陶土"
+      },
+      "category": "raw",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2087,
+      "names": {
+        "brazilian": "Esturjão",
+        "english": "Sturgeon",
+        "french": "Esturgeon",
+        "german": "Störe",
+        "italian": "Storione",
+        "japanese": "​チョウザメ",
+        "korean": "​철갑상어",
+        "polish": "Jesiotr",
+        "russian": "Осетр",
+        "simplified_chinese": "​鲟鱼",
+        "spanish": "Esturión",
+        "traditional_chinese": "​鱘魚"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2088,
+      "names": {
+        "brazilian": "Sardinhas",
+        "english": "Sardines",
+        "french": "Sardines",
+        "german": "Sardinen",
+        "italian": "Sardine",
+        "japanese": "​イワシ",
+        "korean": "​정어리",
+        "polish": "Sardynki",
+        "russian": "Сардины",
+        "simplified_chinese": "​沙丁鱼",
+        "spanish": "Sardinas",
+        "traditional_chinese": "​沙丁魚"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2089,
+      "names": {
+        "brazilian": "Cavala",
+        "english": "Mackerel",
+        "french": "Maquereaux",
+        "german": "Makrelen",
+        "italian": "Sgombro",
+        "japanese": "​サバ",
+        "korean": "​고등어",
+        "polish": "Makrela",
+        "russian": "Скумбрия",
+        "simplified_chinese": "​鲭鱼",
+        "spanish": "Caballas",
+        "traditional_chinese": "​鯖魚"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2090,
+      "names": {
+        "brazilian": "Sal",
+        "english": "Salt",
+        "french": "Sel",
+        "german": "Salz",
+        "italian": "Sale",
+        "japanese": "​塩",
+        "korean": "​소금",
+        "polish": "Sól",
+        "russian": "Соль",
+        "simplified_chinese": "​盐",
+        "spanish": "Sal",
+        "traditional_chinese": "​鹽"
+      },
+      "category": "raw",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2091,
+      "names": {
+        "brazilian": "Sílica",
+        "english": "Silica",
+        "french": "Silice",
+        "german": "Quarzsand",
+        "italian": "Silice",
+        "japanese": "​シ​リカ",
+        "korean": "​석영",
+        "polish": "Krzemionka",
+        "russian": "Кремнезем",
+        "simplified_chinese": "​硅石",
+        "spanish": "Sílice",
+        "traditional_chinese": "​矽石"
+      },
+      "category": "raw",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2093,
+      "names": {
+        "brazilian": "Cevada",
+        "english": "Barley",
+        "french": "Orge",
+        "german": "Gerste",
+        "italian": "Orzo",
+        "japanese": "​大麦",
+        "korean": "​보리",
+        "polish": "Jęczmień",
+        "russian": "Ячмень",
+        "simplified_chinese": "​大麦",
+        "spanish": "Cebada",
+        "traditional_chinese": "​大麥"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2094,
+      "names": {
+        "brazilian": "Plantas tintoriais",
+        "english": "Dye Plants",
+        "french": "Plantes tinctoriales",
+        "german": "Färberpflanzen",
+        "italian": "Piante da tintura",
+        "japanese": "​染色​植物",
+        "korean": "​염료 ​식물",
+        "polish": "Rośliny barwnikowe",
+        "russian": "Красильные растения",
+        "simplified_chinese": "​染料​植物",
+        "spanish": "Plantas tintóreas",
+        "traditional_chinese": "​染料​植物"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2097,
+      "names": {
+        "brazilian": "Berbigões",
+        "english": "Cockles",
+        "french": "Coques",
+        "german": "Herzmuscheln",
+        "italian": "Cuori di mare",
+        "japanese": "​ザル​貝",
+        "korean": "​새조개",
+        "polish": "Małże sercówki",
+        "russian": "Гребешки",
+        "simplified_chinese": "​鸟​蛤",
+        "spanish": "Berberechos",
+        "traditional_chinese": "​鳥​蛤"
+      },
+      "category": "consumer",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2099,
+      "names": {
+        "brazilian": "Minério de cobre",
+        "english": "Copper Ore",
+        "french": "Minerai de cuivre",
+        "german": "Kupfererz",
+        "italian": "Minerale di rame",
+        "japanese": "​銅​鉱石",
+        "korean": "​구리 ​광석",
+        "polish": "Ruda miedzi",
+        "russian": "Медная руда",
+        "simplified_chinese": "​铜​矿石",
+        "spanish": "Mena de cobre",
+        "traditional_chinese": "​銅礦​石"
+      },
+      "category": "raw",
+      "regions": [
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2100,
+      "names": {
+        "brazilian": "Minério de estanho",
+        "english": "Tin Ore",
+        "french": "Minerai d'étain",
+        "german": "Zinnerz",
+        "italian": "Minerale di stagno",
+        "japanese": "​錫​鉱石",
+        "korean": "​주석 ​광석",
+        "polish": "Ruda cyny",
+        "russian": "Оловянная руда",
+        "simplified_chinese": "​锡​矿石",
+        "spanish": "Mena de estaño",
+        "traditional_chinese": "​錫​礦石"
+      },
+      "category": "raw",
+      "regions": [
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2101,
+      "names": {
+        "brazilian": "Bloco de granito",
+        "english": "Granite Block",
+        "french": "Bloc de granite",
+        "german": "Granitblöcke",
+        "italian": "Blocco di granito",
+        "japanese": "​花崗岩​ブロック",
+        "korean": "​화강암 ​덩어리",
+        "polish": "Blok granitu",
+        "russian": "Гранитный блок",
+        "simplified_chinese": "​花岗岩​块",
+        "spanish": "Bloque de granito",
+        "traditional_chinese": "​花崗岩​塊"
+      },
+      "category": "raw",
+      "regions": [
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2102,
+      "names": {
+        "brazilian": "Lama",
+        "english": "Mud",
+        "french": "Boue",
+        "german": "Schlamm",
+        "italian": "Fango",
+        "japanese": "​泥",
+        "korean": "​진흙",
+        "polish": "Błoto",
+        "russian": "Глинозем",
+        "simplified_chinese": "​泥巴",
+        "spanish": "Barro",
+        "traditional_chinese": "​泥巴"
+      },
+      "category": "raw",
+      "regions": [
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2103,
+      "names": {
+        "brazilian": "Juncos",
+        "english": "Reeds",
+        "french": "Roseaux",
+        "german": "Schilf",
+        "italian": "Canne",
+        "japanese": "​葦",
+        "korean": "​갈대",
+        "polish": "Trzciny",
+        "russian": "Тростник",
+        "simplified_chinese": "​芦苇",
+        "spanish": "Junco",
+        "traditional_chinese": "​蘆葦"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2105,
+      "names": {
+        "brazilian": "Auroques",
+        "english": "Aurochs",
+        "french": "Aurochs",
+        "german": "Auerochsen",
+        "italian": "Uri",
+        "japanese": "​オーロックス",
+        "korean": "​들소",
+        "polish": "Tury",
+        "russian": "Коровы",
+        "simplified_chinese": "​野牛",
+        "spanish": "Uros",
+        "traditional_chinese": "​原​牛"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2106,
+      "names": {
+        "brazilian": "Pequenos pássaros",
+        "english": "Small Birds",
+        "french": "Petits oiseaux",
+        "german": "Kleine Vögel",
+        "italian": "Piccoli uccelli",
+        "japanese": "​小鳥",
+        "korean": "​작은 ​새",
+        "polish": "Małe ptaki",
+        "russian": "Птички",
+        "simplified_chinese": "​小​鸟",
+        "spanish": "Aves pequeñas",
+        "traditional_chinese": "​小鳥"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2108,
+      "names": {
+        "brazilian": "Enguias",
+        "english": "Eels",
+        "french": "Anguilles",
+        "german": "Aale",
+        "italian": "Anguille",
+        "japanese": "​ウナギ",
+        "korean": "​장어",
+        "polish": "Węgorze",
+        "russian": "Угри",
+        "simplified_chinese": "​鳗鱼",
+        "spanish": "Anguilas",
+        "traditional_chinese": "​鰻魚"
+      },
+      "category": "consumer",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2110,
+      "names": {
+        "brazilian": "Couro",
+        "english": "Leather",
+        "french": "Cuir",
+        "german": "Leder",
+        "italian": "Pelle",
+        "japanese": "​革",
+        "korean": "​가죽",
+        "polish": "Skóra",
+        "russian": "Кожа",
+        "simplified_chinese": "​皮革",
+        "spanish": "Cuero",
+        "traditional_chinese": "​皮革"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2112,
+      "names": {
+        "brazilian": "Ostras",
+        "english": "Oysters",
+        "french": "Huîtres",
+        "german": "Austern",
+        "italian": "Ostriche",
+        "japanese": "​牡蠣",
+        "korean": "​굴",
+        "polish": "Ostrygi",
+        "russian": "Устрицы",
+        "simplified_chinese": "​牡蛎",
+        "spanish": "Ostras",
+        "traditional_chinese": "​牡蠣"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2115,
+      "names": {
+        "brazilian": "Ferro",
+        "english": "Iron",
+        "french": "Fer",
+        "german": "Eisen",
+        "italian": "Ferro",
+        "japanese": "​鉄",
+        "korean": "​철",
+        "polish": "Żelazo",
+        "russian": "Железо",
+        "simplified_chinese": "​铁",
+        "spanish": "Hierro",
+        "traditional_chinese": "​鐵"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2117,
+      "names": {
+        "brazilian": "Vidro",
+        "english": "Glass",
+        "french": "Verre",
+        "german": "Glas",
+        "italian": "Vetro",
+        "japanese": "​ガラス",
+        "korean": "​유리",
+        "polish": "Szkło",
+        "russian": "Стекло",
+        "simplified_chinese": "​玻璃",
+        "spanish": "Vidrio",
+        "traditional_chinese": "​玻璃"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2119,
+      "names": {
+        "brazilian": "Farinha",
+        "english": "Flour",
+        "french": "Farine",
+        "german": "Mehl",
+        "italian": "Farina",
+        "japanese": "​小麦粉",
+        "korean": "​밀가루",
+        "polish": "Mąka",
+        "russian": "Мука",
+        "simplified_chinese": "​面粉",
+        "spanish": "Harina",
+        "traditional_chinese": "​小麥粉"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2121,
+      "names": {
+        "brazilian": "Tecido",
+        "english": "Cloth",
+        "french": "Tissu",
+        "german": "Stoffe",
+        "italian": "Stoffa",
+        "japanese": "​布",
+        "korean": "​의류",
+        "polish": "Odzież",
+        "russian": "Ткань",
+        "simplified_chinese": "​布料",
+        "spanish": "Tela",
+        "traditional_chinese": "​布料"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Roman",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2123,
+      "names": {
+        "brazilian": "Madeira ornamentada",
+        "english": "Ornate Wood",
+        "french": "Bois ouvragé",
+        "german": "Verziertes Holz",
+        "italian": "Legno decorato",
+        "japanese": "​装飾​木材",
+        "korean": "​장식된 ​목재",
+        "polish": "Zdobione drewno",
+        "russian": "Узорное дерево",
+        "simplified_chinese": "​华丽​原木",
+        "spanish": "Madera decorada",
+        "traditional_chinese": "​華麗​原木"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2124,
+      "names": {
+        "brazilian": "Pigmentos",
+        "english": "Pigments",
+        "french": "Pigments",
+        "german": "Farbstoffe",
+        "italian": "Pigmenti",
+        "japanese": "​顔料",
+        "korean": "​염료",
+        "polish": "Pigmenty",
+        "russian": "Красители",
+        "simplified_chinese": "​颜料",
+        "spanish": "Pigmentos",
+        "traditional_chinese": "​顏料"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Roman",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2126,
+      "names": {
+        "brazilian": "Verde celta",
+        "english": "Celtic Green",
+        "french": "Vert celte",
+        "german": "Keltischgrün",
+        "italian": "Verde celtico",
+        "japanese": "​ケルト​グリーン",
+        "korean": "​켈트 ​그린",
+        "polish": "Celtycka zieleń",
+        "russian": "Зеленая краска",
+        "simplified_chinese": "​凯​尔​特​绿",
+        "spanish": "Verde celta",
+        "traditional_chinese": "​凱​爾​特​綠"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2127,
+      "names": {
+        "brazilian": "Bronze",
+        "english": "Bronze",
+        "french": "Bronze",
+        "german": "Bronze",
+        "italian": "Bronzo",
+        "japanese": "​青銅",
+        "korean": "​동",
+        "polish": "Brąz",
+        "russian": "Бронза",
+        "simplified_chinese": "​青铜",
+        "spanish": "Bronce",
+        "traditional_chinese": "​青銅"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2128,
+      "names": {
+        "brazilian": "Chassi",
+        "english": "Chassis",
+        "french": "Châssis",
+        "german": "Unterbau",
+        "italian": "Telaio",
+        "japanese": "​車体",
+        "korean": "​차체",
+        "polish": "Podwozie",
+        "russian": "Рама",
+        "simplified_chinese": "​底盘",
+        "spanish": "Carrocería",
+        "traditional_chinese": "​底盤"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2129,
+      "names": {
+        "brazilian": "Prata",
+        "english": "Silver",
+        "french": "Argent",
+        "german": "Silber",
+        "italian": "Argento",
+        "japanese": "​銀",
+        "korean": "​은",
+        "polish": "Srebro",
+        "russian": "Серебро",
+        "simplified_chinese": "​白银",
+        "spanish": "Plata",
+        "traditional_chinese": "​白銀"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2131,
+      "names": {
+        "brazilian": "Malte",
+        "english": "Malt",
+        "french": "Malt",
+        "german": "Malz",
+        "italian": "Malto",
+        "japanese": "​麦芽",
+        "korean": "​맥아",
+        "polish": "Słód",
+        "russian": "Солод",
+        "simplified_chinese": "​麦芽",
+        "spanish": "Malta",
+        "traditional_chinese": "​麥芽"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2132,
+      "names": {
+        "brazilian": "Banha",
+        "english": "Lard",
+        "french": "Saindoux",
+        "german": "Schmalz",
+        "italian": "Lardo",
+        "japanese": "​獣脂",
+        "korean": "​라드",
+        "polish": "Sadło",
+        "russian": "Сало",
+        "simplified_chinese": "​猪油",
+        "spanish": "Manteca",
+        "traditional_chinese": "​豬油"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2133,
+      "names": {
+        "brazilian": "Línguas de pássaros",
+        "english": "Bird Tongues",
+        "french": "Langues d'oiseau",
+        "german": "Vogelzungen",
+        "italian": "Lingue di uccelli",
+        "japanese": "​鳥​舌​肉",
+        "korean": "​새 ​혀",
+        "polish": "Ptasie języki",
+        "russian": "Птичьи язычки",
+        "simplified_chinese": "​鸟​舌",
+        "spanish": "Lenguas de ave",
+        "traditional_chinese": "​鳥​舌"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2135,
+      "names": {
+        "brazilian": "Barbante",
+        "english": "String",
+        "french": "Ficelle",
+        "german": "Saiten",
+        "italian": "Laccio",
+        "japanese": "​糸",
+        "korean": "​실",
+        "polish": "Struny",
+        "russian": "Струна",
+        "simplified_chinese": "​细​绳",
+        "spanish": "Hilo",
+        "traditional_chinese": "​細繩"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2136,
+      "names": {
+        "brazilian": "Mingau",
+        "english": "Porridge",
+        "french": "Gruau",
+        "german": "Haferbrei",
+        "italian": "Zuppa d'avena",
+        "japanese": "​お​粥",
+        "korean": "​죽",
+        "polish": "Owsianka",
+        "russian": "Каша",
+        "simplified_chinese": "​粥",
+        "spanish": "Gachas",
+        "traditional_chinese": "​粥"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2137,
+      "names": {
+        "brazilian": "Pão",
+        "english": "Bread",
+        "french": "Pain",
+        "german": "Brot",
+        "italian": "Pane",
+        "japanese": "​パン",
+        "korean": "​빵",
+        "polish": "Chleb",
+        "russian": "Хлеб",
+        "simplified_chinese": "​面包",
+        "spanish": "Pan",
+        "traditional_chinese": "​麵包"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2138,
+      "names": {
+        "brazilian": "Vinho",
+        "english": "Wine",
+        "french": "Vin",
+        "german": "Wein",
+        "italian": "Vino",
+        "japanese": "​ワイン",
+        "korean": "​포도주",
+        "polish": "Wino",
+        "russian": "Вино",
+        "simplified_chinese": "​葡萄酒",
+        "spanish": "Vino",
+        "traditional_chinese": "​葡萄酒"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2139,
+      "names": {
+        "brazilian": "Garum",
+        "english": "Garum",
+        "french": "Garum",
+        "german": "Garum",
+        "italian": "Garum",
+        "japanese": "​ガルム",
+        "korean": "​가룸",
+        "polish": "Garum",
+        "russian": "Гарум",
+        "simplified_chinese": "​鱼​酱",
+        "spanish": "Garo",
+        "traditional_chinese": "​魚​醬"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2140,
+      "names": {
+        "brazilian": "Ostras com caviar",
+        "english": "Oysters with Caviar",
+        "french": "Huîtres et caviar",
+        "german": "Austern mit Kaviar",
+        "italian": "Ostriche con caviale",
+        "japanese": "​牡蠣​の​キャビア​添​え",
+        "korean": "​캐비어를 ​올린 ​굴",
+        "polish": "Ostrygi z kawiorem",
+        "russian": "Устрицы с икрой",
+        "simplified_chinese": "​牡蛎​鱼子​酱",
+        "spanish": "Ostras con caviar",
+        "traditional_chinese": "​牡蠣​魚子醬"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2141,
+      "names": {
+        "brazilian": "Túnicas",
+        "english": "Tunics",
+        "french": "Tuniques",
+        "german": "Tuniken",
+        "italian": "Tuniche",
+        "japanese": "​チュニック",
+        "korean": "​튜닉",
+        "polish": "Tuniki",
+        "russian": "Туники",
+        "simplified_chinese": "​丘​尼​卡",
+        "spanish": "Túnicas",
+        "traditional_chinese": "​丘​尼​卡"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2142,
+      "names": {
+        "brazilian": "Píleo",
+        "english": "Pileus",
+        "french": "Pileus",
+        "german": "Pilei",
+        "italian": "Pileo",
+        "japanese": "​ピレウス​帽",
+        "korean": "​뾰족모자",
+        "polish": "Pilos",
+        "russian": "Пилосы",
+        "simplified_chinese": "​自由​帽",
+        "spanish": "Pileos",
+        "traditional_chinese": "​自由​帽"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2143,
+      "names": {
+        "brazilian": "Sabão",
+        "english": "Soap",
+        "french": "Savon",
+        "german": "Seife",
+        "italian": "Sapone",
+        "japanese": "​石鹸",
+        "korean": "​비누",
+        "polish": "Mydło",
+        "russian": "Мыло",
+        "simplified_chinese": "​肥皂",
+        "spanish": "Jabón",
+        "traditional_chinese": "​肥皂"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2144,
+      "names": {
+        "brazilian": "Sandálias",
+        "english": "Sandals",
+        "french": "Sandales",
+        "german": "Sandalen",
+        "italian": "Sandali",
+        "japanese": "​サンダル",
+        "korean": "​샌들",
+        "polish": "Sandały",
+        "russian": "Сандалии",
+        "simplified_chinese": "​凉鞋",
+        "spanish": "Sandalias",
+        "traditional_chinese": "​涼鞋"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2145,
+      "names": {
+        "brazilian": "Togas",
+        "english": "Togas",
+        "french": "Toges",
+        "german": "Togen",
+        "italian": "Toghe",
+        "japanese": "​ト​ガ",
+        "korean": "​토가",
+        "polish": "Togi",
+        "russian": "Тоги",
+        "simplified_chinese": "​托​加",
+        "spanish": "Togas",
+        "traditional_chinese": "​托​加"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2146,
+      "names": {
+        "brazilian": "Colares",
+        "english": "Necklaces",
+        "french": "Colliers",
+        "german": "Halsketten",
+        "italian": "Collane",
+        "japanese": "​ネックレス",
+        "korean": "​목걸이",
+        "polish": "Naszyjniki",
+        "russian": "Ожерелья",
+        "simplified_chinese": "​项链",
+        "spanish": "Collares",
+        "traditional_chinese": "​項鍊"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2147,
+      "names": {
+        "brazilian": "Espreguiçadeiras",
+        "english": "Loungers",
+        "french": "Chaises longues",
+        "german": "Liegen",
+        "italian": "Triclini",
+        "japanese": "​肘掛け​椅子",
+        "korean": "​긴 ​의자",
+        "polish": "Kanapy",
+        "russian": "Ложа",
+        "simplified_chinese": "​躺椅",
+        "spanish": "Divanes",
+        "traditional_chinese": "​躺椅"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2149,
+      "names": {
+        "brazilian": "Azeite",
+        "english": "Olive Oil",
+        "french": "Huile d'olive",
+        "german": "Olivenöl",
+        "italian": "Olio d'oliva",
+        "japanese": "​オリーブ​オイル",
+        "korean": "​올리브유",
+        "polish": "Oliwa z oliwek",
+        "russian": "Оливковое масло",
+        "simplified_chinese": "​橄榄​油",
+        "spanish": "Aceite de oliva",
+        "traditional_chinese": "​橄欖油"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2150,
+      "names": {
+        "brazilian": "Tábuas de escrita",
+        "english": "Writing Tablets",
+        "french": "Tablettes d'écriture",
+        "german": "Schrifttafeln",
+        "italian": "Tavolette da scrittura",
+        "japanese": "​筆記​板",
+        "korean": "​서판",
+        "polish": "Tabliczki do pisania",
+        "russian": "Дощечки для письма",
+        "simplified_chinese": "​写字​板",
+        "spanish": "Tablillas de escritura",
+        "traditional_chinese": "​書寫​蠟​板"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2151,
+      "names": {
+        "brazilian": "Vidro fino",
+        "english": "Fine Glass",
+        "french": "Verres précieux",
+        "german": "Feines Glas",
+        "italian": "Vetro pregiato",
+        "japanese": "​高級​ガラス",
+        "korean": "​고급 ​유리",
+        "polish": "Porządne szkło",
+        "russian": "Тонкое стекло",
+        "simplified_chinese": "​精致​玻璃",
+        "spanish": "Cálices",
+        "traditional_chinese": "​精緻​玻璃"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2152,
+      "names": {
+        "brazilian": "Mosaicos",
+        "english": "Mosaics",
+        "french": "Mosaïques",
+        "german": "Mosaike",
+        "italian": "Mosaici",
+        "japanese": "​モザイク",
+        "korean": "​모자이크",
+        "polish": "Mozaiki",
+        "russian": "Мозаика",
+        "simplified_chinese": "​马赛​克",
+        "spanish": "Mosaicos",
+        "traditional_chinese": "​馬賽克"
+      },
+      "category": "construction",
+      "regions": [
+        "Roman",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2153,
+      "names": {
+        "brazilian": "Queijo",
+        "english": "Cheese",
+        "french": "Fromage",
+        "german": "Käse",
+        "italian": "Formaggio",
+        "japanese": "​チーズ",
+        "korean": "​치즈",
+        "polish": "Ser",
+        "russian": "Сыр",
+        "simplified_chinese": "​奶​酪",
+        "spanish": "Queso",
+        "traditional_chinese": "​起​司"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2154,
+      "names": {
+        "brazilian": "Cerveja",
+        "english": "Beer",
+        "french": "Bière",
+        "german": "Bier",
+        "italian": "Birra",
+        "japanese": "​ビール",
+        "korean": "​맥주",
+        "polish": "Piwo",
+        "russian": "Пиво",
+        "simplified_chinese": "​啤酒",
+        "spanish": "Cerveza",
+        "traditional_chinese": "​啤酒"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2155,
+      "names": {
+        "brazilian": "Línguas de pássaros em gelatina",
+        "english": "Bird Tongues in Aspic",
+        "french": "Langues d'oiseau en aspic",
+        "german": "Vogelzungen in Aspik",
+        "italian": "Lingue di uccello in gelatina",
+        "japanese": "​鳥​舌​肉​アスピック",
+        "korean": "​젤리에 ​담근 ​새의 ​혀",
+        "polish": "Ptasie języki w galarecie",
+        "russian": "Птичьи язычки в желе",
+        "simplified_chinese": "​鸟​舌​肉冻",
+        "spanish": "Áspic de lenguas de ave",
+        "traditional_chinese": "​鳥​舌​肉​凍"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2156,
+      "names": {
+        "brazilian": "Broches",
+        "english": "Brooches",
+        "french": "Broches",
+        "german": "Fibeln",
+        "italian": "Spille",
+        "japanese": "​ブローチ",
+        "korean": "​브로치",
+        "polish": "Brosze",
+        "russian": "Фибулы",
+        "simplified_chinese": "​胸针",
+        "spanish": "Broches",
+        "traditional_chinese": "​胸針"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2157,
+      "names": {
+        "brazilian": "Torques",
+        "english": "Torcs",
+        "french": "Torques",
+        "german": "Torques",
+        "italian": "Torque",
+        "japanese": "​首輪",
+        "korean": "​토크",
+        "polish": "Bransolety",
+        "russian": "Торки",
+        "simplified_chinese": "​颈​环",
+        "spanish": "Torques",
+        "traditional_chinese": "​頸​環"
+      },
+      "category": "consumer",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2158,
+      "names": {
+        "brazilian": "Calças",
+        "english": "Trousers",
+        "french": "Pantalons",
+        "german": "Hosen",
+        "italian": "Brache",
+        "japanese": "​ズボン",
+        "korean": "​바지",
+        "polish": "Spodnie",
+        "russian": "Штаны",
+        "simplified_chinese": "​裤子",
+        "spanish": "Calzas",
+        "traditional_chinese": "​褲子"
+      },
+      "category": "consumer",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2159,
+      "names": {
+        "brazilian": "Calçados de junco",
+        "english": "Reed Shoes",
+        "french": "Chausses en roseaux",
+        "german": "Schilfschuhe",
+        "italian": "Scarpe di canne",
+        "japanese": "​葦​の​靴",
+        "korean": "​갈대 ​신발",
+        "polish": "Łapcie",
+        "russian": "Обувь из тростника",
+        "simplified_chinese": "​芦苇​鞋",
+        "spanish": "Zapatos de junco",
+        "traditional_chinese": "​蘆葦​鞋"
+      },
+      "category": "consumer",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2161,
+      "names": {
+        "brazilian": "Mantos",
+        "english": "Cloaks",
+        "french": "Capes",
+        "german": "Umhänge",
+        "italian": "Mantelli",
+        "japanese": "​外套",
+        "korean": "​망토",
+        "polish": "Płaszcze",
+        "russian": "Плащи",
+        "simplified_chinese": "​斗篷",
+        "spanish": "Mantos",
+        "traditional_chinese": "​斗篷"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2162,
+      "names": {
+        "brazilian": "Espelhos de mão",
+        "english": "Handmirrors",
+        "french": "Miroirs à main",
+        "german": "Handspiegel",
+        "italian": "Specchietti",
+        "japanese": "​手鏡",
+        "korean": "​손거울",
+        "polish": "Lusterka",
+        "russian": "Зеркальца",
+        "simplified_chinese": "​手​镜",
+        "spanish": "Espejos de mano",
+        "traditional_chinese": "​手鏡"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2163,
+      "names": {
+        "brazilian": "Bigas",
+        "english": "Chariots",
+        "french": "Chars",
+        "german": "Streitwagen",
+        "italian": "Carri",
+        "japanese": "​戦車",
+        "korean": "​전차",
+        "polish": "Rydwany",
+        "russian": "Колесницы",
+        "simplified_chinese": "​战车",
+        "spanish": "Carros",
+        "traditional_chinese": "​戰車"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2166,
+      "names": {
+        "brazilian": "Liras verticais",
+        "english": "Standing Lyres",
+        "french": "Lyres sur pied",
+        "german": "Lyren",
+        "italian": "Lire da terra",
+        "japanese": "​竪琴",
+        "korean": "​고정형 ​리라",
+        "polish": "Liry stojące",
+        "russian": "Лиры",
+        "simplified_chinese": "​立式​里拉​琴",
+        "spanish": "Liras de pie",
+        "traditional_chinese": "​立式​里拉​琴"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2169,
+      "names": {
+        "brazilian": "Pau-a-pique",
+        "english": "Wattle \u0026 Daub",
+        "french": "Clayonnage",
+        "german": "Flechtwerk",
+        "italian": "Canne e fango",
+        "japanese": "​土​壁",
+        "korean": "​초벽",
+        "polish": "Szachulec",
+        "russian": "Прутья и глинозем",
+        "simplified_chinese": "​泥​笆​墙",
+        "spanish": "Zarzo y argamasa",
+        "traditional_chinese": "​編​竹​夾​泥​牆"
+      },
+      "category": "construction",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2171,
+      "names": {
+        "brazilian": "Corda",
+        "english": "Rope",
+        "french": "Corde",
+        "german": "Seile",
+        "italian": "Corda",
+        "japanese": "​縄",
+        "korean": "​밧줄",
+        "polish": "Lina",
+        "russian": "Канаты",
+        "simplified_chinese": "​绳索",
+        "spanish": "Cuerda",
+        "traditional_chinese": "​繩索"
+      },
+      "category": "construction",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2172,
+      "names": {
+        "brazilian": "Velas",
+        "english": "Sails",
+        "french": "Voiles",
+        "german": "Segel",
+        "italian": "Vele",
+        "japanese": "​帆布",
+        "korean": "​돛",
+        "polish": "Żagle",
+        "russian": "Паруса",
+        "simplified_chinese": "​船​帆",
+        "spanish": "Velas",
+        "traditional_chinese": "​船​帆"
+      },
+      "category": "construction",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2173,
+      "names": {
+        "brazilian": "Armas",
+        "english": "Weapons",
+        "french": "Armes",
+        "german": "Waffen",
+        "italian": "Armi",
+        "japanese": "​武器",
+        "korean": "​무기",
+        "polish": "Uzbrojenie",
+        "russian": "Оружие",
+        "simplified_chinese": "​武器",
+        "spanish": "Armas",
+        "traditional_chinese": "​武器"
+      },
+      "category": "construction",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2174,
+      "names": {
+        "brazilian": "Madeira de construção",
+        "english": "Timber",
+        "french": "Planches",
+        "german": "Bretter",
+        "italian": "Legname",
+        "japanese": "​木板",
+        "korean": "​목재",
+        "polish": "Deski",
+        "russian": "Доски",
+        "simplified_chinese": "​木材",
+        "spanish": "Tablones",
+        "traditional_chinese": "​木材"
+      },
+      "category": "construction",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2176,
+      "names": {
+        "brazilian": "Telhas",
+        "english": "Tiles",
+        "french": "Tuiles",
+        "german": "Ziegel",
+        "italian": "Piastrelle",
+        "japanese": "​瓦",
+        "korean": "​타일",
+        "polish": "Kafelki",
+        "russian": "Плитка",
+        "simplified_chinese": "​瓦片",
+        "spanish": "Tejas",
+        "traditional_chinese": "​瓦片"
+      },
+      "category": "construction",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2178,
+      "names": {
+        "brazilian": "Concreto",
+        "english": "Concrete",
+        "french": "Béton",
+        "german": "Beton",
+        "italian": "Calcestruzzo",
+        "japanese": "​コンクリート",
+        "korean": "​콘크리트",
+        "polish": "Beton",
+        "russian": "Бетон",
+        "simplified_chinese": "​混凝土",
+        "spanish": "Hormigón",
+        "traditional_chinese": "​混凝土"
+      },
+      "category": "construction",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2179,
+      "names": {
+        "brazilian": "Mármore",
+        "english": "Marble",
+        "french": "Marbre",
+        "german": "Marmor",
+        "italian": "Marmo",
+        "japanese": "​大理石",
+        "korean": "​대리석",
+        "polish": "Marmur",
+        "russian": "Мрамор",
+        "simplified_chinese": "​大理石",
+        "spanish": "Mármol",
+        "traditional_chinese": "​大理石"
+      },
+      "category": "construction",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2180,
+      "names": {
+        "brazilian": "Púrpura tíria",
+        "english": "Tyrian Purple",
+        "french": "Rose tyrien",
+        "german": "Tyrischer Purpur",
+        "italian": "Viola di Tiro",
+        "japanese": "​テ​ィ​リ​アン​パー​プ​ル",
+        "korean": "​자색 ​염료",
+        "polish": "Purpura tyryjska",
+        "russian": "Пурпурная краска",
+        "simplified_chinese": "​蒂​尔​紫",
+        "spanish": "Púrpura imperial",
+        "traditional_chinese": "​蒂​爾​紫"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 2671,
+      "names": {
+        "brazilian": "Mercado",
+        "english": "Market",
+        "french": "Marché",
+        "german": "Markt",
+        "italian": "Mercato",
+        "japanese": "​市場",
+        "korean": "​시장",
+        "polish": "Targowisko",
+        "russian": "Рынок",
+        "simplified_chinese": "​市场",
+        "spanish": "Mercado",
+        "traditional_chinese": "​市場"
+      },
+      "category": "",
+      "regions": [
+        "Roman",
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 2677,
+      "names": {
+        "brazilian": "Taverna",
+        "english": "Tavern",
+        "french": "Taverne",
+        "german": "Taberna",
+        "italian": "Taverna",
+        "japanese": "​酒場",
+        "korean": "​선술집",
+        "polish": "Karczma",
+        "russian": "Таберна",
+        "simplified_chinese": "​酒馆",
+        "spanish": "Taberna",
+        "traditional_chinese": "​酒館"
+      },
+      "category": "",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 2678,
+      "names": {
+        "brazilian": "Biblioteca",
+        "english": "Library",
+        "french": "Bibliothèque",
+        "german": "Bibliothek",
+        "italian": "Biblioteca",
+        "japanese": "​図書館",
+        "korean": "​도서관",
+        "polish": "Biblioteka",
+        "russian": "Библиотека",
+        "simplified_chinese": "​图书​馆",
+        "spanish": "Biblioteca",
+        "traditional_chinese": "​圖書館"
+      },
+      "category": "",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 2679,
+      "names": {
+        "brazilian": "Santuário",
+        "english": "Sanctuary",
+        "french": "Sanctuaire",
+        "german": "Heiligtum",
+        "italian": "Santuario",
+        "japanese": "​聖域",
+        "korean": "​성소",
+        "polish": "Sanktuarium",
+        "russian": "Святилище",
+        "simplified_chinese": "​圣​所",
+        "spanish": "Santuario",
+        "traditional_chinese": "​聖​所"
+      },
+      "category": "",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 2680,
+      "names": {
+        "brazilian": "Grammaticus",
+        "english": "Grammaticus",
+        "french": "Grammaticus",
+        "german": "Grammaticus",
+        "italian": "Grammaticus",
+        "japanese": "​ラテン語​学校",
+        "korean": "​학술원",
+        "polish": "Grammaticus",
+        "russian": "Грамматическая школа",
+        "simplified_chinese": "​文法​学院",
+        "spanish": "Gramático",
+        "traditional_chinese": "​文法​學院"
+      },
+      "category": "",
+      "regions": [
+        "Roman",
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 2681,
+      "names": {
+        "brazilian": "Fórum",
+        "english": "Forum",
+        "french": "Forum",
+        "german": "Forum",
+        "italian": "Foro",
+        "japanese": "​公共​広場",
+        "korean": "​포럼",
+        "polish": "Forum",
+        "russian": "Форум",
+        "simplified_chinese": "​公共​集会​广场",
+        "spanish": "Foro",
+        "traditional_chinese": "​公共​集會​廣場"
+      },
+      "category": "",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 2683,
+      "names": {
+        "brazilian": "Teatro",
+        "english": "Theatre",
+        "french": "Théâtre",
+        "german": "Theater",
+        "italian": "Teatro",
+        "japanese": "​劇場",
+        "korean": "​극장",
+        "polish": "Teatr",
+        "russian": "Театр",
+        "simplified_chinese": "​剧场",
+        "spanish": "Teatro",
+        "traditional_chinese": "​劇場"
+      },
+      "category": "",
+      "regions": [
+        "Roman",
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 2684,
+      "names": {
+        "brazilian": "Templo",
+        "english": "Temple",
+        "french": "Temple",
+        "german": "Tempel",
+        "italian": "Tempio",
+        "japanese": "​神殿",
+        "korean": "​사원",
+        "polish": "Świątynia",
+        "russian": "Храм",
+        "simplified_chinese": "​神庙",
+        "spanish": "Templo",
+        "traditional_chinese": "​神廟"
+      },
+      "category": "",
+      "regions": [
+        "Roman",
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 2685,
+      "names": {
+        "brazilian": "Banhos",
+        "english": "Baths",
+        "french": "Bains",
+        "german": "Bäder",
+        "italian": "Bagni",
+        "japanese": "​浴場",
+        "korean": "​목욕탕",
+        "polish": "Łaźnie",
+        "russian": "Термы",
+        "simplified_chinese": "​浴场",
+        "spanish": "Termas",
+        "traditional_chinese": "​浴場"
+      },
+      "category": "",
+      "regions": [
+        "Roman",
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 2686,
+      "names": {
+        "brazilian": "Anfiteatro",
+        "english": "Amphitheatre",
+        "french": "Amphithéâtre",
+        "german": "Amphitheater",
+        "italian": "Anfiteatro",
+        "japanese": "​円形​闘技​場",
+        "korean": "​원형 ​극장",
+        "polish": "Amfiteatr",
+        "russian": "Амфитеатр",
+        "simplified_chinese": "​圆形​剧场",
+        "spanish": "Anfiteatro",
+        "traditional_chinese": "​圓形​劇場"
+      },
+      "category": "",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 3158,
+      "names": {
+        "brazilian": "Caramujos múrex",
+        "english": "Murex Snails",
+        "french": "Murex",
+        "german": "Purpurschnecken",
+        "italian": "Murice spinoso",
+        "japanese": "​ムレックス​貝",
+        "korean": "​뿔고둥",
+        "polish": "Ślimaki murex",
+        "russian": "Моллюски-иглянки",
+        "simplified_chinese": "​骨​螺",
+        "spanish": "Cañadillas",
+        "traditional_chinese": "​骨​螺"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 6706,
+      "names": {
+        "brazilian": "Mercado",
+        "english": "Market",
+        "french": "Marché",
+        "german": "Markt",
+        "italian": "Mercato",
+        "japanese": "​市場",
+        "korean": "​시장",
+        "polish": "Targowisko",
+        "russian": "Рынок",
+        "simplified_chinese": "​市场",
+        "spanish": "Mercado",
+        "traditional_chinese": "​市場"
+      },
+      "category": "",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 6707,
+      "names": {
+        "brazilian": "Área recreativa",
+        "english": "Recreation Ground",
+        "french": "Aire récréative",
+        "german": "Wettkampfwiese",
+        "italian": "Area ricreativa",
+        "japanese": "​運動場",
+        "korean": "​휴양지",
+        "polish": "Strefa wypoczynku",
+        "russian": "Площадка для игр",
+        "simplified_chinese": "​休闲​运动​场",
+        "spanish": "Campo recreativo",
+        "traditional_chinese": "​休閒​運動場"
+      },
+      "category": "",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 6708,
+      "names": {
+        "brazilian": "Conselho de edis",
+        "english": "Alder Council",
+        "french": "Conseil des anciens",
+        "german": "Ältestenrat",
+        "italian": "Consiglio degli aldermanni",
+        "japanese": "​市議会",
+        "korean": "​의회",
+        "polish": "Rada Starszych",
+        "russian": "Совет олдерменов",
+        "simplified_chinese": "​桤​木​议会",
+        "spanish": "Concejo de álderes",
+        "traditional_chinese": "​長老​議會"
+      },
+      "category": "",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 6709,
+      "names": {
+        "brazilian": "Casa Bárdica",
+        "english": "Bardic Hearth",
+        "french": "Théâtre bardique",
+        "german": "Sängerstube",
+        "italian": "Focolare del bardo",
+        "japanese": "​吟遊詩人​の​暖炉",
+        "korean": "​음유시인의 ​화로",
+        "polish": "Scena barda",
+        "russian": "Подмостки барда",
+        "simplified_chinese": "​吟游​诗人​火炉",
+        "spanish": "Corral bárdico",
+        "traditional_chinese": "​吟遊詩人​聚​所"
+      },
+      "category": "",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 6710,
+      "names": {
+        "brazilian": "Fano",
+        "english": "Fanum",
+        "french": "Fanum",
+        "german": "Fanum",
+        "italian": "Fanum",
+        "japanese": "​聖​所",
+        "korean": "​파눔",
+        "polish": "Chram",
+        "russian": "Фан",
+        "simplified_chinese": "​圣​域",
+        "spanish": "Fano",
+        "traditional_chinese": "​聖域"
+      },
+      "category": "",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 7985,
+      "names": {
+        "brazilian": "Barrilha",
+        "english": "Saltwort",
+        "french": "Salicorne",
+        "german": "Salzkraut",
+        "italian": "Salicornia",
+        "japanese": "​アッ​ケシ​ソウ",
+        "korean": "​함초",
+        "polish": "Solanka",
+        "russian": "Солерос",
+        "simplified_chinese": "​海​蓬​菜",
+        "spanish": "Salicornia",
+        "traditional_chinese": "​海​蓬​菜"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 8404,
+      "names": {
+        "brazilian": "Pôneis",
+        "english": "Ponies",
+        "french": "Poneys",
+        "german": "Ponys",
+        "italian": "Pony",
+        "japanese": "​ポニー",
+        "korean": "​조랑말",
+        "polish": "Kucyki",
+        "russian": "Пони",
+        "simplified_chinese": "​小马",
+        "spanish": "Ponis",
+        "traditional_chinese": "​小​馬"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 8405,
+      "names": {
+        "brazilian": "Salsichas",
+        "english": "Sausages",
+        "french": "Saucisses",
+        "german": "Würste",
+        "italian": "Salsicce",
+        "japanese": "​ソーセージ",
+        "korean": "​소시지",
+        "polish": "Kiełbaski",
+        "russian": "Колбаса",
+        "simplified_chinese": "​香肠",
+        "spanish": "Salchichas",
+        "traditional_chinese": "​香腸"
+      },
+      "category": "consumer",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 8420,
+      "names": {
+        "brazilian": "Conchas",
+        "english": "Seashells",
+        "french": "Nacre",
+        "german": "Kammmuschelschalen",
+        "italian": "Conchiglie",
+        "japanese": "​貝殻",
+        "korean": "​조개껍데기",
+        "polish": "Muszle morskie",
+        "russian": "Ракушки",
+        "simplified_chinese": "​贝壳",
+        "spanish": "Conchas marinas",
+        "traditional_chinese": "​貝殼"
+      },
+      "category": "raw",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 8558,
+      "names": {
+        "brazilian": "Caviar",
+        "english": "Caviar",
+        "french": "Caviar",
+        "german": "Kaviar",
+        "italian": "Caviale",
+        "japanese": "​キャビア",
+        "korean": "​캐비어",
+        "polish": "Kawior",
+        "russian": "Икра",
+        "simplified_chinese": "​鱼子​酱",
+        "spanish": "Caviar",
+        "traditional_chinese": "​魚子醬"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 8561,
+      "names": {
+        "brazilian": "Sandáraca",
+        "english": "Sandarac Wood",
+        "french": "Sandaraque",
+        "german": "Sandarakholz",
+        "italian": "Legno di sandracca",
+        "japanese": "​サンダラック​の​木材",
+        "korean": "​샌드락 ​나무",
+        "polish": "Żywiczne drewno",
+        "russian": "Сандараковое дерево",
+        "simplified_chinese": "​山​达​树​原木",
+        "spanish": "Madera de sandáraca",
+        "traditional_chinese": "​山​達​樹​原木"
+      },
+      "category": "raw",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 8562,
+      "names": {
+        "brazilian": "Almofadas",
+        "english": "Cushions",
+        "french": "Coussins",
+        "german": "Polster",
+        "italian": "Cuscini",
+        "japanese": "​クッション",
+        "korean": "​쿠션",
+        "polish": "Poduszki",
+        "russian": "Подушки",
+        "simplified_chinese": "​座​垫",
+        "spanish": "Cojines",
+        "traditional_chinese": "​座墊"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 8563,
+      "names": {
+        "brazilian": "Minerais",
+        "english": "Minerals",
+        "french": "Minéraux",
+        "german": "Mineralien",
+        "italian": "Minerali",
+        "japanese": "​鉱物",
+        "korean": "​광물",
+        "polish": "Minerały",
+        "russian": "Минералы",
+        "simplified_chinese": "​矿物",
+        "spanish": "Minerales",
+        "traditional_chinese": "​礦物"
+      },
+      "category": "raw",
+      "regions": [
+        "Roman",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 13810,
+      "names": {
+        "brazilian": "Armadura",
+        "english": "Armour",
+        "french": "Armures",
+        "german": "Rüstung",
+        "italian": "Armatura",
+        "japanese": "​防具",
+        "korean": "​갑옷",
+        "polish": "Pancerz",
+        "russian": "Доспехи",
+        "simplified_chinese": "​护​甲",
+        "spanish": "Armadura",
+        "traditional_chinese": "​盔甲"
+      },
+      "category": "construction",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 16200,
+      "names": {
+        "brazilian": "Templo",
+        "english": "Temple",
+        "french": "Temple",
+        "german": "Tempel",
+        "italian": "Tempio",
+        "japanese": "​神殿",
+        "korean": "​사원",
+        "polish": "Świątynia",
+        "russian": "Храм",
+        "simplified_chinese": "​神庙",
+        "spanish": "Templo",
+        "traditional_chinese": "​神廟"
+      },
+      "category": "",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 16201,
+      "names": {
+        "brazilian": "Grammaticus",
+        "english": "Grammaticus",
+        "french": "Grammaticus",
+        "german": "Grammaticus",
+        "italian": "Grammaticus",
+        "japanese": "​ラテン語​学校",
+        "korean": "​학술원",
+        "polish": "Grammaticus",
+        "russian": "Грамматическая школа",
+        "simplified_chinese": "​文法​学院",
+        "spanish": "Gramático",
+        "traditional_chinese": "​文法​學院"
+      },
+      "category": "",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 16202,
+      "names": {
+        "brazilian": "Banhos",
+        "english": "Baths",
+        "french": "Bains",
+        "german": "Bäder",
+        "italian": "Bagni",
+        "japanese": "​浴場",
+        "korean": "​목욕탕",
+        "polish": "Łaźnie",
+        "russian": "Термы",
+        "simplified_chinese": "​浴场",
+        "spanish": "Termas",
+        "traditional_chinese": "​浴場"
+      },
+      "category": "",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 30724,
+      "names": {
+        "brazilian": "Cisterna de aqueduto",
+        "english": "Aqueduct Cistern",
+        "french": "Citerne d'aqueduc",
+        "german": "Zisterne",
+        "italian": "Cisterna dell'acquedotto",
+        "japanese": "​貯水池",
+        "korean": "​수도교 ​저수조",
+        "polish": "Zbiornik akweduktowy",
+        "russian": "Цистерна акведука",
+        "simplified_chinese": "​水道​蓄水池",
+        "spanish": "Cisterna de acueducto",
+        "traditional_chinese": "​水道​蓄水池"
+      },
+      "category": "",
+      "regions": [
+        "Roman",
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 30733,
+      "names": {
+        "brazilian": "Cisterna de aqueduto",
+        "english": "Aqueduct Cistern",
+        "french": "Citerne d'aqueduc",
+        "german": "Zisterne",
+        "italian": "Cisterna dell'acquedotto",
+        "japanese": "​貯水池",
+        "korean": "​수도교 ​저수조",
+        "polish": "Zbiornik akweduktowy",
+        "russian": "Цистерна акведука",
+        "simplified_chinese": "​水道​蓄水池",
+        "spanish": "Cisterna de acueducto",
+        "traditional_chinese": "​水道​蓄水池"
+      },
+      "category": "",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 31694,
+      "names": {
+        "brazilian": "Cânhamo",
+        "english": "Hemp",
+        "french": "Chanvre",
+        "german": "Hanf",
+        "italian": "Canapa",
+        "japanese": "​麻",
+        "korean": "​삼",
+        "polish": "Konopie",
+        "russian": "Конопля",
+        "simplified_chinese": "​火​麻",
+        "spanish": "Cáñamo",
+        "traditional_chinese": "​火​麻"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 31695,
+      "names": {
+        "brazilian": "Resina",
+        "english": "Resin",
+        "french": "Résine",
+        "german": "Harz",
+        "italian": "Resina",
+        "japanese": "​樹脂",
+        "korean": "​수지",
+        "polish": "Żywica",
+        "russian": "Смола",
+        "simplified_chinese": "​树脂",
+        "spanish": "Resina",
+        "traditional_chinese": "​樹脂"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Roman",
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 31697,
+      "names": {
+        "brazilian": "Minério de ouro",
+        "english": "Gold Ore",
+        "french": "Minerai d'or",
+        "german": "Golderz",
+        "italian": "Minerale d'oro",
+        "japanese": "​金​鉱石",
+        "korean": "​금광석",
+        "polish": "Ruda złota",
+        "russian": "Золотая руда",
+        "simplified_chinese": "​金​矿石",
+        "spanish": "Mena de oro",
+        "traditional_chinese": "​金​礦石"
+      },
+      "category": "raw",
+      "regions": [
+        "Roman",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 31698,
+      "names": {
+        "brazilian": "Ouro",
+        "english": "Gold",
+        "french": "Or",
+        "german": "Gold",
+        "italian": "Oro",
+        "japanese": "​金",
+        "korean": "​금",
+        "polish": "Złoto",
+        "russian": "Золото",
+        "simplified_chinese": "​金",
+        "spanish": "Oro",
+        "traditional_chinese": "​金"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Roman",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 31700,
+      "names": {
+        "brazilian": "Ânforas",
+        "english": "Amphorae",
+        "french": "Amphores",
+        "german": "Amphoren",
+        "italian": "Anfore",
+        "japanese": "​アンフォラ",
+        "korean": "​암포라",
+        "polish": "Amfora",
+        "russian": "Амфоры",
+        "simplified_chinese": "​双耳瓶",
+        "spanish": "Ánforas",
+        "traditional_chinese": "​雙耳瓶"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 31701,
+      "names": {
+        "brazilian": "Ervas",
+        "english": "Herbs",
+        "french": "Herbes",
+        "german": "Kräuter",
+        "italian": "Erbe",
+        "japanese": "​ハーブ",
+        "korean": "​약초",
+        "polish": "Zioła",
+        "russian": "Травы",
+        "simplified_chinese": "​药​草",
+        "spanish": "Hierbas",
+        "traditional_chinese": "​藥草"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 31702,
+      "names": {
+        "brazilian": "Castores",
+        "english": "Beavers",
+        "french": "Castors",
+        "german": "Biber",
+        "italian": "Castori",
+        "japanese": "​ビーバー",
+        "korean": "​비버",
+        "polish": "Bobry",
+        "russian": "Бобры",
+        "simplified_chinese": "​海狸",
+        "spanish": "Castores",
+        "traditional_chinese": "​河​狸"
+      },
+      "category": "agricultural",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 31703,
+      "names": {
+        "brazilian": "Salfregão",
+        "english": "Saltwash",
+        "french": "Sels décapants",
+        "german": "Salzlake",
+        "italian": "Lavanda di sale",
+        "japanese": "​ソルトウォッシュ",
+        "korean": "​염 ​세척",
+        "polish": "Wybielacz",
+        "russian": "Соляной раствор",
+        "simplified_chinese": "​盐​洗",
+        "spanish": "Lavado de sal",
+        "traditional_chinese": "​鹽​洗"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 31704,
+      "names": {
+        "brazilian": "Adorno para cabeça",
+        "english": "Head Piece",
+        "french": "Couvre-chef",
+        "german": "Haarnetz",
+        "italian": "Copricapo",
+        "japanese": "​頭​飾り",
+        "korean": "​머리 ​장식",
+        "polish": "Ozdoba głowy",
+        "russian": "Головной убор",
+        "simplified_chinese": "​头​饰",
+        "spanish": "Tocado",
+        "traditional_chinese": "​頭​飾"
+      },
+      "category": "intermediate",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 31706,
+      "names": {
+        "brazilian": "Escudos de clã",
+        "english": "Clan Shields",
+        "french": "Boucliers claniques",
+        "german": "Clanschilde",
+        "italian": "Scudi del clan",
+        "japanese": "​部族​の​盾",
+        "korean": "​가문 ​방패",
+        "polish": "Tarcze klanowe",
+        "russian": "Клановые щиты",
+        "simplified_chinese": "​家族​盾牌",
+        "spanish": "Escudos de clan",
+        "traditional_chinese": "​家族​盾牌"
+      },
+      "category": "consumer",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 31707,
+      "names": {
+        "brazilian": "Chapéus de pele",
+        "english": "Fur Hats",
+        "french": "Chapeaux en fourrures",
+        "german": "Fellmützen",
+        "italian": "Cappelli di pelliccia",
+        "japanese": "​毛皮​の​帽子",
+        "korean": "​모피 ​모자",
+        "polish": "Futrzane czapki",
+        "russian": "Меховые шапки",
+        "simplified_chinese": "​皮毛​帽",
+        "spanish": "Gorros de piel",
+        "traditional_chinese": "​皮毛​帽"
+      },
+      "category": "consumer",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 31708,
+      "names": {
+        "brazilian": "Perucas",
+        "english": "Wigs",
+        "french": "Perruques",
+        "german": "Perücken",
+        "italian": "Parrucche",
+        "japanese": "​かつら",
+        "korean": "​가발",
+        "polish": "Peruki",
+        "russian": "Парики",
+        "simplified_chinese": "​假发",
+        "spanish": "Pelucas",
+        "traditional_chinese": "​假髮"
+      },
+      "category": "consumer",
+      "regions": [
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 31709,
+      "names": {
+        "brazilian": "Granito",
+        "english": "Granite",
+        "french": "Granite",
+        "german": "Granit",
+        "italian": "Granito",
+        "japanese": "​花崗岩",
+        "korean": "​화강암",
+        "polish": "Granit",
+        "russian": "Гранит",
+        "simplified_chinese": "​花岗岩",
+        "spanish": "Granito",
+        "traditional_chinese": "​花崗岩"
+      },
+      "category": "construction",
+      "regions": [
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 31757,
+      "names": {
+        "brazilian": "Casa de apostas",
+        "english": "Gambling House",
+        "french": "Maison de jeu",
+        "german": "Aleatorium",
+        "italian": "Casa da gioco",
+        "japanese": "​賭博​場",
+        "korean": "​도박장",
+        "polish": "Szulernia",
+        "russian": "Игорный дом",
+        "simplified_chinese": "​赌场",
+        "spanish": "Casa de apuestas",
+        "traditional_chinese": "​賭場"
+      },
+      "category": "",
+      "regions": [
+        "Roman",
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 31768,
+      "names": {
+        "brazilian": "Carne assada",
+        "english": "Roast Beef",
+        "french": "Bœuf rôti",
+        "german": "Rinderbraten",
+        "italian": "Manzo arrostito",
+        "japanese": "​ロースト​ビーフ",
+        "korean": "​소고기구이",
+        "polish": "Pieczeń wołowa",
+        "russian": "Жаркое",
+        "simplified_chinese": "​烤牛肉",
+        "spanish": "Ternera asada",
+        "traditional_chinese": "​烤牛肉"
+      },
+      "category": "consumer",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 37132,
+      "names": {
+        "brazilian": "Teatro",
+        "english": "Theatre",
+        "french": "Théâtre",
+        "german": "Theater",
+        "italian": "Teatro",
+        "japanese": "​劇場",
+        "korean": "​극장",
+        "polish": "Teatr",
+        "russian": "Театр",
+        "simplified_chinese": "​剧场",
+        "spanish": "Teatro",
+        "traditional_chinese": "​劇場"
+      },
+      "category": "",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 37133,
+      "names": {
+        "brazilian": "Casa de apostas",
+        "english": "Gambling House",
+        "french": "Maison de jeu",
+        "german": "Aleatorium",
+        "italian": "Casa da gioco",
+        "japanese": "​賭博​場",
+        "korean": "​도박장",
+        "polish": "Szulernia",
+        "russian": "Игорный дом",
+        "simplified_chinese": "​赌场",
+        "spanish": "Casa de apuestas",
+        "traditional_chinese": "​賭場"
+      },
+      "category": "",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 55954,
+      "names": {
+        "brazilian": "Chifres de bebida",
+        "english": "Drinking Horns",
+        "french": "Cornes à boire",
+        "german": "Trinkhörner",
+        "italian": "Corni per bere",
+        "japanese": "​角​杯",
+        "korean": "​뿔잔",
+        "polish": "Rogi do picia",
+        "russian": "Рога для питья",
+        "simplified_chinese": "​角​杯",
+        "spanish": "Cuernas",
+        "traditional_chinese": "​角​杯"
+      },
+      "category": "consumer",
+      "regions": [
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 55955,
+      "names": {
+        "brazilian": "Túmulo",
+        "english": "Barrow",
+        "french": "Tumulus",
+        "german": "Hügelgrab",
+        "italian": "Tumulo",
+        "japanese": "​塚",
+        "korean": "​무덤",
+        "polish": "Kurhan",
+        "russian": "Курган",
+        "simplified_chinese": "​坟​冢",
+        "spanish": "Túmulo",
+        "traditional_chinese": "​墳​塚"
+      },
+      "category": "",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 55956,
+      "names": {
+        "brazilian": "Bosque sagrado",
+        "english": "Sacred Grove",
+        "french": "Bosquet sacré",
+        "german": "Heiliger Hain",
+        "italian": "Bosco sacro",
+        "japanese": "​神聖​な​森",
+        "korean": "​성림",
+        "polish": "Święty gaj",
+        "russian": "Священная роща",
+        "simplified_chinese": "​神圣​树林",
+        "spanish": "Arboleda sagrada",
+        "traditional_chinese": "​神聖​樹林"
+      },
+      "category": "",
+      "regions": [
+        "Celtic"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 91372,
+      "names": {
+        "brazilian": "Certificado de Officium",
+        "english": "Officium Permit",
+        "french": "Permis (officium)",
+        "german": "Officia-Baurecht",
+        "italian": "Permesso per la foresteria",
+        "japanese": "​オフィキウム​使用​許可証",
+        "korean": "​집무실 ​허가서",
+        "polish": "Zgoda na oficjum",
+        "russian": "Разрешение на оффиций",
+        "simplified_chinese": "​官署​许可",
+        "spanish": "Permiso de oficina",
+        "traditional_chinese": "​公務​所​許可"
+      },
+      "category": "",
+      "regions": [],
+      "abstract": false
+    },
+    {
+      "guid": 93770,
+      "names": {
+        "brazilian": "Certificado de Depósito",
+        "english": "Depot Permit",
+        "french": "Permis (dépôt)",
+        "german": "Depot-Baurecht",
+        "italian": "Permesso per il deposito",
+        "japanese": "​貯蔵​所​使用​許可証",
+        "korean": "​저장소 ​허가서",
+        "polish": "Zgoda na korzystanie ze składu",
+        "russian": "Разрешение на портовую базу",
+        "simplified_chinese": "​小​仓库​许可",
+        "spanish": "Permiso de depósito",
+        "traditional_chinese": "​小​倉庫​許可"
+      },
+      "category": "",
+      "regions": [],
+      "abstract": false
+    },
+    {
+      "guid": 93771,
+      "names": {
+        "brazilian": "Certificado de Sacrário",
+        "english": "Shrine Permit",
+        "french": "Permis (autel)",
+        "german": "Schrein-Baurecht",
+        "italian": "Permesso per il sacrario",
+        "japanese": "​神殿​使用​許可証",
+        "korean": "​제단 ​허가서",
+        "polish": "Zgoda na korzystanie z kapliczki",
+        "russian": "Разрешение на святыню",
+        "simplified_chinese": "​圣坛​许可",
+        "spanish": "Permiso de altar",
+        "traditional_chinese": "​聖壇​許可"
+      },
+      "category": "",
+      "regions": [],
+      "abstract": false
+    },
+    {
+      "guid": 108222,
+      "names": {
+        "brazilian": "Auxilias da Guarnição disponíveis",
+        "english": "Garrison Auxilia Available",
+        "french": "Auxilia de garnison disponibles",
+        "german": "Auxiliareserven",
+        "italian": "Auxilia della guarnigione disponibili",
+        "japanese": "​警備​アウクシリア​増員​許可証",
+        "korean": "​사용 ​가능한 ​수비대 ​보조병",
+        "polish": "Dostępny garnizon auxilliariusów",
+        "russian": "Резервы гарнизонных ауксилариев",
+        "simplified_chinese": "​可用​驻军​后​备​兵",
+        "spanish": "Auxiliares de guarnición disponibles",
+        "traditional_chinese": "​駐防​後備​兵​許可"
+      },
+      "category": "",
+      "regions": [],
+      "abstract": false
+    },
+    {
+      "guid": 108223,
+      "names": {
+        "brazilian": "Arqueiros da Guarnição disponíveis",
+        "english": "Garrison Archers Available",
+        "french": "Archers de garnison disponibles",
+        "german": "Bogenschützenreserven",
+        "italian": "Arcieri della guarnigione disponibili",
+        "japanese": "​警備​弓​兵​増員​許可証",
+        "korean": "​사용 ​가능한 ​수비대 ​궁수",
+        "polish": "Dostępny garnizon łuczników",
+        "russian": "Резервы гарнизонных лучников",
+        "simplified_chinese": "​可用​驻军​弓箭​手",
+        "spanish": "Arqueros de guarnición disponibles",
+        "traditional_chinese": "​駐防​弓箭​手​許可"
+      },
+      "category": "",
+      "regions": [],
+      "abstract": false
+    },
+    {
+      "guid": 108224,
+      "names": {
+        "brazilian": "Cavalarias da Guarnição disponíveis",
+        "english": "Garrison Cavalry Available",
+        "french": "Cavaliers de garnison disponibles",
+        "german": "Kavalleriereserven",
+        "italian": "Cavallerie della guarnigione disponibili",
+        "japanese": "​警備​騎兵​増員​許可証",
+        "korean": "​사용 ​가능한 ​수비대 ​기병",
+        "polish": "Dostępny garnizon konnicy",
+        "russian": "Резервы гарнизонных всадников",
+        "simplified_chinese": "​可用​驻军​骑兵",
+        "spanish": "Caballería de guarnición disponible",
+        "traditional_chinese": "​駐防​騎兵​許可"
+      },
+      "category": "",
+      "regions": [],
+      "abstract": false
+    },
+    {
+      "guid": 145102,
+      "names": {
+        "brazilian": "Obsidiana",
+        "english": "Obsidian",
+        "french": "Obsidienne",
+        "german": "Obsidian",
+        "italian": "Ossidiana",
+        "japanese": "​黒曜石",
+        "korean": "​흑요석",
+        "polish": "Obsydian",
+        "russian": "Обсидиан",
+        "simplified_chinese": "​黑​曜​石",
+        "spanish": "Obsidiana",
+        "traditional_chinese": "​黑​曜​石"
+      },
+      "category": "raw",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 145220,
+      "names": {
+        "brazilian": "Estatuetas",
+        "english": "Statuettes",
+        "french": "Statuettes",
+        "german": "Figuren",
+        "italian": "Statuette",
+        "japanese": "​小​像",
+        "korean": "​조각상",
+        "polish": "Posążki",
+        "russian": "Статуэтки",
+        "simplified_chinese": "​小​雕像",
+        "spanish": "Estatuillas",
+        "traditional_chinese": "​小​雕像"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 145221,
+      "names": {
+        "brazilian": "Conjuntos de Latrunculi",
+        "english": "Latrunculi Sets",
+        "french": "Plateaux de Latrunculi",
+        "german": "Latrunculi-Sets",
+        "italian": "Componenti di Latrunculi",
+        "japanese": "​ラ​トル​ン​クリ​一式",
+        "korean": "​라트룬쿨리 ​세트",
+        "polish": "Zestawy Latrunculi",
+        "russian": "Наборы для латрункули",
+        "simplified_chinese": "​强盗​棋​棋​具",
+        "spanish": "Juegos de latrunculi",
+        "traditional_chinese": "​兵​棋​套​組"
+      },
+      "category": "consumer",
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "abstract": false
+    },
+    {
+      "guid": 152719,
+      "names": {
+        "brazilian": "Hipódromo",
+        "english": "Hippodrome",
+        "french": "Hippodrome",
+        "german": "Hippodrom",
+        "italian": "Ippodromo",
+        "japanese": "​競馬​場",
+        "korean": "​히포드롬",
+        "polish": "Hipodrom",
+        "russian": "Ипподром",
+        "simplified_chinese": "​赛马​场",
+        "spanish": "Hipódromo",
+        "traditional_chinese": "​賽馬​場"
+      },
+      "category": "",
+      "regions": [
+        "Roman"
+      ],
+      "abstract": true
+    },
+    {
+      "guid": 1010017,
+      "names": {
+        "brazilian": "Denários",
+        "english": "Denarii",
+        "french": "Deniers",
+        "german": "Denare",
+        "italian": "Denari",
+        "japanese": "​デナリウス",
+        "korean": "​데나리우스",
+        "polish": "Denary",
+        "russian": "Денарии",
+        "simplified_chinese": "​第​纳​里​币",
+        "spanish": "Denarios",
+        "traditional_chinese": "​第​納​里​幣"
+      },
+      "category": "",
+      "regions": [],
+      "abstract": false
+    }
+  ],
+  "buildings": [
+    {
+      "guid": 2200,
+      "names": {
+        "brazilian": "Fazenda de Aveia",
+        "english": "Oat Farm",
+        "french": "Ferme d'avoine",
+        "german": "Haferhof",
+        "italian": "Fattoria d'avena",
+        "japanese": "​オーツ​麦​農場",
+        "korean": "​귀리 ​농장",
+        "polish": "Uprawa owsa",
+        "russian": "Хозяйство (овес)",
+        "simplified_chinese": "​燕麦​农场",
+        "spanish": "Granja de avena",
+        "traditional_chinese": "​燕麥​農場"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2669,
+      "names": {
+        "brazilian": "Fazenda de Linho",
+        "english": "Flax Farm",
+        "french": "Ferme de lin",
+        "german": "Flachshof",
+        "italian": "Fattoria di lino",
+        "japanese": "​亜麻​農場",
+        "korean": "​아마 ​농장",
+        "polish": "Uprawa lnu",
+        "russian": "Хозяйство (лен)",
+        "simplified_chinese": "​亚麻​农场",
+        "spanish": "Granja de lino",
+        "traditional_chinese": "​亞麻​農場"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2693,
+      "names": {
+        "brazilian": "Fazenda de Trigo",
+        "english": "Wheat Farm",
+        "french": "Ferme de céréales",
+        "german": "Weizenhof",
+        "italian": "Fattoria di grano",
+        "japanese": "​小麦​農場",
+        "korean": "​밀 ​농장",
+        "polish": "Uprawa pszenicy",
+        "russian": "Хозяйство (пшеница)",
+        "simplified_chinese": "​小麦​农场",
+        "spanish": "Granja de trigo",
+        "traditional_chinese": "​小麥​農場"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2694,
+      "names": {
+        "brazilian": "Vinhedo",
+        "english": "Vineyard",
+        "french": "Vignoble",
+        "german": "Weingut",
+        "italian": "Vigneto",
+        "japanese": "​ブドウ​園",
+        "korean": "​포도원",
+        "polish": "Winnica",
+        "russian": "Виноградник",
+        "simplified_chinese": "​葡萄​园",
+        "spanish": "Viñedo",
+        "traditional_chinese": "​葡萄園"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2698,
+      "names": {
+        "brazilian": "Cultivador de Lavanda",
+        "english": "Lavender Grower",
+        "french": "Cultivateur de lavande",
+        "german": "Lavandulahof",
+        "italian": "Coltivatore di lavanda",
+        "japanese": "​ラベンダー​農家",
+        "korean": "​라벤더 ​재배지",
+        "polish": "Hodowca lawendy",
+        "russian": "Хозяйство (лаванда)",
+        "simplified_chinese": "​薰​衣​草​种植​园",
+        "spanish": "Vivero de lavanda",
+        "traditional_chinese": "​薰​衣​草​種植園"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2699,
+      "names": {
+        "brazilian": "Olivicultor",
+        "english": "Olive Grower",
+        "french": "Cultivateur d'olives",
+        "german": "Olivenzüchter",
+        "italian": "Olivicoltore",
+        "japanese": "​オリーブ​農家",
+        "korean": "​올리브 ​재배지",
+        "polish": "Hodowca oliwek",
+        "russian": "Хозяйство (оливки)",
+        "simplified_chinese": "​橄榄树​种植​园",
+        "spanish": "Vivero de aceitunas",
+        "traditional_chinese": "​橄欖​種植園"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2786,
+      "names": {
+        "brazilian": "Fazenda de Ovelhas",
+        "english": "Sheep Farm",
+        "french": "Élevage ovin",
+        "german": "Schafshof",
+        "italian": "Allevamento di pecore",
+        "japanese": "​羊​牧場",
+        "korean": "​양 ​농장",
+        "polish": "Owczarnia",
+        "russian": "Хозяйство (овцы)",
+        "simplified_chinese": "​绵羊​农场",
+        "spanish": "Granja de ovejas",
+        "traditional_chinese": "​羊​隻​農場"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2793,
+      "names": {
+        "brazilian": "Fazenda de Porcos",
+        "english": "Pig Farm",
+        "french": "Élevage porcin",
+        "german": "Schweinehof",
+        "italian": "Allevamento di maiali",
+        "japanese": "​養豚​場",
+        "korean": "​돼지 ​농장",
+        "polish": "Świniarnia",
+        "russian": "Хозяйство (свиньи)",
+        "simplified_chinese": "​养​猪​场",
+        "spanish": "Granja de cerdos",
+        "traditional_chinese": "​養豬場"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2794,
+      "names": {
+        "brazilian": "Criador de Cavalos",
+        "english": "Horse Breeder",
+        "french": "Éleveur de chevaux",
+        "german": "Pferdezüchter",
+        "italian": "Allevatore di cavalli",
+        "japanese": "​馬​ブリーダー",
+        "korean": "​말 ​사육장",
+        "polish": "Hodowca koni",
+        "russian": "Загон для лошадей",
+        "simplified_chinese": "​养​马​场",
+        "spanish": "Criadero de caballos",
+        "traditional_chinese": "​牧​馬場"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2795,
+      "names": {
+        "brazilian": "Apiário",
+        "english": "Apiary",
+        "french": "Rucher",
+        "german": "Bienenstock",
+        "italian": "Apiario",
+        "japanese": "​養蜂場",
+        "korean": "​양봉장",
+        "polish": "Pasieka",
+        "russian": "Пасека",
+        "simplified_chinese": "​养蜂场",
+        "spanish": "Apiario",
+        "traditional_chinese": "​養蜂場"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2796,
+      "names": {
+        "brazilian": "Queimador de Barrilhas",
+        "english": "Saltwort Picker",
+        "french": "Cueilleur de salicorne",
+        "german": "Salzkrautsammler",
+        "italian": "Raccoglitore di salicornia",
+        "japanese": "​アッ​ケシ​ソウ​摘み",
+        "korean": "​함초 ​채집장",
+        "polish": "Zbieracz solanki",
+        "russian": "Собиратели солероса",
+        "simplified_chinese": "​海​蓬​菜​采集​点",
+        "spanish": "Recogedero de salicornias",
+        "traditional_chinese": "​海​蓬​菜​採集​場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2799,
+      "names": {
+        "brazilian": "Fazenda de Cevada",
+        "english": "Barley Farm",
+        "french": "Ferme d'orge",
+        "german": "Gerstenhof",
+        "italian": "Fattoria d'orzo",
+        "japanese": "​大麦​農場",
+        "korean": "​보리 ​농장",
+        "polish": "Uprawa jęczmienia",
+        "russian": "Хозяйство (ячмень)",
+        "simplified_chinese": "​大麦​农场",
+        "spanish": "Granja de cebada",
+        "traditional_chinese": "​大麥​農場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2800,
+      "names": {
+        "brazilian": "Colheita Lamacenta",
+        "english": "Weld Crop",
+        "french": "Champ de garance",
+        "german": "Färberwaupflanze",
+        "italian": "Raccolto di luteola",
+        "japanese": "​ウォール​ド​畑",
+        "korean": "​목서초 ​수확지",
+        "polish": "Zasiew rezedy",
+        "russian": "Поле резеды",
+        "simplified_chinese": "​黄​蒿​庄稼​地",
+        "spanish": "Plantío de gualda",
+        "traditional_chinese": "​黃​木犀​草​作物"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2878,
+      "names": {
+        "brazilian": "Lenhador",
+        "english": "Woodcutter",
+        "french": "Bûcheron",
+        "german": "Holzfäller",
+        "italian": "Taglialegna",
+        "japanese": "​木こり",
+        "korean": "​벌목장",
+        "polish": "Drwal",
+        "russian": "Лесорубы",
+        "simplified_chinese": "​伐木​场",
+        "spanish": "Talador",
+        "traditional_chinese": "​伐木​場"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2880,
+      "names": {
+        "brazilian": "Carvoeiro",
+        "english": "Charcoal Burner",
+        "french": "Charbonnière",
+        "german": "Köhler",
+        "italian": "Carbonaio",
+        "japanese": "​炭焼き​師",
+        "korean": "​제탄소",
+        "polish": "Smolarz",
+        "russian": "Яма углежога",
+        "simplified_chinese": "​炭​窑",
+        "spanish": "Quemadero de carbón",
+        "traditional_chinese": "​木炭​焚燒​爐"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2916,
+      "names": {
+        "brazilian": "Pedreira de Calcário",
+        "english": "Limestone Quarry",
+        "french": "Carrière de calcaire",
+        "german": "Kalksteinbruch",
+        "italian": "Cava di calcare",
+        "japanese": "​石灰岩​の​採石場",
+        "korean": "​석회석 ​채석장",
+        "polish": "Kamieniołom wapienia",
+        "russian": "Известняковый карьер",
+        "simplified_chinese": "​石灰岩​采石场",
+        "spanish": "Cantera de caliza",
+        "traditional_chinese": "​石灰岩​採石場"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2918,
+      "names": {
+        "brazilian": "Mina de Ferro",
+        "english": "Iron Mine",
+        "french": "Mine de fer",
+        "german": "Eisenmine",
+        "italian": "Miniera di ferro",
+        "japanese": "​鉄​鉱山",
+        "korean": "​철 ​광산",
+        "polish": "Kopalnia żelaza",
+        "russian": "Железный рудник",
+        "simplified_chinese": "​铁​矿场",
+        "spanish": "Mina de hierro",
+        "traditional_chinese": "​鐵礦"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2920,
+      "names": {
+        "brazilian": "Pedreira Mineral",
+        "english": "Mineral Quarry",
+        "french": "Carrière de minéraux",
+        "german": "Mineral­steinbruch",
+        "italian": "Cava di minerali",
+        "japanese": "​鉱物​の​採石場",
+        "korean": "​광물 ​채석장",
+        "polish": "Kamieniołom minerałów",
+        "russian": "Минеральный карьер",
+        "simplified_chinese": "​矿物​采石场",
+        "spanish": "Cantera de minerales",
+        "traditional_chinese": "​礦物​採石場"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2954,
+      "names": {
+        "brazilian": "Pedreira de Mármore",
+        "english": "Marble Quarry",
+        "french": "Carrière de marbre",
+        "german": "Marmor­steinbruch",
+        "italian": "Cava di marmo",
+        "japanese": "​大理石​の​採石場",
+        "korean": "​대리석 ​채석장",
+        "polish": "Kamieniołom marmuru",
+        "russian": "Мраморный карьер",
+        "simplified_chinese": "​大理石​采石场",
+        "spanish": "Cantera de mármol",
+        "traditional_chinese": "​大理石​採石場"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2955,
+      "names": {
+        "brazilian": "Cabana de Pesca",
+        "english": "Fishing Hut",
+        "french": "Cabane de pêcheur",
+        "german": "Sardinenhütte",
+        "italian": "Capanno da pesca",
+        "japanese": "​漁師​小屋",
+        "korean": "​어부 ​오두막",
+        "polish": "Chata rybaka",
+        "russian": "Рыбацкая хижина",
+        "simplified_chinese": "​钓鱼​小屋",
+        "spanish": "Caseta de pesca",
+        "traditional_chinese": "​釣​漁​小屋"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2956,
+      "names": {
+        "brazilian": "Cabana do Pescador de Cavalinha",
+        "english": "Scomber's Shack",
+        "french": "Cabane à maquereaux",
+        "german": "Makrelenhütte",
+        "italian": "Baracca di scomber",
+        "japanese": "​サバ​小屋",
+        "korean": "​고등어 ​오두막",
+        "polish": "Szopa z makrelami",
+        "russian": "Хижина ловцов скумбрии",
+        "simplified_chinese": "​鲭鱼​小屋",
+        "spanish": "Caseta de caballas",
+        "traditional_chinese": "​鯖魚​小屋"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2957,
+      "names": {
+        "brazilian": "Lagoas de Sal",
+        "english": "Salt Ponds",
+        "french": "Marais salants",
+        "german": "Salzgärten",
+        "italian": "Stagni salati",
+        "japanese": "​塩田",
+        "korean": "​염전",
+        "polish": "Solanki",
+        "russian": "Соляные пруды",
+        "simplified_chinese": "​盐池",
+        "spanish": "Salinas",
+        "traditional_chinese": "​鹽田"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2958,
+      "names": {
+        "brazilian": "Refinaria de Areia",
+        "english": "Sand Refinery",
+        "french": "Raffinerie de sable",
+        "german": "Sandraffinerie",
+        "italian": "Raffineria di sabbia",
+        "japanese": "​砂​精製​所",
+        "korean": "​모래 ​정제소",
+        "polish": "Przetwórnia piasku",
+        "russian": "Мастерская по очистке песка",
+        "simplified_chinese": "​精​砂​厂",
+        "spanish": "Refinería de arena",
+        "traditional_chinese": "​沙子​精煉​場"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2970,
+      "names": {
+        "brazilian": "Poço de Argila",
+        "english": "Clay Pit",
+        "french": "Carrière d'argile",
+        "german": "Lehmgrube",
+        "italian": "Cava di argilla",
+        "japanese": "​粘土​穴",
+        "korean": "​점토 ​채취장",
+        "polish": "Wyrobisko gliny",
+        "russian": "Глиняная яма",
+        "simplified_chinese": "​黏土​坑",
+        "spanish": "Terrero de arcilla",
+        "traditional_chinese": "​黏土​坑"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2971,
+      "names": {
+        "brazilian": "Criadouro de Esturjão",
+        "english": "Sturgeon Hatchery",
+        "french": "Élevage d'esturgeons",
+        "german": "Störzucht",
+        "italian": "Allevamento di storioni",
+        "japanese": "​チョウザメ​の​孵化​場",
+        "korean": "​철갑상어 ​부화장",
+        "polish": "Hodowla jesiotrów",
+        "russian": "Осетровое хозяйство",
+        "simplified_chinese": "​鲟鱼​养殖​场",
+        "spanish": "Criadero de esturiones",
+        "traditional_chinese": "​鱘魚​養殖場"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2994,
+      "names": {
+        "brazilian": "Curtume",
+        "english": "Tannery",
+        "french": "Tannerie",
+        "german": "Gerberei",
+        "italian": "Conceria",
+        "japanese": "​なめし革​工房",
+        "korean": "​가죽 ​세공소",
+        "polish": "Garbarnia",
+        "russian": "Дубильня",
+        "simplified_chinese": "​鞣​革​工​坊",
+        "spanish": "Curtiduría",
+        "traditional_chinese": "​皮革​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 2999,
+      "names": {
+        "brazilian": "Tinturaria",
+        "english": "Dye Works",
+        "french": "Teinturerie",
+        "german": "Färberwerkstatt",
+        "italian": "Tintoria",
+        "japanese": "​染色​工房",
+        "korean": "​염색 ​공방",
+        "polish": "Warsztat farbiarski",
+        "russian": "Пурпурная красильня",
+        "simplified_chinese": "​染料​作坊",
+        "spanish": "Fábrica de tintes",
+        "traditional_chinese": "​染坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3070,
+      "names": {
+        "brazilian": "Fornalha",
+        "english": "Furnace",
+        "french": "Fourneau",
+        "german": "Ofen",
+        "italian": "Fornace",
+        "japanese": "​溶鉱炉",
+        "korean": "​용광로",
+        "polish": "Piec",
+        "russian": "Печь",
+        "simplified_chinese": "​熔炉",
+        "spanish": "Horno alto",
+        "traditional_chinese": "​熔爐"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3074,
+      "names": {
+        "brazilian": "Fundição de Vidro",
+        "english": "Glass Smelter",
+        "french": "Fondeur de verre",
+        "german": "Glasschmelzer",
+        "italian": "Fonderia di vetro",
+        "japanese": "​ガラス​工房",
+        "korean": "​유리 ​제련소",
+        "polish": "Wytapiacz szkła",
+        "russian": "Плавильня стекла",
+        "simplified_chinese": "​玻璃​冶炼​厂",
+        "spanish": "Fundición de vidrio",
+        "traditional_chinese": "​玻璃​冶煉​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3075,
+      "names": {
+        "brazilian": "Moinho de Grãos",
+        "english": "Grain Mill",
+        "french": "Moulin à grains",
+        "german": "Kornmühle",
+        "italian": "Mulino",
+        "japanese": "​粉​ひき​所",
+        "korean": "​제분소",
+        "polish": "Młyn zbożowy",
+        "russian": "Мельница для зерна",
+        "simplified_chinese": "​磨粉​厂",
+        "spanish": "Molino de cereales",
+        "traditional_chinese": "​穀物​磨坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3079,
+      "names": {
+        "brazilian": "Tecelão",
+        "english": "Weaver",
+        "french": "Tisserand",
+        "german": "Weber",
+        "italian": "Tessitore",
+        "japanese": "​織物​工房",
+        "korean": "​직조소",
+        "polish": "Tkacz",
+        "russian": "Ткацкая мастерская",
+        "simplified_chinese": "​编织​工​坊",
+        "spanish": "Hilandería",
+        "traditional_chinese": "​織布​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3081,
+      "names": {
+        "brazilian": "Dourador",
+        "english": "Gilder",
+        "french": "Doreur",
+        "german": "Vergolder",
+        "italian": "Doratore",
+        "japanese": "​金箔​工房",
+        "korean": "​도금 ​작업장",
+        "polish": "Zdobnik",
+        "russian": "Мастерская позолотчика",
+        "simplified_chinese": "​镀金​工​坊",
+        "spanish": "Doradoría",
+        "traditional_chinese": "​鍍金​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3082,
+      "names": {
+        "brazilian": "Triturador",
+        "english": "Mineral Crusher",
+        "french": "Broyeur minéral",
+        "german": "Mineralienmalmer",
+        "italian": "Frantoio di minerali",
+        "japanese": "​鉱物​粉砕​所",
+        "korean": "​광물 ​분쇄소",
+        "polish": "Zgniatarka minerałów",
+        "russian": "Камнедробилка",
+        "simplified_chinese": "​矿物​粉碎​厂",
+        "spanish": "Trituradora de minerales",
+        "traditional_chinese": "​礦石​碾碎​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3087,
+      "names": {
+        "brazilian": "Residência de libertus",
+        "english": "Libertus Residence",
+        "french": "Résidence de Liberti",
+        "german": "Liberti-Wohnhaus",
+        "italian": "Residenza del liberto",
+        "japanese": "​リベルトゥス​の​住居",
+        "korean": "​자유민 ​주거지",
+        "polish": "Dom Wyzwoleńca",
+        "russian": "Жилой дом либертина",
+        "simplified_chinese": "​自由​民​住所",
+        "spanish": "Residencia liberta",
+        "traditional_chinese": "​自由​民​住所"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "residence"
+    },
+    {
+      "guid": 3089,
+      "names": {
+        "brazilian": "Serraria",
+        "english": "Sawmill",
+        "french": "Scierie",
+        "german": "Sägewerk",
+        "italian": "Segheria",
+        "japanese": "​製材​所",
+        "korean": "​제재소",
+        "polish": "Tartak",
+        "russian": "Лесопилка",
+        "simplified_chinese": "​锯木厂",
+        "spanish": "Aserradero",
+        "traditional_chinese": "​鋸木廠"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3091,
+      "names": {
+        "brazilian": "Ladrilhador",
+        "english": "Tiler",
+        "french": "Carreleur",
+        "german": "Ziegelei",
+        "italian": "Piastrellificio",
+        "japanese": "​瓦​工房",
+        "korean": "​타일 ​제작소",
+        "polish": "Kafelkarz",
+        "russian": "Мастерская по изготовлению плитки",
+        "simplified_chinese": "​瓦片​厂",
+        "spanish": "Tejería",
+        "traditional_chinese": "​瓦片​廠"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3129,
+      "names": {
+        "brazilian": "Betoneira",
+        "english": "Concrete Mixer",
+        "french": "Malaxeur à béton",
+        "german": "Betonmischer",
+        "italian": "Miscelatore di cemento",
+        "japanese": "​コンクリート​工房",
+        "korean": "​콘크리트 ​믹서",
+        "polish": "Mieszacz betonu",
+        "russian": "Бетономешальная",
+        "simplified_chinese": "​混凝土​调制​厂",
+        "spanish": "Mezclería de hormigón",
+        "traditional_chinese": "​混凝土​攪拌器"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3138,
+      "names": {
+        "brazilian": "Alveneiro de Mármore",
+        "english": "Marble Mason",
+        "french": "Tailleur de marbre",
+        "german": "Marmor-Steinmetz",
+        "italian": "Scalpello per marmo",
+        "japanese": "​大理石​工房",
+        "korean": "​대리석 ​제작소",
+        "polish": "Kamieniarz marmuru",
+        "russian": "Мастерская по обработке мрамора",
+        "simplified_chinese": "​大理石​切割​工​坊",
+        "spanish": "Marmolería",
+        "traditional_chinese": "​大理石​雕刻​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3141,
+      "names": {
+        "brazilian": "Residência de plebeu",
+        "english": "Plebeian Residence",
+        "french": "Résidence de Plébéiens",
+        "german": "Plebejer-Wohnhaus",
+        "italian": "Residenza del plebeo",
+        "japanese": "​プレブス​の​住居",
+        "korean": "​평민 ​주거지",
+        "polish": "Dom Plebejusza",
+        "russian": "Жилой дом плебея",
+        "simplified_chinese": "​平民​住所",
+        "spanish": "Residencia plebeya",
+        "traditional_chinese": "​平民​住所"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "residence"
+    },
+    {
+      "guid": 3142,
+      "names": {
+        "brazilian": "Residência de eques",
+        "english": "Eques Residence",
+        "french": "Résidence d'Equites",
+        "german": "Equites-Wohnhaus",
+        "italian": "Residenza dell'equite",
+        "japanese": "​エクィテス​の​住居",
+        "korean": "​기사 ​주거지",
+        "polish": "Dom Ekwity",
+        "russian": "Жилой дом эквита",
+        "simplified_chinese": "​骑士​住所",
+        "spanish": "Residencia équite",
+        "traditional_chinese": "​騎士​住所"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "residence"
+    },
+    {
+      "guid": 3145,
+      "names": {
+        "brazilian": "Residência de patrício",
+        "english": "Patrician Residence",
+        "french": "Résidence de Patriciens",
+        "german": "Patrizier-Wohnhaus",
+        "italian": "Residenza del patrizio",
+        "japanese": "​パトリキ​の​住居",
+        "korean": "​파트리키 ​주거지",
+        "polish": "Dom Patrycjusza",
+        "russian": "Жилой дом патриция",
+        "simplified_chinese": "​贵族​住所",
+        "spanish": "Residencia patricia",
+        "traditional_chinese": "​貴族​住所"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "residence"
+    },
+    {
+      "guid": 3168,
+      "names": {
+        "brazilian": "Cordoeiro",
+        "english": "Ropemaker",
+        "french": "Cordier",
+        "german": "Seilmacher",
+        "italian": "Cordaio",
+        "japanese": "​ロープ​職人",
+        "korean": "​밧줄 ​제작소",
+        "polish": "Powroźnik",
+        "russian": "Мастерская по изготовлению веревок",
+        "simplified_chinese": "​制​绳​工​坊",
+        "spanish": "Cordelería",
+        "traditional_chinese": "​製​繩​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3169,
+      "names": {
+        "brazilian": "Veleiro",
+        "english": "Sailmaker",
+        "french": "Fabricant de voiles",
+        "german": "Segelmacher",
+        "italian": "Velaio",
+        "japanese": "​帆布​工場",
+        "korean": "​돛 ​제작소",
+        "polish": "Żaglomistrz",
+        "russian": "Мастерская по изготовлению парусов",
+        "simplified_chinese": "​制​帆​厂",
+        "spanish": "Velería",
+        "traditional_chinese": "​製​帆​廠"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3170,
+      "names": {
+        "brazilian": "Armaria",
+        "english": "Weaponsmith",
+        "french": "Forgeron d'armes",
+        "german": "Waffenschmied",
+        "italian": "Armaiolo",
+        "japanese": "​武器​工房",
+        "korean": "​무기 ​제작소",
+        "polish": "Zbrojmistrz",
+        "russian": "Кузница оружейника",
+        "simplified_chinese": "​武器​作坊",
+        "spanish": "Forjería de armas",
+        "traditional_chinese": "​武器​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3171,
+      "names": {
+        "brazilian": "Barraca de Mingau",
+        "english": "Porridge Stand",
+        "french": "Étal de gruau",
+        "german": "Breistand",
+        "italian": "Bancarella di zuppa d'avena",
+        "japanese": "​お​粥​の​屋台",
+        "korean": "​죽 ​가게",
+        "polish": "Stoisko z owsianką",
+        "russian": "Лавка кашевара",
+        "simplified_chinese": "​粥​铺",
+        "spanish": "Puesto de gachas",
+        "traditional_chinese": "​清​粥​攤販"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3174,
+      "names": {
+        "brazilian": "Padaria",
+        "english": "Bakery",
+        "french": "Boulangerie",
+        "german": "Bäckerei",
+        "italian": "Panificio",
+        "japanese": "​パン​屋",
+        "korean": "​제과점",
+        "polish": "Piekarnia",
+        "russian": "Пекарня",
+        "simplified_chinese": "​面包​房",
+        "spanish": "Panadería",
+        "traditional_chinese": "​麵包​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3177,
+      "names": {
+        "brazilian": "Vinicultor",
+        "english": "Vintner",
+        "french": "Vigneron",
+        "german": "Winzer",
+        "italian": "Vinaio",
+        "japanese": "​ワイン​醸造​業者",
+        "korean": "​포도주 ​양조장",
+        "polish": "Winiarz",
+        "russian": "Винодельня",
+        "simplified_chinese": "​葡萄酒​酿酒厂",
+        "spanish": "Viticultoría",
+        "traditional_chinese": "​釀酒​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3185,
+      "names": {
+        "brazilian": "Garumaria",
+        "english": "Garum Works",
+        "french": "Atelier de garum",
+        "german": "Garumsaucier",
+        "italian": "Produzioni di garum",
+        "japanese": "​ガルム​工房",
+        "korean": "​가룸 ​제조소",
+        "polish": "Wytwórnia garum",
+        "russian": "Мастерская по изготовлению гарума",
+        "simplified_chinese": "​鱼​酱​作坊",
+        "spanish": "Fábrica de garo",
+        "traditional_chinese": "​魚​醬​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3186,
+      "names": {
+        "brazilian": "Epicure da Água",
+        "english": "Epicure of Water",
+        "french": "Épicurien de l'eau",
+        "german": "Meeresgourmet",
+        "italian": "Epicureo dell'acqua",
+        "japanese": "​水​の​美食​家",
+        "korean": "​수질 ​감정사",
+        "polish": "Owoce morza",
+        "russian": "Морские деликатесы",
+        "simplified_chinese": "​水产​珍​馐​作坊",
+        "spanish": "Epicurería de agua",
+        "traditional_chinese": "​魚子醬​美食​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3187,
+      "names": {
+        "brazilian": "Tecelão",
+        "english": "Spinner",
+        "french": "Atelier de filage",
+        "german": "Spinnerei",
+        "italian": "Filatore",
+        "japanese": "​糸​紡​ぎ​師",
+        "korean": "​방직 ​공장",
+        "polish": "Warsztat przędzarza",
+        "russian": "Мастерская по шитью туник",
+        "simplified_chinese": "​纺​纱​工​坊",
+        "spanish": "Tejeduría",
+        "traditional_chinese": "​紡織​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3188,
+      "names": {
+        "brazilian": "Feltragem de Pileus",
+        "english": "Pileus Felter",
+        "french": "Foulonneur de pileus",
+        "german": "Pileusfilzer",
+        "italian": "Produttore di pilei in feltro",
+        "japanese": "​ピレウス​帽​職人",
+        "korean": "​뾰족모자 ​제작소",
+        "polish": "Wytwórca pilosów",
+        "russian": "Мастерская по изготовлению пилосов",
+        "simplified_chinese": "​自由​帽​作坊",
+        "spanish": "Forrería de pileos",
+        "traditional_chinese": "​自由​帽​縫製​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3189,
+      "names": {
+        "brazilian": "Saboeiro",
+        "english": "Soap Maker",
+        "french": "Fabricant de savon",
+        "german": "Seifensieder",
+        "italian": "Produttore di sapone",
+        "japanese": "​石鹸​工房",
+        "korean": "​비누 ​제작소",
+        "polish": "Mydlarz",
+        "russian": "Мыловарня",
+        "simplified_chinese": "​肥皂​作坊",
+        "spanish": "Jabonería",
+        "traditional_chinese": "​肥皂​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3190,
+      "names": {
+        "brazilian": "Sandalheiro",
+        "english": "Sandal Maker",
+        "french": "Fabricant de sandales",
+        "german": "Sandalenmacher",
+        "italian": "Calzolaio di sandali",
+        "japanese": "​サンダル​職人",
+        "korean": "​샌들 ​제작소",
+        "polish": "Wytwórca sandałów",
+        "russian": "Мастерская по изготовлению сандалий",
+        "simplified_chinese": "​凉鞋​作坊",
+        "spanish": "Sandalería",
+        "traditional_chinese": "​涼鞋​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3191,
+      "names": {
+        "brazilian": "Tecelagem de Teares",
+        "english": "Loom Weavery",
+        "french": "Atelier de tissage",
+        "german": "Webstuhl",
+        "italian": "Tessitura",
+        "japanese": "​織機​工",
+        "korean": "​직조 ​공방",
+        "polish": "Tkalnia krosnowa",
+        "russian": "Мастерская по шитью тог",
+        "simplified_chinese": "​织布​工​坊",
+        "spanish": "Hilandería de telares",
+        "traditional_chinese": "​托​加工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3192,
+      "names": {
+        "brazilian": "Joalheiro",
+        "english": "Jeweller",
+        "french": "Joaillier",
+        "german": "Juwelier",
+        "italian": "Gioielliere",
+        "japanese": "​宝石商",
+        "korean": "​보석 ​세공소",
+        "polish": "Jubiler",
+        "russian": "Ювелирная мастерская",
+        "simplified_chinese": "​珠宝​作坊",
+        "spanish": "Joyería",
+        "traditional_chinese": "​珠寶​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3198,
+      "names": {
+        "brazilian": "Fabricante de Cadeiras",
+        "english": "Chair Maker",
+        "french": "Fabricant de chaises",
+        "german": "Liegenbauer",
+        "italian": "Costruttore di sedie",
+        "japanese": "​鎖​職人",
+        "korean": "​의자 ​제작소",
+        "polish": "Wytwórca krzeseł",
+        "russian": "Мастерская по изготовлению мебели",
+        "simplified_chinese": "​制​椅​工​坊",
+        "spanish": "Sillería",
+        "traditional_chinese": "​椅子​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3199,
+      "names": {
+        "brazilian": "Oleiro",
+        "english": "Potter",
+        "french": "Potier",
+        "german": "Töpfer",
+        "italian": "Vasaio",
+        "japanese": "​陶工",
+        "korean": "​도예소",
+        "polish": "Garncarz",
+        "russian": "Гончарная мастерская",
+        "simplified_chinese": "​陶​罐​厂",
+        "spanish": "Vasijería",
+        "traditional_chinese": "​陶藝​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3201,
+      "names": {
+        "brazilian": "Tabulus",
+        "english": "Tabulus",
+        "french": "Tabulus",
+        "german": "Tabulus",
+        "italian": "Tabulus",
+        "japanese": "​蝋​版​職人",
+        "korean": "​판자 ​제작소",
+        "polish": "Tabulus",
+        "russian": "Мастерская по изготовлению табличек",
+        "simplified_chinese": "​书写​板",
+        "spanish": "Tabulería",
+        "traditional_chinese": "​蠟​板​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3202,
+      "names": {
+        "brazilian": "Vidraceiro",
+        "english": "Glassblower",
+        "french": "Souffleur de verre",
+        "german": "Glasbläser",
+        "italian": "Soffiatore di vetro",
+        "japanese": "​ガラス​吹​き​工",
+        "korean": "​유리 ​직공소",
+        "polish": "Dmuchacz szkła",
+        "russian": "Стеклодувная мастерская",
+        "simplified_chinese": "​玻璃​吹​制​厂",
+        "spanish": "Sopladuría de vidrio",
+        "traditional_chinese": "​玻璃​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 3203,
+      "names": {
+        "brazilian": "Tésseraria",
+        "english": "Tessera Works",
+        "french": "Atelier de tesselles",
+        "german": "Mosaikmacher",
+        "italian": "Mosaici",
+        "japanese": "​モザイク​工房",
+        "korean": "​각석 ​공방",
+        "polish": "Warsztat mozaikowy",
+        "russian": "Мастерская по изготовлению тессер",
+        "simplified_chinese": "​马赛​克​地​砖​工​坊",
+        "spanish": "Fábrica de téseras",
+        "traditional_chinese": "​鑲嵌​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 4831,
+      "names": {
+        "brazilian": "Prensa de Azeitonas",
+        "english": "Olive Press",
+        "french": "Pressoir à olives",
+        "german": "Olivenpresse",
+        "italian": "Frantoio",
+        "japanese": "​オリーブ​圧搾​所",
+        "korean": "​올리브 ​압착소",
+        "polish": "Prasa do wyciskania oliwy",
+        "russian": "Оливковый пресс",
+        "simplified_chinese": "​橄榄​压​榨​工​坊",
+        "spanish": "Prensa de aceitunas",
+        "traditional_chinese": "​橄欖​榨汁​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 4832,
+      "names": {
+        "brazilian": "Luteiro",
+        "english": "Lythier",
+        "french": "Lyrier",
+        "german": "Lyramacher",
+        "italian": "Produttore di lire",
+        "japanese": "​リラ​職人",
+        "korean": "​악기 ​제작소",
+        "polish": "Lutnik",
+        "russian": "Мастерская по изготовлению лир",
+        "simplified_chinese": "​弦乐​器​作坊",
+        "spanish": "Lirería",
+        "traditional_chinese": "​里拉​琴​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5278,
+      "names": {
+        "brazilian": "Cata-berbigão",
+        "english": "Cockle Picker",
+        "french": "Ramasseur de coques",
+        "german": "Herzmuschelfarm",
+        "italian": "Raccoglitore di cuori di mare",
+        "japanese": "​ザル​貝​採り",
+        "korean": "​새조개 ​채집장",
+        "polish": "Zbieracz sercówek",
+        "russian": "Собиратели гребешков",
+        "simplified_chinese": "​鸟​蛤​采集​点",
+        "spanish": "Recogedero de berberechos",
+        "traditional_chinese": "​鳥​蛤​採集​場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5290,
+      "names": {
+        "brazilian": "Mina de Cobre",
+        "english": "Copper Mine",
+        "french": "Mine de cuivre",
+        "german": "Kupfermine",
+        "italian": "Miniera di rame",
+        "japanese": "​銅鉱",
+        "korean": "​구리 ​광산",
+        "polish": "Kopalnia miedzi",
+        "russian": "Медный рудник",
+        "simplified_chinese": "​铜​矿场",
+        "spanish": "Mina de cobre",
+        "traditional_chinese": "​銅礦"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5291,
+      "names": {
+        "brazilian": "Minério de Estanho",
+        "english": "Tin Mine",
+        "french": "Mine d'étain",
+        "german": "Zinnmine",
+        "italian": "Miniera di stagno",
+        "japanese": "​錫​鉱",
+        "korean": "​주석 ​광산",
+        "polish": "Kopalnia cyny",
+        "russian": "Оловянный рудник",
+        "simplified_chinese": "​锡矿​场",
+        "spanish": "Mina de estaño",
+        "traditional_chinese": "​錫礦"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5295,
+      "names": {
+        "brazilian": "Pedreira de Granito",
+        "english": "Granite Quarry",
+        "french": "Carrière de granite",
+        "german": "Granitsteinbruch",
+        "italian": "Cava di granito",
+        "japanese": "​花崗岩​の​採石場",
+        "korean": "​화강암 ​채석장",
+        "polish": "Kamieniołom granitu",
+        "russian": "Гранитный карьер",
+        "simplified_chinese": "​花岗岩​采石场",
+        "spanish": "Cantera de granito",
+        "traditional_chinese": "​花崗岩​採石場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5299,
+      "names": {
+        "brazilian": "Coletor de Enguias",
+        "english": "Eel Grabber",
+        "french": "Pêcheur d'anguilles",
+        "german": "Aalfänger",
+        "italian": "Cacciatore di anguille",
+        "japanese": "​ウナギ​漁師",
+        "korean": "​장어 ​포획꾼",
+        "polish": "Poławiacz węgorzy",
+        "russian": "Ловцы угрей",
+        "simplified_chinese": "​鳗鱼​捕捞​场",
+        "spanish": "Recogedero de anguilas",
+        "traditional_chinese": "​鰻魚​捕撈​場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5469,
+      "names": {
+        "brazilian": "Mãos verdes",
+        "english": "Greenhands",
+        "french": "Mains vertes",
+        "german": "Grünhände",
+        "italian": "Manoverde",
+        "japanese": "​薬草​師",
+        "korean": "​초록 ​염색소",
+        "polish": "Barwnikarz",
+        "russian": "Красильня зеленой ткани",
+        "simplified_chinese": "​绿色​染料​作坊",
+        "spanish": "Manufactura verde",
+        "traditional_chinese": "​採藥​工​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5470,
+      "names": {
+        "brazilian": "Fundição de bronze",
+        "english": "Bronze Smelter",
+        "french": "Fondeur de bronze",
+        "german": "Bronzeschmelzer",
+        "italian": "Fonderia di bronzo",
+        "japanese": "​青銅​の​製​錬​工",
+        "korean": "​청동 ​제련소",
+        "polish": "Wytapiacz brązu",
+        "russian": "Плавильня бронзы",
+        "simplified_chinese": "​青铜​冶炼​厂",
+        "spanish": "Fundición de bronce",
+        "traditional_chinese": "​青銅​冶煉​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5472,
+      "names": {
+        "brazilian": "Forja de Prata",
+        "english": "Silver Forge",
+        "french": "Forge d'argent",
+        "german": "Silberschmiede",
+        "italian": "Fucina d'argento",
+        "japanese": "​銀​工房",
+        "korean": "​은 ​대장간",
+        "polish": "Kuźnia srebra",
+        "russian": "Серебряная мастерская",
+        "simplified_chinese": "​银​锻​造​铺",
+        "spanish": "Forjería de plata",
+        "traditional_chinese": "​銀​鍛造​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5474,
+      "names": {
+        "brazilian": "Malteria",
+        "english": "Malthouse",
+        "french": "Malterie",
+        "german": "Mälzerei",
+        "italian": "Malteria",
+        "japanese": "​麦芽​製造​所",
+        "korean": "​맥아 ​저장고",
+        "polish": "Skład słodu",
+        "russian": "Солодовня",
+        "simplified_chinese": "​麦芽​加工​厂",
+        "spanish": "Maltería",
+        "traditional_chinese": "​麥芽​加工廠"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5475,
+      "names": {
+        "brazilian": "Rendeiro",
+        "english": "Renderer",
+        "french": "Extracteur",
+        "german": "Sülzsieder",
+        "italian": "Saponificatrice",
+        "japanese": "​アスピック​職人",
+        "korean": "​렌더러",
+        "polish": "Mieszacz",
+        "russian": "Салотопня",
+        "simplified_chinese": "​炼​制​厂",
+        "spanish": "Aspiquería",
+        "traditional_chinese": "​美食​煉製​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5477,
+      "names": {
+        "brazilian": "Depenador de Língua",
+        "english": "Tongue Plucker",
+        "french": "Arracheur de langue",
+        "german": "Zungenzieher",
+        "italian": "Strappalingue",
+        "japanese": "​舌​切り​職人",
+        "korean": "​혀 ​뽑기 ​도구",
+        "polish": "Wyrywacz języków",
+        "russian": "Поставщик птичьих язычков",
+        "simplified_chinese": "​拔​舌​工​坊",
+        "spanish": "Arrancadero de lenguas",
+        "traditional_chinese": "​鳥​舌​工​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5481,
+      "names": {
+        "brazilian": "Cordoeiro",
+        "english": "Stringer",
+        "french": "Fileur",
+        "german": "Saitenmacher",
+        "italian": "Cordatore",
+        "japanese": "​弦​張り​師",
+        "korean": "​끈 ​제작소",
+        "polish": "Struniarz",
+        "russian": "Струнная мастерская",
+        "simplified_chinese": "​绳索​制作​工​坊",
+        "spanish": "Hilandería",
+        "traditional_chinese": "​弦​線​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5570,
+      "names": {
+        "brazilian": "Cervejaria",
+        "english": "Brewery",
+        "french": "Brasserie",
+        "german": "Brauerei",
+        "italian": "Birrificio",
+        "japanese": "​醸造​所",
+        "korean": "​양조장",
+        "polish": "Browar",
+        "russian": "Пивоварня",
+        "simplified_chinese": "​酿​酒​工​坊",
+        "spanish": "Destilería",
+        "traditional_chinese": "​釀酒廠"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5604,
+      "names": {
+        "brazilian": "Epicure do Ar",
+        "english": "Epicure of Air",
+        "french": "Épicurien de l'air",
+        "german": "Delicium",
+        "italian": "Epicureo dell'aria",
+        "japanese": "​空気​の​美食​家",
+        "korean": "​공기 ​미식가",
+        "polish": "Owoce nieba",
+        "russian": "Воздушные деликатесы",
+        "simplified_chinese": "​鸟​产​珍​馐​作坊",
+        "spanish": "Epicurería de aire",
+        "traditional_chinese": "​鳥​舌​美食​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5605,
+      "names": {
+        "brazilian": "Fibularium",
+        "english": "Fibularium",
+        "french": "Fibularium",
+        "german": "Fibularium",
+        "italian": "Fibularium",
+        "japanese": "​ブローチ​職人",
+        "korean": "​걸쇠 ​제작소",
+        "polish": "Fibularium",
+        "russian": "Фибулария",
+        "simplified_chinese": "​别针​作坊",
+        "spanish": "Fibulario",
+        "traditional_chinese": "​胸針​工​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5606,
+      "names": {
+        "brazilian": "Aramador",
+        "english": "Wire-Twister",
+        "french": "Torsionneur de fils",
+        "german": "Drahtzwirbler",
+        "italian": "Intrecciatore",
+        "japanese": "​針金​細工​師",
+        "korean": "​철사 ​주조소",
+        "polish": "Druciarz",
+        "russian": "Мастерская по изготовлению торков",
+        "simplified_chinese": "​绞​丝​工​坊",
+        "spanish": "Ensortijería",
+        "traditional_chinese": "​頸​環工​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5608,
+      "names": {
+        "brazilian": "Calcetaria",
+        "english": "Hosier",
+        "french": "Confectionneur de bas",
+        "german": "Hosenmacher",
+        "italian": "Calzettaio",
+        "japanese": "​靴下​職人",
+        "korean": "​양품점",
+        "polish": "Warsztat spodniarza",
+        "russian": "Мастерская по шитью штанов",
+        "simplified_chinese": "​裤​袜​工​坊",
+        "spanish": "Calcería",
+        "traditional_chinese": "​褲子​縫製​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5609,
+      "names": {
+        "brazilian": "Tecelão de Sapatos",
+        "english": "Shoe Weaver",
+        "french": "Fabricant de chaussures",
+        "german": "Schuhweber",
+        "italian": "Calzolaio",
+        "japanese": "​靴​職人",
+        "korean": "​신발 ​제작소",
+        "polish": "Tkacz chodaków",
+        "russian": "Мастерская по плетению обуви",
+        "simplified_chinese": "​编​鞋​工​坊",
+        "spanish": "Hilandería de zapatos",
+        "traditional_chinese": "​編​鞋​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5611,
+      "names": {
+        "brazilian": "Construtor de chassis",
+        "english": "Chassis Builder",
+        "french": "Constructeur de châssis",
+        "german": "Gestellbauer",
+        "italian": "Costruttore di telai",
+        "japanese": "​シャー​シ​の​組立​工",
+        "korean": "​차체 ​제작소",
+        "polish": "Konstruktor podwozi",
+        "russian": "Мастерская по изготовлению рам",
+        "simplified_chinese": "​底盘​制造​厂",
+        "spanish": "Manufactura de carrocerías",
+        "traditional_chinese": "​底盤​製造廠"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5614,
+      "names": {
+        "brazilian": "Modista de Birrus",
+        "english": "Birrus Stitcher",
+        "french": "Tailleur de birrus",
+        "german": "Birrusnäher",
+        "italian": "Cucitrice di mantelli",
+        "japanese": "​裁縫師",
+        "korean": "​비루스 ​재봉소",
+        "polish": "Szwacz birrusów",
+        "russian": "Мастерская по шитью биррусов",
+        "simplified_chinese": "​披风​缝制​工​坊",
+        "spanish": "Enmendadero de birros",
+        "traditional_chinese": "​披風​縫製​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5615,
+      "names": {
+        "brazilian": "Narcissium",
+        "english": "Narcissium",
+        "french": "Narcissium",
+        "german": "Narcissium",
+        "italian": "Narcissium",
+        "japanese": "​鏡​職人",
+        "korean": "​거울 ​제작소",
+        "polish": "Narcissium",
+        "russian": "Нарциссий",
+        "simplified_chinese": "​手​镜​作坊",
+        "spanish": "Narcisio",
+        "traditional_chinese": "​鏡子​工​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5616,
+      "names": {
+        "brazilian": "Oficina de Bigas",
+        "english": "Chariot Workshop",
+        "french": "Atelier de chars",
+        "german": "Wagenbauer",
+        "italian": "Officina dei carri",
+        "japanese": "​戦車​工房",
+        "korean": "​전차 ​작업장",
+        "polish": "Warsztat budowniczego rydwanów",
+        "russian": "Мастерская по изготовлению колесниц",
+        "simplified_chinese": "​战车​工​坊",
+        "spanish": "Taller de carros",
+        "traditional_chinese": "​戰車​工作​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5847,
+      "names": {
+        "brazilian": "Fazenda de Auroques",
+        "english": "Auroch Farm",
+        "french": "Élevage d'aurochs",
+        "german": "Auerochsenhof",
+        "italian": "Fattoria uri",
+        "japanese": "​オーロックス​牧場",
+        "korean": "​들소 ​목장",
+        "polish": "Hodowla turów",
+        "russian": "Хозяйство (коровы)",
+        "simplified_chinese": "​野牛​农场",
+        "spanish": "Granja de uros",
+        "traditional_chinese": "​原​牛​農場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5848,
+      "names": {
+        "brazilian": "Seca-lama",
+        "english": "Mud Drier",
+        "french": "Sécheur de boue",
+        "german": "Schlammtrockner",
+        "italian": "Essiccatore di fango",
+        "japanese": "​泥​干し​工房",
+        "korean": "​진흙 ​건조장",
+        "polish": "Osuszacz błota",
+        "russian": "Сушилка для глинозема",
+        "simplified_chinese": "​烂泥​干燥​场",
+        "spanish": "Secadero de barro",
+        "traditional_chinese": "​泥巴​乾燥​場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5849,
+      "names": {
+        "brazilian": "Cata-juncos",
+        "english": "Reed Gatherer",
+        "french": "Cueilleur de roseaux",
+        "german": "Schilfsammler",
+        "italian": "Raccoglitore di canne",
+        "japanese": "​葦​採集​者",
+        "korean": "​갈대 ​채집장",
+        "polish": "Zbieracz trzcin",
+        "russian": "Собиратели тростника",
+        "simplified_chinese": "​芦苇​采集​点",
+        "spanish": "Recolectoría de junco",
+        "traditional_chinese": "​蘆葦​採集​場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5851,
+      "names": {
+        "brazilian": "Encantador de Pássaros",
+        "english": "Bird Charmer",
+        "french": "Charmeur d'oiseaux",
+        "german": "Vogelfänger",
+        "italian": "Ammaliatore di uccelli",
+        "japanese": "​鳥​使い",
+        "korean": "​새 ​조련사",
+        "polish": "Treser ptaków",
+        "russian": "Заклинатели птиц",
+        "simplified_chinese": "​鸟类​诱​捕​场",
+        "spanish": "Cautiverio de aves",
+        "traditional_chinese": "​馴​鳥屋"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5935,
+      "names": {
+        "brazilian": "Pátio de Obras",
+        "english": "Labourer's Yard",
+        "french": "Cour des manœuvres",
+        "german": "Lehmwerkhof",
+        "italian": "Cortile degli operai",
+        "japanese": "​労働​者​広場",
+        "korean": "​노동자의 ​일터",
+        "polish": "Plac roboczy",
+        "russian": "Подсобный двор",
+        "simplified_chinese": "​工人​作业​区",
+        "spanish": "Patio de obreros",
+        "traditional_chinese": "​工人​作業​區"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5945,
+      "names": {
+        "brazilian": "Serraria",
+        "english": "Sawmill",
+        "french": "Scierie",
+        "german": "Sägewerk",
+        "italian": "Segheria",
+        "japanese": "​製材​所",
+        "korean": "​제재소",
+        "polish": "Tartak",
+        "russian": "Лесопилка",
+        "simplified_chinese": "​锯木厂",
+        "spanish": "Aserradero",
+        "traditional_chinese": "​鋸木廠"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5946,
+      "names": {
+        "brazilian": "Betoneira",
+        "english": "Concrete Mixer",
+        "french": "Malaxeur à béton",
+        "german": "Betonmischer",
+        "italian": "Miscelatore di cemento",
+        "japanese": "​コンクリート​工房",
+        "korean": "​콘크리트 ​혼합소",
+        "polish": "Mieszacz betonu",
+        "russian": "Бетономешальная",
+        "simplified_chinese": "​混凝土​调制​厂",
+        "spanish": "Mezclería de hormigón",
+        "traditional_chinese": "​混凝土​攪拌器"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5947,
+      "names": {
+        "brazilian": "Ladrilhador",
+        "english": "Tiler",
+        "french": "Carreleur",
+        "german": "Ziegelei",
+        "italian": "Piastrellificio",
+        "japanese": "​瓦​工房",
+        "korean": "​타일 ​제작소",
+        "polish": "Kafelkarz",
+        "russian": "Мастерская по изготовлению плитки",
+        "simplified_chinese": "​瓦片​厂",
+        "spanish": "Tejería",
+        "traditional_chinese": "​瓦片​廠"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5954,
+      "names": {
+        "brazilian": "Armaria",
+        "english": "Weaponsmith",
+        "french": "Forgeron d'armes",
+        "german": "Waffenschmied",
+        "italian": "Armaiolo",
+        "japanese": "​武器​工房",
+        "korean": "​무기 ​대장장이",
+        "polish": "Zbrojmistrz",
+        "russian": "Кузница оружейника",
+        "simplified_chinese": "​武器​作坊",
+        "spanish": "Forjería de armas",
+        "traditional_chinese": "​武器​工​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5955,
+      "names": {
+        "brazilian": "Veleiro",
+        "english": "Sailmaker",
+        "french": "Fabricant de voiles",
+        "german": "Segelmacher",
+        "italian": "Velaio",
+        "japanese": "​帆布​工場",
+        "korean": "​돛 ​제작소",
+        "polish": "Żaglomistrz",
+        "russian": "Мастерская по изготовлению парусов",
+        "simplified_chinese": "​制​帆​厂",
+        "spanish": "Velería",
+        "traditional_chinese": "​製​帆​廠"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5956,
+      "names": {
+        "brazilian": "Cordoeiro",
+        "english": "Ropemaker",
+        "french": "Cordier",
+        "german": "Seilmacher",
+        "italian": "Cordaio",
+        "japanese": "​ロープ​職人",
+        "korean": "​밧줄 ​제작소",
+        "polish": "Powroźnik",
+        "russian": "Мастерская по изготовлению веревок",
+        "simplified_chinese": "​制​绳​工​坊",
+        "spanish": "Cordelería",
+        "traditional_chinese": "​製​繩​工​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5958,
+      "names": {
+        "brazilian": "Tecelão",
+        "english": "Spinner",
+        "french": "Atelier de filage",
+        "german": "Spinnerei",
+        "italian": "Filatore",
+        "japanese": "​糸​紡​ぎ​師",
+        "korean": "​방직 ​공장",
+        "polish": "Warsztat przędzarza",
+        "russian": "Мастерская по шитью туник",
+        "simplified_chinese": "​纺​纱​工​坊",
+        "spanish": "Tejeduría",
+        "traditional_chinese": "​紡織​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5959,
+      "names": {
+        "brazilian": "Salsicium",
+        "english": "Salsicium",
+        "french": "Salsicium",
+        "german": "Salsicium",
+        "italian": "Salsicium",
+        "japanese": "​ソーセージ​職人",
+        "korean": "​소시지 ​제작소",
+        "polish": "Salsicium",
+        "russian": "Сальсиций",
+        "simplified_chinese": "​香肠​作坊",
+        "spanish": "Salsicio",
+        "traditional_chinese": "​香腸​工​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5960,
+      "names": {
+        "brazilian": "Padaria",
+        "english": "Bakery",
+        "french": "Boulangerie",
+        "german": "Bäckerei",
+        "italian": "Panificio",
+        "japanese": "​パン​屋",
+        "korean": "​제과점",
+        "polish": "Piekarnia",
+        "russian": "Пекарня",
+        "simplified_chinese": "​面包​房",
+        "spanish": "Panadería",
+        "traditional_chinese": "​麵包​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5967,
+      "names": {
+        "brazilian": "Moinho de Burros",
+        "english": "Donkey Mill",
+        "french": "Moulin à âne",
+        "german": "Eselsmühle",
+        "italian": "Mulino degli asini",
+        "japanese": "​ロバ​の​製粉​所",
+        "korean": "​당나귀 ​맷돌",
+        "polish": "Osioł młyński",
+        "russian": "Мельница с ослом",
+        "simplified_chinese": "​驴​磨坊",
+        "spanish": "Molino de burros",
+        "traditional_chinese": "​驢子​磨坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5969,
+      "names": {
+        "brazilian": "Fornalha",
+        "english": "Furnace",
+        "french": "Fourneau",
+        "german": "Ofen",
+        "italian": "Fornace",
+        "japanese": "​溶鉱炉",
+        "korean": "​용광로",
+        "polish": "Piec",
+        "russian": "Печь",
+        "simplified_chinese": "​熔炉",
+        "spanish": "Horno alto",
+        "traditional_chinese": "​熔爐"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5971,
+      "names": {
+        "brazilian": "Fazenda de Linho",
+        "english": "Flax Farm",
+        "french": "Ferme de lin",
+        "german": "Flachshof",
+        "italian": "Fattoria di lino",
+        "japanese": "​亜麻​農場",
+        "korean": "​아마 ​농장",
+        "polish": "Uprawa lnu",
+        "russian": "Хозяйство (лен)",
+        "simplified_chinese": "​亚麻​农场",
+        "spanish": "Granja de lino",
+        "traditional_chinese": "​亞麻​農場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5972,
+      "names": {
+        "brazilian": "Fazenda de Trigo",
+        "english": "Wheat Farm",
+        "french": "Ferme de céréales",
+        "german": "Weizenhof",
+        "italian": "Fattoria di grano",
+        "japanese": "​小麦​農場",
+        "korean": "​밀 ​농장",
+        "polish": "Uprawa pszenicy",
+        "russian": "Хозяйство (пшеница)",
+        "simplified_chinese": "​小麦​农场",
+        "spanish": "Granja de trigo",
+        "traditional_chinese": "​小麥​農場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5973,
+      "names": {
+        "brazilian": "Fazenda de Ovelhas",
+        "english": "Sheep Farm",
+        "french": "Élevage ovin",
+        "german": "Schafshof",
+        "italian": "Allevamento di pecore",
+        "japanese": "​羊​牧場",
+        "korean": "​양 ​농장",
+        "polish": "Owczarnia",
+        "russian": "Хозяйство (овцы)",
+        "simplified_chinese": "​绵羊​农场",
+        "spanish": "Granja de ovejas",
+        "traditional_chinese": "​羊​隻​農場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5974,
+      "names": {
+        "brazilian": "Fazenda de Porcos",
+        "english": "Pig Farm",
+        "french": "Élevage porcin",
+        "german": "Schweinehof",
+        "italian": "Allevamento di maiali",
+        "japanese": "​養豚​場",
+        "korean": "​돼지 ​농장",
+        "polish": "Świniarnia",
+        "russian": "Хозяйство (свиньи)",
+        "simplified_chinese": "​养​猪​场",
+        "spanish": "Granja de cerdos",
+        "traditional_chinese": "​養豬場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5975,
+      "names": {
+        "brazilian": "Caçador de Cavalos",
+        "english": "Horsecatcher",
+        "french": "Attrapeur de chevaux",
+        "german": "Pferdefänger",
+        "italian": "Accalappia cavalli",
+        "japanese": "​馬追​い",
+        "korean": "​말 ​사육장",
+        "polish": "Łapacz koni",
+        "russian": "Хижина ловцов лошадей",
+        "simplified_chinese": "​养​马​场",
+        "spanish": "Cerrada equina",
+        "traditional_chinese": "​馴​馬場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5976,
+      "names": {
+        "brazilian": "Lenhador",
+        "english": "Woodcutter",
+        "french": "Bûcheron",
+        "german": "Holzfäller",
+        "italian": "Taglialegna",
+        "japanese": "​木こり",
+        "korean": "​벌목장",
+        "polish": "Drwal",
+        "russian": "Лесорубы",
+        "simplified_chinese": "​伐木​场",
+        "spanish": "Talador",
+        "traditional_chinese": "​伐木​場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5977,
+      "names": {
+        "brazilian": "Carvoeiro",
+        "english": "Charcoal Burner",
+        "french": "Charbonnière",
+        "german": "Köhler",
+        "italian": "Carbonaio",
+        "japanese": "​炭焼き​師",
+        "korean": "​제탄소",
+        "polish": "Smolarz",
+        "russian": "Яма углежога",
+        "simplified_chinese": "​炭​窑",
+        "spanish": "Quemadero de carbón",
+        "traditional_chinese": "​木炭​焚燒​爐"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5978,
+      "names": {
+        "brazilian": "Pedreira de Calcário",
+        "english": "Limestone Quarry",
+        "french": "Carrière de calcaire",
+        "german": "Kalksteinbruch",
+        "italian": "Cava di calcare",
+        "japanese": "​石灰岩​の​採石場",
+        "korean": "​석회석 ​채석장",
+        "polish": "Kamieniołom wapienia",
+        "russian": "Известняковый карьер",
+        "simplified_chinese": "​石灰岩​采石场",
+        "spanish": "Cantera de caliza",
+        "traditional_chinese": "​石灰岩​採石場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5980,
+      "names": {
+        "brazilian": "Mina de Prata",
+        "english": "Silver Mine",
+        "french": "Mine d'argent",
+        "german": "Silbermine",
+        "italian": "Miniera d'argento",
+        "japanese": "​銀​鉱山",
+        "korean": "​은 ​광산",
+        "polish": "Kopalnia srebra",
+        "russian": "Серебряная шахта",
+        "simplified_chinese": "​银​矿场",
+        "spanish": "Mina de plata",
+        "traditional_chinese": "​銀礦"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 5982,
+      "names": {
+        "brazilian": "Mina de Ferro",
+        "english": "Iron Mine",
+        "french": "Mine de fer",
+        "german": "Eisenmine",
+        "italian": "Miniera di ferro",
+        "japanese": "​鉄​鉱山",
+        "korean": "​철 ​광산",
+        "polish": "Kopalnia żelaza",
+        "russian": "Железный рудник",
+        "simplified_chinese": "​铁​矿场",
+        "spanish": "Mina de hierro",
+        "traditional_chinese": "​鐵礦"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 6414,
+      "names": {
+        "brazilian": "Residência de pernalta",
+        "english": "Wader Residence",
+        "french": "Résidence de Tourbiers",
+        "german": "Wanderer-Wohnhaus",
+        "italian": "Residenza dei limicoli",
+        "japanese": "​ウェーダー​の​住居",
+        "korean": "​물지기 ​주거지",
+        "polish": "Domy Wędrowca",
+        "russian": "Жилой дом болотника",
+        "simplified_chinese": "​沼​人​住所",
+        "spanish": "Residencia légama",
+        "traditional_chinese": "​沼​人​住所"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "residence"
+    },
+    {
+      "guid": 6471,
+      "names": {
+        "brazilian": "Residência de ferreiro",
+        "english": "Smith Residence",
+        "french": "Résidence de forgerons",
+        "german": "Schmiede-Wohnhaus",
+        "italian": "Residenza dei fabbri",
+        "japanese": "​スミス​の​住居",
+        "korean": "​대장장이 ​주거지",
+        "polish": "Dom Rzemieślnika",
+        "russian": "Жилой дом кузнеца",
+        "simplified_chinese": "​铁匠​住所",
+        "spanish": "Residencia forjera",
+        "traditional_chinese": "​鐵匠​住所"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "residence"
+    },
+    {
+      "guid": 6472,
+      "names": {
+        "brazilian": "Residência de edil",
+        "english": "Alderman Residence",
+        "french": "Résidences d'Aldermen",
+        "german": "Ältesten-Wohnhaus",
+        "italian": "Residenza degli aldermanni",
+        "japanese": "​アルダー​の​住居",
+        "korean": "​장로 ​주거지",
+        "polish": "Dom Starszego",
+        "russian": "Жилой дом олдермена",
+        "simplified_chinese": "​长老​住所",
+        "spanish": "Residencia álder",
+        "traditional_chinese": "​長老​住所"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "residence"
+    },
+    {
+      "guid": 6475,
+      "names": {
+        "brazilian": "Residência de mercator",
+        "english": "Mercator Residence",
+        "french": "Résidence de Mercators",
+        "german": "Mercatoren-Wohnhaus",
+        "italian": "Residenza dei mercator",
+        "japanese": "​メルカトル​の​住居",
+        "korean": "​상인 ​주거지",
+        "polish": "Domy merkatora",
+        "russian": "Жилой дом меркатора",
+        "simplified_chinese": "​商人​住所",
+        "spanish": "Residencia mercadora",
+        "traditional_chinese": "​商人​住所"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "residence"
+    },
+    {
+      "guid": 6514,
+      "names": {
+        "brazilian": "Residência de nobre",
+        "english": "Noble Residence",
+        "french": "Résidence de Nobles",
+        "german": "Edelmänner-Wohnhaus",
+        "italian": "Residenza dei nobili",
+        "japanese": "​ノビレス​の​住居",
+        "korean": "​귀족 ​주거지",
+        "polish": "Dom wielmoży",
+        "russian": "Жилой дом знати",
+        "simplified_chinese": "​领​主​住所",
+        "spanish": "Residencia noble",
+        "traditional_chinese": "​領主​住所"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "residence"
+    },
+    {
+      "guid": 6586,
+      "names": {
+        "brazilian": "Laticínio",
+        "english": "Dairy",
+        "french": "Laiterie",
+        "german": "Käserei",
+        "italian": "Caseificio",
+        "japanese": "​乳​工房",
+        "korean": "​낙농장",
+        "polish": "Serowar",
+        "russian": "Сыроварня",
+        "simplified_chinese": "​乳品​工​坊",
+        "spanish": "Quesería",
+        "traditional_chinese": "​乳酪​工​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 8427,
+      "names": {
+        "brazilian": "Apiário",
+        "english": "Apiary",
+        "french": "Rucher",
+        "german": "Bienenstock",
+        "italian": "Apiario",
+        "japanese": "​養蜂場",
+        "korean": "​양봉장",
+        "polish": "Pasieka",
+        "russian": "Пасека",
+        "simplified_chinese": "​养蜂场",
+        "spanish": "Apiario",
+        "traditional_chinese": "​養蜂場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 8431,
+      "names": {
+        "brazilian": "Cata-conchas",
+        "english": "Shell Gatherer",
+        "french": "Ramasseur de coquillages",
+        "german": "Kammmuschelzüchter",
+        "italian": "Raccoglitore di conchiglie",
+        "japanese": "​貝​拾​い",
+        "korean": "​조개 ​채집꾼",
+        "polish": "Zbieracz muszli",
+        "russian": "Собиратели ракушек",
+        "simplified_chinese": "​贝壳​采集​点",
+        "spanish": "Recolectoría de conchas marinas",
+        "traditional_chinese": "​貝類​採集​場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 8579,
+      "names": {
+        "brazilian": "Viveiro de Sandáraca",
+        "english": "Sandarac Nursery",
+        "french": "Pépinière de sandaraque",
+        "german": "Sandarakbaumschule",
+        "italian": "Vivaio di sandracca",
+        "japanese": "​サンダラック​苗木​場",
+        "korean": "​샌드락 ​양묘장",
+        "polish": "Szkółka drzew żywicznych",
+        "russian": "Питомник сандаракового дерева",
+        "simplified_chinese": "​山​达​树​苗圃",
+        "spanish": "Vivero de sandáracas",
+        "traditional_chinese": "​山​達​樹​苗圃"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 8580,
+      "names": {
+        "brazilian": "Escargoteria",
+        "english": "Snailery",
+        "french": "Escargotière",
+        "german": "Schneckenzucht",
+        "italian": "Coltivazione di chiocciole di mare",
+        "japanese": "​カタツムリ​飼育​場",
+        "korean": "​식용 ​달팽이 ​양식장",
+        "polish": "Hodowla ślimaków",
+        "russian": "Улиточное хозяйство",
+        "simplified_chinese": "​海螺​养殖​场",
+        "spanish": "Caracolería",
+        "traditional_chinese": "​蝸牛​養殖場"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 8586,
+      "names": {
+        "brazilian": "Recife de Ostras",
+        "english": "Oyster Bed",
+        "french": "Banc d'huîtres",
+        "german": "Austernfarm",
+        "italian": "Coltivazione di ostriche",
+        "japanese": "​カキ​養殖場",
+        "korean": "​굴 ​양식장",
+        "polish": "Ławica ostryg",
+        "russian": "Устричное хозяйство",
+        "simplified_chinese": "​牡蛎​养殖​场",
+        "spanish": "Lecho de ostras",
+        "traditional_chinese": "​牡蠣​養殖場"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 8887,
+      "names": {
+        "brazilian": "Estofaria",
+        "english": "Cushion Stuffer",
+        "french": "Garnisseur de coussins",
+        "german": "Polsterer",
+        "italian": "Imbottitore di cuscini",
+        "japanese": "​詰め​物​工房",
+        "korean": "​쿠션 ​제작소",
+        "polish": "Wypychacz poduszek",
+        "russian": "Мастерская набивщиков подушек",
+        "simplified_chinese": "​填​絮​工​坊",
+        "spanish": "Rellenadero de cojines",
+        "traditional_chinese": "​靠​枕​填充​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 8893,
+      "names": {
+        "brazilian": "Estripador de Peixe",
+        "english": "Fish Gutter",
+        "french": "Videur de poissons",
+        "german": "Fischweider",
+        "italian": "Pulitore di pesci",
+        "japanese": "​魚​加工​所",
+        "korean": "​생선 ​손질대",
+        "polish": "Czyściciel ryb",
+        "russian": "Хижина разделывателей рыбы",
+        "simplified_chinese": "​剖​鱼​工​坊",
+        "spanish": "Eviscería de pescado",
+        "traditional_chinese": "​漁獲​剖​洗​場"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 10929,
+      "names": {
+        "brazilian": "Refinaria de Areia",
+        "english": "Sand Refinery",
+        "french": "Raffinerie de sable",
+        "german": "Sandraffinerie",
+        "italian": "Raffineria di sabbia",
+        "japanese": "​砂​精製​所",
+        "korean": "​모래 ​정제소",
+        "polish": "Przetwórnia piasku",
+        "russian": "Мастерская по очистке песка",
+        "simplified_chinese": "​精​砂​厂",
+        "spanish": "Refinería de arena",
+        "traditional_chinese": "​沙子​精煉​場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 13808,
+      "names": {
+        "brazilian": "Armoraria",
+        "english": "Armourer",
+        "french": "Armurerie",
+        "german": "Rüstungsschmied",
+        "italian": "Armiere",
+        "japanese": "​防具​工房",
+        "korean": "​갑옷 ​제작소",
+        "polish": "Płatnerz",
+        "russian": "Мастерская по изготовлению доспехов",
+        "simplified_chinese": "​军​械​作坊",
+        "spanish": "Armaduría",
+        "traditional_chinese": "​盔甲​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 15514,
+      "names": {
+        "brazilian": "Criador de Cavalos",
+        "english": "Horse Breeder",
+        "french": "Éleveur de chevaux",
+        "german": "Pferdezüchter",
+        "italian": "Allevatore di cavalli",
+        "japanese": "​馬​ブリーダー",
+        "korean": "​말 ​사육장",
+        "polish": "Hodowca koni",
+        "russian": "Загон для лошадей",
+        "simplified_chinese": "​养​马​场",
+        "spanish": "Criadero de caballos",
+        "traditional_chinese": "​牧​馬場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 23723,
+      "names": {
+        "brazilian": "Vinhedo",
+        "english": "Vineyard",
+        "french": "Vignoble",
+        "german": "Weingut",
+        "italian": "Vigneto",
+        "japanese": "​ブドウ​園",
+        "korean": "​포도원",
+        "polish": "Winnica",
+        "russian": "Виноградник",
+        "simplified_chinese": "​葡萄​园",
+        "spanish": "Viñedo",
+        "traditional_chinese": "​葡萄園"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 23753,
+      "names": {
+        "brazilian": "Vinicultor",
+        "english": "Vintner",
+        "french": "Vigneron",
+        "german": "Winzer",
+        "italian": "Vinaio",
+        "japanese": "​ワイン​醸造​業者",
+        "korean": "​포도주 ​양조장",
+        "polish": "Winiarz",
+        "russian": "Винодельня",
+        "simplified_chinese": "​葡萄酒​酿酒厂",
+        "spanish": "Viticultoría",
+        "traditional_chinese": "​釀酒​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 31750,
+      "names": {
+        "brazilian": "Fazenda de Cânhamo",
+        "english": "Hemp Farm",
+        "french": "Ferme de chanvre",
+        "german": "Hanfhof",
+        "italian": "Fattoria di canapa",
+        "japanese": "​大麻​農場",
+        "korean": "​삼 ​농장",
+        "polish": "Uprawa konopi",
+        "russian": "Хозяйство (конопля)",
+        "simplified_chinese": "​火​麻​农场",
+        "spanish": "Granja de cáñamo",
+        "traditional_chinese": "​火​麻​農場"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 31752,
+      "names": {
+        "brazilian": "Seringueiro",
+        "english": "Resin Tapper",
+        "french": "Collecteur de résine",
+        "german": "Harzzapfer",
+        "italian": "Estrattore di resina",
+        "japanese": "​松脂​採り",
+        "korean": "​수지 ​채취장",
+        "polish": "Zbieracz żywicy",
+        "russian": "Собиратели смолы",
+        "simplified_chinese": "​树脂​采集​场",
+        "spanish": "Exprimidero de resina",
+        "traditional_chinese": "​樹脂​採集​場"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 31753,
+      "names": {
+        "brazilian": "Garimpeiro",
+        "english": "Gold Washer",
+        "french": "Laveur d'or",
+        "german": "Goldwäscher",
+        "italian": "Lavatore d'oro",
+        "japanese": "​金​選鉱",
+        "korean": "​사금 ​채취장",
+        "polish": "Wypłukiwacz złota",
+        "russian": "Промывальщик золота",
+        "simplified_chinese": "​淘金​场",
+        "spanish": "Lavandería de oro",
+        "traditional_chinese": "​淘金​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 31755,
+      "names": {
+        "brazilian": "Ourives",
+        "english": "Goldsmith",
+        "french": "Orfèvre",
+        "german": "Goldschmied",
+        "italian": "Orafo",
+        "japanese": "​金​細工​工房",
+        "korean": "​금 ​세공소",
+        "polish": "Złotnik",
+        "russian": "Мастерская золотаря",
+        "simplified_chinese": "​冶金​厂",
+        "spanish": "Forjería de oro",
+        "traditional_chinese": "​黃金​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 31756,
+      "names": {
+        "brazilian": "Rendeiro",
+        "english": "Renderer",
+        "french": "Extracteur",
+        "german": "Sülzsieder",
+        "italian": "Saponificatrice",
+        "japanese": "​アスピック​職人",
+        "korean": "​렌더러",
+        "polish": "Mieszacz",
+        "russian": "Салотопня",
+        "simplified_chinese": "​炼​制​厂",
+        "spanish": "Aspiquería",
+        "traditional_chinese": "​美食​煉製​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 31759,
+      "names": {
+        "brazilian": "Caça-castor",
+        "english": "Beaver Trapper",
+        "french": "Trappeur de castors",
+        "german": "Biberfänger",
+        "italian": "Cacciatore di castori",
+        "japanese": "​ビーバー​罠​師",
+        "korean": "​비버 ​수렵장",
+        "polish": "Łapacz bobrów",
+        "russian": "Хижина охотников на бобров",
+        "simplified_chinese": "​海狸​陷阱​屋",
+        "spanish": "Trampería de castores",
+        "traditional_chinese": "​河​狸​捕​獵場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 31761,
+      "names": {
+        "brazilian": "Seringueiro",
+        "english": "Resin Tapper",
+        "french": "Collecteur de résine",
+        "german": "Harzzapfer",
+        "italian": "Estrattore di resina",
+        "japanese": "​松脂​採り",
+        "korean": "​수지 ​채취장",
+        "polish": "Zbieracz żywicy",
+        "russian": "Собиратели смолы",
+        "simplified_chinese": "​树脂​采集​场",
+        "spanish": "Exprimidero de resina",
+        "traditional_chinese": "​樹脂​採集​場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 31762,
+      "names": {
+        "brazilian": "Fazenda de Cânhamo",
+        "english": "Hemp Farm",
+        "french": "Ferme de chanvre",
+        "german": "Hanfhof",
+        "italian": "Fattoria di canapa",
+        "japanese": "​大麻​農場",
+        "korean": "​삼 ​농장",
+        "polish": "Uprawa konopi",
+        "russian": "Хозяйство (конопля)",
+        "simplified_chinese": "​火​麻​农场",
+        "spanish": "Granja de cáñamo",
+        "traditional_chinese": "​火​麻​農場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 31764,
+      "names": {
+        "brazilian": "Horta de Ervas",
+        "english": "Herb Garden",
+        "french": "Jardin des plantes",
+        "german": "Kräutergarten",
+        "italian": "Giardino delle erbe",
+        "japanese": "​ハーブ​園",
+        "korean": "​약초 ​정원",
+        "polish": "Zielnik",
+        "russian": "Травяной сад",
+        "simplified_chinese": "​药​草​园",
+        "spanish": "Jardín de hierbas",
+        "traditional_chinese": "​藥草​花園"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 31766,
+      "names": {
+        "brazilian": "Fabricante de Adereços de Cabeça",
+        "english": "Headpiece Maker",
+        "french": "Fabricant de couvre-chefs",
+        "german": "Haarnetzweber",
+        "italian": "Creatore di copricapi",
+        "japanese": "​兜​職人",
+        "korean": "​머리 ​장식 ​제작소",
+        "polish": "Wytwórca peruk",
+        "russian": "Мастерская по изготовлению париков",
+        "simplified_chinese": "​头盔​作坊",
+        "spanish": "Tocadería",
+        "traditional_chinese": "​頭​飾​工​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 31767,
+      "names": {
+        "brazilian": "Forno de Terra",
+        "english": "Earth Oven",
+        "french": "Four enterré",
+        "german": "Erdofen",
+        "italian": "Forno a terra",
+        "japanese": "​地​窯",
+        "korean": "​땅속 ​화덕",
+        "polish": "Piec ziemny",
+        "russian": "Земляная печь",
+        "simplified_chinese": "​炕​窑",
+        "spanish": "Horno de tierra",
+        "traditional_chinese": "​窯​烤爐"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 31769,
+      "names": {
+        "brazilian": "Peruqueiro",
+        "english": "Wig Maker",
+        "french": "Fabricant de perruques",
+        "german": "Perückenknüpfer",
+        "italian": "Produttore di parrucche",
+        "japanese": "​かつら​職人",
+        "korean": "​가발 ​제작소",
+        "polish": "Wytwórca peruk",
+        "russian": "Мастерская по изготовлению париков",
+        "simplified_chinese": "​假发​作坊",
+        "spanish": "Peluquería",
+        "traditional_chinese": "​假髮​工​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 31770,
+      "names": {
+        "brazilian": "Chapeleiro Castor",
+        "english": "Beaver Hatter",
+        "french": "Chapelier en peau de castor",
+        "german": "Bieberhutmacher",
+        "italian": "Esperto di cappello in castoro",
+        "japanese": "​ビーバー​帽子​職人",
+        "korean": "​비버 ​모자 ​제작소",
+        "polish": "Wytwórca bobrowych czap",
+        "russian": "Шапочная мастерская",
+        "simplified_chinese": "​海狸​帽​工​坊",
+        "spanish": "Sombrerería de castores",
+        "traditional_chinese": "​河​狸​製​帽​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 31772,
+      "names": {
+        "brazilian": "Queimador de barrilhas",
+        "english": "Saltwort Burner",
+        "french": "Brûleur de salicorne",
+        "german": "Salzkrautbrenner",
+        "italian": "Bruciatore di salicornia",
+        "japanese": "​アッ​ケシ​ソウ​焼き",
+        "korean": "​함초 ​소각장",
+        "polish": "Wypalacz solanki",
+        "russian": "Топка для солероса",
+        "simplified_chinese": "​海​蓬​菜​焚烧​场",
+        "spanish": "Quemadero de salicornias",
+        "traditional_chinese": "​海​蓬​菜​焚燒​場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 31773,
+      "names": {
+        "brazilian": "Bate-escudo",
+        "english": "Shieldbeater",
+        "french": "Cogne-bouclier",
+        "german": "Schildschläger",
+        "italian": "Spezzascudo",
+        "japanese": "​盾​職人",
+        "korean": "​방패제작소",
+        "polish": "Wytwórca tarcz",
+        "russian": "Кузница щитодела",
+        "simplified_chinese": "​盾牌​锻​造​铺",
+        "spanish": "Escudería",
+        "traditional_chinese": "​盾牌​工​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 41811,
+      "names": {
+        "brazilian": "Cortador de granito",
+        "english": "Granite Cutter",
+        "french": "Découpeur de granite",
+        "german": "Granitschneider",
+        "italian": "Tagliapietre",
+        "japanese": "​花崗岩​の​切断​工",
+        "korean": "​화강암 ​절단소",
+        "polish": "Kamieniarz (granit)",
+        "russian": "Мастерская по резке гранита",
+        "simplified_chinese": "​花岗岩​切割​工​坊",
+        "spanish": "Cortadero de granito",
+        "traditional_chinese": "​花崗岩​切割​場"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 50280,
+      "names": {
+        "brazilian": "Mina de Ouro",
+        "english": "Gold Mine",
+        "french": "Mine d'or",
+        "german": "Goldmine",
+        "italian": "Miniera d'oro",
+        "japanese": "​金鉱",
+        "korean": "​금 ​광산",
+        "polish": "Kopalnia złota",
+        "russian": "Золотой рудник",
+        "simplified_chinese": "​金​矿场",
+        "spanish": "Mina de oro",
+        "traditional_chinese": "​金礦"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 55945,
+      "names": {
+        "brazilian": "Armoraria",
+        "english": "Armourer",
+        "french": "Armurerie",
+        "german": "Rüstungsschmied",
+        "italian": "Armiere",
+        "japanese": "​防具​工房",
+        "korean": "​갑옷 ​제작소",
+        "polish": "Płatnerz",
+        "russian": "Мастерская по изготовлению доспехов",
+        "simplified_chinese": "​军​械​作坊",
+        "spanish": "Armaduría",
+        "traditional_chinese": "​盔甲​工​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 55962,
+      "names": {
+        "brazilian": "Oleiro",
+        "english": "Potter",
+        "french": "Potier",
+        "german": "Töpfer",
+        "italian": "Vasaio",
+        "japanese": "​陶工",
+        "korean": "​도예소",
+        "polish": "Garncarz",
+        "russian": "Гончарная мастерская",
+        "simplified_chinese": "​陶​罐​厂",
+        "spanish": "Vasijería",
+        "traditional_chinese": "​陶藝​工​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 55963,
+      "names": {
+        "brazilian": "Chifreiro",
+        "english": "Horner",
+        "french": "Sonneur",
+        "german": "Horner",
+        "italian": "Creatore di corni",
+        "japanese": "​角​杯​職人",
+        "korean": "​뿔 ​세공소",
+        "polish": "Rogownik",
+        "russian": "Мастерская по обработке рогов",
+        "simplified_chinese": "​角​杯​工​坊",
+        "spanish": "Cuernería",
+        "traditional_chinese": "​角​杯​工​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 77954,
+      "names": {
+        "brazilian": "Silo",
+        "english": "Silo",
+        "french": "Silo",
+        "german": "Silo",
+        "italian": "Silo",
+        "japanese": "​サイロ",
+        "korean": "​곡물 ​저장고",
+        "polish": "Spichlerz",
+        "russian": "Силосный амбар",
+        "simplified_chinese": "​筒​仓",
+        "spanish": "Silo",
+        "traditional_chinese": "​筒​倉"
+      },
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "kind": "module"
+    },
+    {
+      "guid": 77955,
+      "names": {
+        "brazilian": "Silo",
+        "english": "Silo",
+        "french": "Silo",
+        "german": "Silo",
+        "italian": "Silo",
+        "japanese": "​サイロ",
+        "korean": "​곡물 ​저장고",
+        "polish": "Spichlerz",
+        "russian": "Силосный амбар",
+        "simplified_chinese": "​筒​仓",
+        "spanish": "Silo",
+        "traditional_chinese": "​筒​倉"
+      },
+      "regions": [
+        "Roman",
+        "Celtic",
+        "Egyptian"
+      ],
+      "kind": "module"
+    },
+    {
+      "guid": 80612,
+      "names": {
+        "brazilian": "Curtume",
+        "english": "Tannery",
+        "french": "Tannerie",
+        "german": "Gerberei",
+        "italian": "Conceria",
+        "japanese": "​なめし革​工房",
+        "korean": "​가죽 ​세공소",
+        "polish": "Garbarnia",
+        "russian": "Дубильня",
+        "simplified_chinese": "​鞣​革​工​坊",
+        "spanish": "Curtiduría",
+        "traditional_chinese": "​皮革​工​坊"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 144810,
+      "names": {
+        "brazilian": "Mina de Carvão",
+        "english": "Coal Mine",
+        "french": "Mine de charbon",
+        "german": "Kohlemine",
+        "italian": "Miniera di carbone",
+        "japanese": "​炭鉱",
+        "korean": "​석탄 ​광산",
+        "polish": "Kopalnia węgla",
+        "russian": "Угольный рудник",
+        "simplified_chinese": "​煤矿​场",
+        "spanish": "Mina de carbón",
+        "traditional_chinese": "​煤礦"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 144811,
+      "names": {
+        "brazilian": "Mina de Carvão",
+        "english": "Coal Mine",
+        "french": "Mine de charbon",
+        "german": "Kohlemine",
+        "italian": "Miniera di carbone",
+        "japanese": "​炭鉱",
+        "korean": "​석탄 ​광산",
+        "polish": "Kopalnia węgla",
+        "russian": "Угольный рудник",
+        "simplified_chinese": "​煤矿​场",
+        "spanish": "Mina de carbón",
+        "traditional_chinese": "​煤礦"
+      },
+      "regions": [
+        "Celtic"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 145229,
+      "names": {
+        "brazilian": "Caelator",
+        "english": "Caelator",
+        "french": "Caelator",
+        "german": "Caelator",
+        "italian": "Caelator",
+        "japanese": "​小​像​工房",
+        "korean": "​카엘라토르",
+        "polish": "Rzeźbiarz",
+        "russian": "Келатор",
+        "simplified_chinese": "​雕刻​坊",
+        "spanish": "Cincelador",
+        "traditional_chinese": "​雕刻​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    },
+    {
+      "guid": 145230,
+      "names": {
+        "brazilian": "Oficina de Latrunculi",
+        "english": "Latrunculi Workshop",
+        "french": "Atelier de Latrunculi",
+        "german": "Latrunculi-Werkstatt",
+        "italian": "Bottega di Latrunculi",
+        "japanese": "​ラ​トル​ン​クリ​工房",
+        "korean": "​라트룬쿨리 ​작업장",
+        "polish": "Warsztat Latrunculi",
+        "russian": "Мастерская латрункули",
+        "simplified_chinese": "​强盗​棋​工​坊",
+        "spanish": "Taller de latrunculi",
+        "traditional_chinese": "​兵​棋​工​坊"
+      },
+      "regions": [
+        "Roman"
+      ],
+      "kind": "factory"
+    }
+  ],
+  "workforce": [
+    {
+      "guid": 2181,
+      "names": {
+        "brazilian": "Mão de obra de liberti",
+        "english": "Libertus Workforce",
+        "french": "Main-d'œuvre (Liberti)",
+        "german": "Liberti-Arbeitskraft",
+        "italian": "Manodopera dei liberti",
+        "japanese": "​リベルトゥス​の​労働​力",
+        "korean": "​자유민 ​노동력",
+        "polish": "Siła robocza - wyzwoleńcy",
+        "russian": "Рабочая сила - либертины",
+        "simplified_chinese": "​自由​民​劳动​力",
+        "spanish": "Mano de obra liberta",
+        "traditional_chinese": "​自由​民​勞動力"
+      },
+      "regions": [
+        "Roman"
+      ]
+    },
+    {
+      "guid": 2184,
+      "names": {
+        "brazilian": "Força de trabalho dos plebeus",
+        "english": "Plebeian Workforce",
+        "french": "Main-d'œuvre (Plébéiens)",
+        "german": "Plebejer-Arbeitskraft",
+        "italian": "Manodopera dei plebei",
+        "japanese": "​プレブス​の​労働​力",
+        "korean": "​평민 ​노동력",
+        "polish": "Siła robocza - plebejusze",
+        "russian": "Рабочая сила - плебеи",
+        "simplified_chinese": "​平民​劳动​力",
+        "spanish": "Mano de obra plebeya",
+        "traditional_chinese": "​平民​勞動力"
+      },
+      "regions": [
+        "Roman"
+      ]
+    },
+    {
+      "guid": 2185,
+      "names": {
+        "brazilian": "Força de trabalho dos equites",
+        "english": "Equites Workforce",
+        "french": "Main-d'œuvre (Equites)",
+        "german": "Equites-Arbeitskraft",
+        "italian": "Manodopera degli equites",
+        "japanese": "​エクィテス​の​労働​力",
+        "korean": "​기사 ​노동력",
+        "polish": "Siła robocza - ekwici",
+        "russian": "Рабочая сила – эквиты",
+        "simplified_chinese": "​骑士​劳动​力",
+        "spanish": "Mano de obra équite",
+        "traditional_chinese": "​騎士​勞動力"
+      },
+      "regions": [
+        "Roman"
+      ]
+    },
+    {
+      "guid": 2186,
+      "names": {
+        "brazilian": "Força de trabalho dos patrícios",
+        "english": "Patrician Workforce",
+        "french": "Main-d'œuvre (Patriciens)",
+        "german": "Patrizier-Arbeitskraft",
+        "italian": "Manodopera dei patrizi",
+        "japanese": "​パトリキ​の​労働​力",
+        "korean": "​파트리키 ​노동력",
+        "polish": "Siła robocza - patrycjusze",
+        "russian": "Рабочая сила – патриции",
+        "simplified_chinese": "​贵族​劳动​力",
+        "spanish": "Mano de obra patricia",
+        "traditional_chinese": "​貴族​勞動力"
+      },
+      "regions": [
+        "Roman"
+      ]
+    },
+    {
+      "guid": 2192,
+      "names": {
+        "brazilian": "Mão de obra de pernaltas",
+        "english": "Wader Workforce",
+        "french": "Main-d'œuvre (Tourbiers)",
+        "german": "Wanderer-Arbeitskraft",
+        "italian": "Manodopera dei limicoli",
+        "japanese": "​ウェーダー​の​労働​力",
+        "korean": "​물지기 ​노동력",
+        "polish": "Siła robocza - wędrowcy",
+        "russian": "Рабочая сила - болотники",
+        "simplified_chinese": "​沼​人​劳动​力",
+        "spanish": "Mano de obra légama",
+        "traditional_chinese": "​沼​人​勞動力"
+      },
+      "regions": [
+        "Celtic"
+      ]
+    },
+    {
+      "guid": 2196,
+      "names": {
+        "brazilian": "Mão de obra de ferreiros",
+        "english": "Smith Workforce",
+        "french": "Main-d'œuvre (Forgerons)",
+        "german": "Schmied-Arbeitskraft",
+        "italian": "Manodopera dei fabbri",
+        "japanese": "​スミス​の​労働​力",
+        "korean": "​대장장이 ​노동력",
+        "polish": "Siła robocza - rzemieślnicy",
+        "russian": "Рабочая сила – кузнецы",
+        "simplified_chinese": "​铁匠​劳动​力",
+        "spanish": "Mano de obra forjera",
+        "traditional_chinese": "​鐵匠​勞動力"
+      },
+      "regions": [
+        "Celtic"
+      ]
+    },
+    {
+      "guid": 2197,
+      "names": {
+        "brazilian": "Mão de obra de edis",
+        "english": "Alderman Workforce",
+        "french": "Main-d'œuvre (Aldermen)",
+        "german": "Ältesten-Arbeitskraft",
+        "italian": "Manodopera degli aldermanni",
+        "japanese": "​アルダー​の​労働​力",
+        "korean": "​장로 ​노동력",
+        "polish": "Siła robocza - starsi",
+        "russian": "Рабочая сила – олдермены",
+        "simplified_chinese": "​长老​劳动​力",
+        "spanish": "Mano de obra álder",
+        "traditional_chinese": "​長老​勞動力"
+      },
+      "regions": [
+        "Celtic"
+      ]
+    },
+    {
+      "guid": 2198,
+      "names": {
+        "brazilian": "Força de trabalho dos mercatores",
+        "english": "Mercators Workforce",
+        "french": "Main-d'œuvre (Mercators)",
+        "german": "Mercator-Arbeitskraft",
+        "italian": "Manodopera dei mercator",
+        "japanese": "​メルカトル​の​労働​力",
+        "korean": "​상인 ​노동력",
+        "polish": "Siła robocza - merkatorzy",
+        "russian": "Рабочая сила – меркаторы",
+        "simplified_chinese": "​商人​劳动​力",
+        "spanish": "Mano de obra mercadora",
+        "traditional_chinese": "​商人​勞動力"
+      },
+      "regions": [
+        "Celtic"
+      ]
+    },
+    {
+      "guid": 2199,
+      "names": {
+        "brazilian": "Força de trabalho dos nobres",
+        "english": "Nobles Workforce",
+        "french": "Main-d'œuvre (Nobles)",
+        "german": "Edelmänner-Arbeitskraft",
+        "italian": "Manodopera dei nobili",
+        "japanese": "​ノビレス​の​労働​力",
+        "korean": "​귀족 ​노동력",
+        "polish": "Siła robocza - wielmożowie",
+        "russian": "Рабочая сила – кельтская знать",
+        "simplified_chinese": "​领​主​劳动​力",
+        "spanish": "Mano de obra noble",
+        "traditional_chinese": "​領主​勞動力"
+      },
+      "regions": [
+        "Celtic"
+      ]
+    }
+  ],
+  "regions": [
+    {
+      "guid": 3225,
+      "id": "Roman",
+      "names": {
+        "brazilian": "Latium",
+        "english": "Latium",
+        "french": "Latium",
+        "german": "Latium",
+        "italian": "Latium",
+        "japanese": "​ラティウム",
+        "korean": "​라티움",
+        "polish": "Latium",
+        "russian": "Лаций",
+        "simplified_chinese": "​拉丁​姆",
+        "spanish": "Latium",
+        "traditional_chinese": "​拉丁​姆"
+      }
+    },
+    {
+      "guid": 6626,
+      "id": "Celtic",
+      "names": {
+        "brazilian": "Albion",
+        "english": "Albion",
+        "french": "Albion",
+        "german": "Albion",
+        "italian": "Albion",
+        "japanese": "​アルビオン",
+        "korean": "​알비온",
+        "polish": "Albion",
+        "russian": "Альбион",
+        "simplified_chinese": "​阿​尔​比​恩",
+        "spanish": "Albion",
+        "traditional_chinese": "​阿​爾​比​恩"
+      }
+    },
+    {
+      "guid": 37136,
+      "id": "Meta",
+      "names": null
+    }
+  ],
+  "sessions": [
+    {
+      "guid": 3245,
+      "names": {
+        "brazilian": "Latium",
+        "english": "Latium",
+        "french": "Latium",
+        "german": "Latium",
+        "italian": "Latium",
+        "japanese": "​ラティウム",
+        "korean": "​라티움",
+        "polish": "Latium",
+        "russian": "Лаций",
+        "simplified_chinese": "​拉丁​姆",
+        "spanish": "Latium",
+        "traditional_chinese": "​拉丁​姆"
+      },
+      "region": 3225
+    },
+    {
+      "guid": 6627,
+      "names": {
+        "brazilian": "Albion",
+        "english": "Albion",
+        "french": "Albion",
+        "german": "Albion",
+        "italian": "Albion",
+        "japanese": "​アルビオン",
+        "korean": "​알비온",
+        "polish": "Albion",
+        "russian": "Альбион",
+        "simplified_chinese": "​阿​尔​比​恩",
+        "spanish": "Albion",
+        "traditional_chinese": "​阿​爾​比​恩"
+      },
+      "region": 6626
+    },
+    {
+      "guid": 37135,
+      "names": {
+        "brazilian": "Global",
+        "english": "Global",
+        "french": "Global",
+        "german": "Global",
+        "italian": "Globale",
+        "japanese": "​世界",
+        "korean": "​전역",
+        "polish": "Globalnie",
+        "russian": "Глобально",
+        "simplified_chinese": "​全局",
+        "spanish": "Global",
+        "traditional_chinese": "​全域"
+      },
+      "region": 37136
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+
+# Go build output
+dist/
+*.exe
+
+# Local data directory when running from the checkout
+data/
+
+# Local recordings may contain profile/save and island names.
+capture*.jsonl
+recording*.jsonl
+*.anon.jsonl
+
+# Reviewed replay fixtures are intentionally versioned.
+!/testdata/connector-reencoded.jsonl
+!/testdata/connector/test-replay-data.jsonl
+!/testdata/live-2026-09-22.jsonl

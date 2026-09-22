@@ -1,0 +1,54 @@
+name: Release
+
+# Builds tabularium117.exe (windows/amd64) and attaches it, with a SHA-256 checksum,
+# to a GitHub release when a tag v* is pushed. Also runnable by hand.
+#
+# This repository currently has no GitHub Actions capacity (see CONTRIBUTING.md,
+# "Verification"), so this workflow is kept correct and ready rather than
+# relied on: the local `./scripts/check.sh` and `make build` are the
+# verification and the build until runners exist.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # git describe needs the tags for the version string
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Run the full verification
+        run: ./scripts/check.sh
+
+      - name: Build tabularium117.exe
+        run: |
+          make build
+          cd dist && sha256sum tabularium117.exe > SHA256SUMS && cat SHA256SUMS
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tabularium117-windows-amd64
+          path: |
+            dist/tabularium117.exe
+            dist/SHA256SUMS
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" dist/tabularium117.exe dist/SHA256SUMS \
+            --title "Tabularium 117 ${GITHUB_REF_NAME}" --generate-notes

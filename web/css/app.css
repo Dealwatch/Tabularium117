@@ -1,0 +1,388 @@
+/* app.css -- Tabularium 117 UI. Mobile-first, no external fonts, no CDN. */
+
+:root {
+  color-scheme: light dark;
+  --bg: #f5f5f7;
+  --bg-elevated: #ffffff;
+  --fg: #1c1c1e;
+  --fg-muted: #6b6b70;
+  --border: #d9d9dd;
+  --accent: #2f6fed;
+  --deficit: #c0392b;
+  --surplus: #1e8449;
+  --pill-bg: #e6e6ea;
+  --focus: #2f6fed;
+  --warning: #e08a1e;
+  --warning-fg: #a25c00;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121214;
+    --bg-elevated: #1c1c1f;
+    --fg: #ececec;
+    --fg-muted: #9a9aa0;
+    --border: #333338;
+    --accent: #6fa2ff;
+    --deficit: #ff6b5c;
+    --surplus: #4fce7a;
+    --pill-bg: #2a2a2e;
+    --warning: #f0a93a;
+    --warning-fg: #f0a93a;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #121214;
+  --bg-elevated: #1c1c1f;
+  --fg: #ececec;
+  --fg-muted: #9a9aa0;
+  --border: #333338;
+  --accent: #6fa2ff;
+  --deficit: #ff6b5c;
+  --surplus: #4fce7a;
+  --pill-bg: #2a2a2e;
+  --warning: #f0a93a;
+  --warning-fg: #f0a93a;
+}
+
+* { box-sizing: border-box; }
+
+/* An element with the hidden attribute is hidden, whatever display a class
+   of it sets: .pill, .alert-badge and the status bar's links all set one, and
+   a rule with a class beats the browser's own [hidden] { display: none }.
+   Without this the phone indicator would show on the PC and the PC's panel
+   link on the phone. */
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+button, input, select {
+  font: inherit;
+  color: inherit;
+}
+
+a { color: var(--accent); }
+
+.muted { color: var(--fg-muted); }
+
+/* --- status bar --- */
+
+#statusbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  /* The safe areas keep the bar clear of a phone's notch and rounded
+     corners; on a PC every env() is 0 and the padding is the old one. */
+  padding: max(.5rem, env(safe-area-inset-top)) max(.75rem, env(safe-area-inset-right))
+           .5rem max(.75rem, env(safe-area-inset-left));
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+#statusbar-main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem .75rem;
+  align-items: center;
+  min-width: 0;
+}
+
+#statusbar-controls {
+  display: flex;
+  gap: .5rem;
+}
+
+.pill {
+  display: inline-block;
+  padding: .15rem .6rem;
+  border-radius: 999px;
+  background: var(--pill-bg);
+  font-size: .85rem;
+}
+.pill.connected { background: color-mix(in srgb, var(--surplus) 25%, var(--pill-bg)); }
+.pill.waiting { background: color-mix(in srgb, orange 25%, var(--pill-bg)); }
+.pill.disconnected, .pill.replaying { background: color-mix(in srgb, var(--deficit) 25%, var(--pill-bg)); }
+
+button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: .4rem .75rem;
+  border: 1px solid var(--border);
+  border-radius: .4rem;
+  background: var(--bg-elevated);
+  cursor: pointer;
+}
+button:hover { border-color: var(--accent); }
+button:focus-visible, a:focus-visible, input:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* --- layout --- */
+
+#layout {
+  display: block;
+  padding: .75rem max(.75rem, env(safe-area-inset-right))
+           max(.75rem, env(safe-area-inset-bottom)) max(.75rem, env(safe-area-inset-left));
+}
+
+#sidebar h2 { font-size: 1rem; margin: .25rem 0 .5rem; }
+
+#island-list {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+}
+
+.island-item button {
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .5rem;
+  text-align: left;
+  background: var(--bg-elevated);
+}
+.island-item button[aria-current="true"] {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.island-item .name { font-weight: 600; }
+.island-item .meta { font-size: .8rem; color: var(--fg-muted); }
+.island-item .badge {
+  min-width: 1.5rem;
+  padding: 0 .35rem;
+  border-radius: .8rem;
+  background: var(--deficit);
+  color: #fff;
+  font-size: .8rem;
+  text-align: center;
+}
+
+#view.detail-hidden-on-mobile { display: none; }
+
+@media (min-width: 900px) {
+  #layout {
+    display: grid;
+    grid-template-columns: 18rem 1fr;
+    gap: 1rem;
+    align-items: start;
+  }
+  #view.detail-hidden-on-mobile { display: block; }
+}
+
+.panel {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: .5rem;
+  padding: .75rem 1rem;
+  margin-bottom: .75rem;
+}
+
+.back-link { display: inline-block; margin-bottom: .5rem; }
+
+/* --- product table --- */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  align-items: center;
+  margin-bottom: .5rem;
+}
+
+input[type="search"] {
+  flex: 1 1 12rem;
+  min-height: 44px;
+  padding: .4rem .6rem;
+  border: 1px solid var(--border);
+  border-radius: .4rem;
+  background: var(--bg-elevated);
+}
+
+table { border-collapse: collapse; width: 100%; }
+th, td {
+  text-align: left;
+  padding: .5rem .5rem;
+  border-bottom: 1px solid var(--border);
+}
+th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; }
+th button {
+  all: unset;
+  cursor: pointer;
+  min-height: auto;
+  font-weight: 600;
+}
+th button:focus-visible { outline: 2px solid var(--focus); }
+tr.clickable { cursor: pointer; }
+tr.clickable:hover { background: var(--pill-bg); }
+td.delta-negative { color: var(--deficit); font-weight: 600; }
+td.delta-positive { color: var(--surplus); }
+
+/* --- history / efficiency --- */
+
+#chart-container { position: relative; width: 100%; }
+.uplot { width: 100% !important; }
+
+.range-buttons { display: flex; gap: .5rem; margin-bottom: .5rem; }
+.range-buttons button[aria-pressed="true"] { border-color: var(--accent); font-weight: 600; }
+
+.legend { display: flex; gap: 1rem; flex-wrap: wrap; font-size: .9rem; margin-top: .5rem; }
+.legend .swatch { display: inline-block; width: .8em; height: .8em; border-radius: 2px; margin-right: .3em; vertical-align: -1px; }
+
+.efficiency-bar {
+  height: .6rem;
+  border-radius: .3rem;
+  background: var(--pill-bg);
+  overflow: hidden;
+  width: 8rem;
+}
+.efficiency-bar > span { display: block; height: 100%; background: var(--accent); }
+tr.no-data { opacity: .5; }
+
+/* The first tick after a savegame is loaded carries no products at all, so
+   the islands are known but empty. Greying them says "not yet", where full
+   contrast would say "nothing here". */
+.island-item.warming button { opacity: .55; }
+.warmup-hint { color: var(--fg-muted); font-style: italic; }
+
+.error-line { color: var(--deficit); padding: .5rem 0; }
+
+.help-panel ol, .help-panel ul { padding-left: 1.25rem; }
+.help-panel li { margin-bottom: .35rem; }
+
+/* --- warnings (task T6.3) --- */
+
+/* The status bar's badge. It is a button, so it overrides the 44px minimum
+   that the touch targets in the control area need. */
+.alert-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  min-height: 1.9rem;
+  min-width: auto;
+  padding: .1rem .55rem;
+  border-radius: 999px;
+  border-color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 22%, var(--bg-elevated));
+  color: var(--fg);
+  font-size: .85rem;
+  font-weight: 600;
+}
+.alert-badge:hover { border-color: var(--warning); }
+
+#help-link, #phone-link {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  /* A link in the status bar is a touch target like the buttons next to it
+     (task T7.4); the bar is that tall anyway because of them. */
+  min-height: 44px;
+  padding: .4rem;
+}
+
+.island-item .badges {
+  display: flex;
+  gap: .3rem;
+  align-items: center;
+}
+.island-item .badge.alert {
+  background: var(--warning);
+  color: #1c1c1e;
+  white-space: nowrap;
+}
+
+.alert-marker {
+  color: var(--warning-fg);
+  font-weight: 700;
+}
+
+.setting {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  min-height: 44px;
+  cursor: pointer;
+}
+.setting input[type="checkbox"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: var(--accent);
+}
+.setting input[type="checkbox"]:disabled { cursor: not-allowed; }
+.setting input[type="checkbox"]:disabled + span { color: var(--fg-muted); }
+
+/* --- phone / LAN mode (tasks T7.3 and T7.4) --- */
+
+/* What a LAN client sees of LAN mode: that it is one. The panel, the switch
+   and the QR code exist on the PC only (KONZEPT.md section 6). */
+.pill.phone { background: color-mix(in srgb, var(--accent) 22%, var(--pill-bg)); }
+
+.lan-qr {
+  display: block;
+  width: 256px;
+  max-width: 100%;
+  height: auto;
+  /* A QR code is a grid of hard squares; smoothing it makes it harder to
+     scan, and the white background is what a camera needs. */
+  image-rendering: pixelated;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: .4rem;
+  padding: .5rem;
+  margin: .5rem 0;
+}
+
+.lan-url-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  align-items: center;
+  margin-bottom: .5rem;
+}
+
+.lan-url {
+  flex: 1 1 16rem;
+  padding: .45rem .55rem;
+  border-radius: .4rem;
+  background: var(--pill-bg);
+  font-size: .9rem;
+  /* The address carries a token and has no spaces to break at. */
+  overflow-wrap: anywhere;
+}
+
+/* A wide table scrolls inside its own box rather than pushing the page
+   sideways: at 390 px the product table is wider than the screen, and a page
+   that scrolls horizontally is unusable on a phone (task T7.4). */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+.table-scroll > table { min-width: 100%; }
+
+/* Touch targets: 44 px is the smallest thing a finger hits reliably, and on
+   a phone everything in the status bar and the island list has to clear it.
+   Pointers that are not coarse keep the denser desktop layout. */
+@media (pointer: coarse), (max-width: 600px) {
+  .alert-badge { min-height: 44px; }
+  .island-item button { min-height: 48px; }
+  .setting { min-height: 48px; }
+}

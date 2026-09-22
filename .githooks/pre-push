@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+# Refuse to push work that does not pass this repository's own checks.
+#
+# Enable once per clone:
+#     git config core.hooksPath .githooks
+#
+# `.git/hooks` is not version controlled, so the hook lives here and is shared
+# with every clone. Bypass deliberately with `git push --no-verify` when you
+# genuinely need to push a known-broken state.
+set -eu
+
+# Scope, stated plainly: this runs the checks against the WORKING TREE, not
+# against the commits being pushed. That is cheap and catches the common case,
+# but it means a dirty tree can mask a broken commit or fail a good one. The
+# warning below fires exactly when that gap is open.
+
+root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+
+if [ -n "$(git -C "$root" status --porcelain 2>/dev/null)" ]; then
+    echo "pre-push: working tree is dirty; these checks describe the tree," >&2
+    echo "          not the commits being pushed." >&2
+fi
+
+if ! "$root/scripts/check.sh"; then
+    echo "" >&2
+    echo "pre-push: checks failed, push aborted." >&2
+    echo "Fix the failure, or use --no-verify if you intend to push anyway." >&2
+    exit 1
+fi
