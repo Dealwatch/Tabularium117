@@ -1,0 +1,96 @@
+name: Bug report
+description: Something in Tabularium 117 does not work as expected.
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. English is preferred but German is fine
+        too. / Englisch ist bevorzugt, Deutsch ist aber auch in Ordnung.
+  - type: input
+    id: version
+    attributes:
+      label: Tabularium 117 version
+      description: From `tabularium117.exe --version`, or the version line on the help page.
+    validations:
+      required: true
+  - type: input
+    id: windows-version
+    attributes:
+      label: Windows version
+      description: e.g. Windows 11 23H2. "winver" shows it.
+    validations:
+      required: true
+  - type: input
+    id: game-build
+    attributes:
+      label: Anno 117 build / date
+      description: The game version or patch date, if known.
+    validations:
+      required: false
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What did you see?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: false
+  - type: textarea
+    id: log
+    attributes:
+      label: Log excerpt
+      description: >-
+        Restart Tabularium 117 with `--verbose` and paste the relevant lines here.
+        Please read them before posting: the log contains the path to your data
+        directory, which on Windows carries your account name
+        (C:\Users\<name>\AppData\...), and in phone mode the private IP address
+        and interface name of your PC. Replace anything you would rather not
+        publish - it is a public issue.
+      render: text
+    validations:
+      required: false
+  - type: textarea
+    id: recording
+    attributes:
+      label: Recording (optional, for protocol problems)
+      description: >
+        For wrong/missing numbers or an "unknown protocol version" error,
+        make a capture with `--record capture.jsonl`. Before attaching it, run
+        `tabularium117.exe --anonymize-recording capture.jsonl` and attach
+        only the resulting `capture.jsonl.anon.jsonl` (drag it onto this form).
+        Recordings can contain your profile/save name and island names.
+        The command removes the profile/save name from decodable SessionStart
+        frames; add `--anonymize-islands` to replace island names too.
+        Payloads are Base64-encoded, so plain-text search-and-replace does
+        not remove these names. Check the command's summary and warnings:
+        undecodable frames are kept unchanged and may still contain names.
+        Do not attach the file if those warnings leave its contents uncertain.
+    validations:
+      required: false
+  - type: dropdown
+    id: phone-mode
+    attributes:
+      label: Was phone mode involved?
+      options:
+        - "No"
+        - "Yes"
+        - "Not sure"
+    validations:
+      required: false

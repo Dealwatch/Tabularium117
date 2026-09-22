@@ -1,0 +1,17 @@
+# Everything in this repository is written with LF endings, and has to stay
+# that way in the working tree - not only inside the repository.
+#
+# Windows checks out with core.autocrlf by default, which rewrites text files
+# to CRLF. gofmt then reports every single .go file as unformatted, because
+# reformatting them means putting the endings back; `./scripts/check.sh`
+# therefore fails before it runs one test - in CI on windows-latest and on a
+# contributor's Windows machine alike, pre-push hook included.
+#
+# text=auto leaves anything git detects as binary alone, so the screenshots
+# and the recordings are untouched.
+* text=auto eol=lf
+
+# These are executed by a shell, where a trailing CR is a syntax error rather
+# than a diff: spelled out so the reason survives a change to the rule above.
+*.sh text eol=lf
+.githooks/* text eol=lf
