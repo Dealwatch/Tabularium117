@@ -1,0 +1,8 @@
+# Line endings that survive a Windows checkout.
+#
+# GitHub's Windows runners check out with core.autocrlf=true, which would give
+# the shell scripts CRLF endings; bash then reads the trailing CR as part of
+# the command and the CI job fails before it runs a single check. These files
+# are executed by a shell, so they keep LF everywhere.
+*.sh text eol=lf
+.githooks/* text eol=lf

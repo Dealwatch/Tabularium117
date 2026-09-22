@@ -52,8 +52,11 @@ go run ./cmd/tabularium117 --replay testdata/live-2026-09-22.jsonl --serve-after
 ```
 
 Go 1.25 or newer (`go.mod`); an older `go` downloads the toolchain via
-`GOTOOLCHAIN=auto`. The GitHub workflow builds releases from tags; local
-checks are the evidence until it has runners.
+`GOTOOLCHAIN=auto`. `.github/workflows/ci.yml` runs the same `check.sh` on
+Linux **and** Windows for every push and pull request, plus a `go mod tidy`
+diff and the cross-compiled release build; `.github/workflows/release.yml`
+builds the release from a tag. Running the checks locally before pushing is
+still the faster loop, not a formality CI replaced.
 
 ## Conventions
 

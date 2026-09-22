@@ -2,6 +2,10 @@
 
 [Deutsch](#deutsch) · [English](#english)
 
+[![CI](https://github.com/Dealwatch/Tabularium117/actions/workflows/ci.yml/badge.svg)](https://github.com/Dealwatch/Tabularium117/actions/workflows/ci.yml)
+[![Lizenz / License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Unterst%C3%BCtzen%20%2F%20Support-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/dealwatch)
+
 > Status: in Entwicklung / under development. Es gibt noch kein Release. /
 > There is no release yet. Konzept: `KONZEPT.md`, Aufgaben: `AUFGABEN.md`,
 > Pipe-Protokoll: `docs/protocol.md`.
@@ -146,6 +150,17 @@ Eingriff ins Spiel.
 - **Handy verbindet sich nicht:** Sind Handy und PC im selben Netzwerk? Ist
   das Netzwerk auf dem PC als „Privat“ eingestuft? Hat die Windows-Firewall
   beim ersten Mal „Private Netzwerke“ erlaubt?
+
+### Unterstützen
+
+Tabularium 117 ist kostenlos und bleibt es: keine Bezahlfunktionen, keine
+Werbung, kein Konto. Wer die Entwicklung trotzdem unterstützen möchte, kann
+das auf [Ko-fi](https://ko-fi.com/dealwatch) tun – freiwillig, und ohne dass
+sich am Programm irgendetwas ändert.
+
+Im Programm selbst ist davon nichts zu sehen: Tabularium 117 bindet kein
+Spenden-Widget ein, lädt nichts nach und ruft nirgendwo an (siehe
+„Datenschutz“). Der Link steht hier und auf der Projektseite, sonst nirgends.
 
 ### Credits
 
@@ -297,6 +312,17 @@ interference with the game.
 - **Phone cannot connect:** Are the phone and the PC on the same network? Is
   the network set to "Private" on the PC? Did the Windows firewall prompt
   allow "Private networks" the first time?
+
+### Support the project
+
+Tabularium 117 is free and stays free: no paid features, no ads, no account.
+If you would like to support its development anyway, you can do so on
+[Ko-fi](https://ko-fi.com/dealwatch) – entirely optional, and nothing about
+the program changes either way.
+
+None of it shows up in the program: Tabularium 117 embeds no donation widget,
+loads nothing from anywhere, and phones nowhere home (see "Privacy"). The
+link lives here and on the project page, nowhere else.
 
 ### Credits
 

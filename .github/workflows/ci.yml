@@ -1,0 +1,76 @@
+name: CI
+
+# Runs the repository's own verification (gofmt, go vet, go test) on both the
+# platform that is developed on and the platform that is shipped. Windows is
+# not optional here: internal/pipe only builds there, and a Unix-only
+# assumption in a test is invisible on Linux.
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: check on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false # a Windows-only failure must not hide a Linux one
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Run the full verification
+        shell: bash # check.sh is a POSIX shell script; Windows runners have bash
+        run: ./scripts/check.sh
+
+  tidy:
+    name: go.mod is tidy
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      # A dependency listed as indirect although it is imported directly is
+      # the kind of drift nobody notices by reading; the diff says it.
+      - name: go mod tidy leaves no diff
+        run: |
+          go mod tidy
+          git diff --exit-code go.mod go.sum
+
+  build:
+    name: build tabularium117.exe
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # git describe needs the tags for the version string
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      # The release is a cross-compiled Windows binary, so a release must
+      # never be the first time that cross-compilation is tried.
+      - name: Cross-compile the release binary
+        run: make build

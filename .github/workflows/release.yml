@@ -3,10 +3,10 @@ name: Release
 # Builds tabularium117.exe (windows/amd64) and attaches it, with a SHA-256 checksum,
 # to a GitHub release when a tag v* is pushed. Also runnable by hand.
 #
-# This repository currently has no GitHub Actions capacity (see CONTRIBUTING.md,
-# "Verification"), so this workflow is kept correct and ready rather than
-# relied on: the local `./scripts/check.sh` and `make build` are the
-# verification and the build until runners exist.
+# Every-push verification lives in ci.yml; this workflow is only about turning
+# a tag into a downloadable release. `docs/release.md` describes the manual
+# path (`make build` plus a hand-made release) for the case where Actions are
+# not available.
 on:
   push:
     tags: ["v*"]

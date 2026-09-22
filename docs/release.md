@@ -18,14 +18,15 @@ This is the owner's checklist for cutting a Tabularium 117 release.
 
 5. Build and publish.
 
-   **If the repository has GitHub Actions capacity:** pushing the tag
-   triggers `.github/workflows/release.yml`, which runs
+   **Normally:** pushing the tag triggers
+   `.github/workflows/release.yml`, which runs
    `./scripts/check.sh`, builds `dist/tabularium117.exe`, computes
    `dist/SHA256SUMS`, and publishes a GitHub release with both files
    attached (the workflow is also runnable by hand via
    `workflow_dispatch`).
 
-   **Otherwise (manual path)**, from a checkout of the pushed tag:
+   **If Actions are unavailable (manual path)**, from a checkout of the
+   pushed tag:
    ```sh
    make build                    # or: VERSION=vX.Y.Z make build
    cd dist && sha256sum tabularium117.exe > SHA256SUMS
