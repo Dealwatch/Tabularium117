@@ -44,10 +44,9 @@ const dictionaries = {
     legendConsumption: "Consumption",
     legendDelta: "Delta",
     efficiencyHeading: "Efficiency",
-    efficiencyExplain: "\"Wasted production\" is the perfect generation minus the actual generation: "
-      + "buildings that are not running at full potential, for example because of missing workforce "
-      + "or missing input goods. A higher wasted value means more room for improvement. "
-      + "A productivity of 0 % next to a perfect generation means the buildings are standing still; "
+    efficiencyExplain: "Unused is the potential minus the actual generation. Efficiency compares "
+      + "generation with potential; productivity is the average building modifier and can go above "
+      + "100 %. A productivity of 0 % next to a potential means the buildings are standing still; "
       + "a \"-\" means there are no producing buildings for that good here.",
     productivityIdleHint: "There are buildings for this good, but they produce nothing right now: "
       + "paused, without workforce, or without their input goods.",
@@ -55,8 +54,10 @@ const dictionaries = {
       + "so there is nothing to compare against.",
     colEfficiency: "Efficiency",
     colProductivity: "Productivity",
-    colWasted: "Wasted",
-    colPerfect: "Perfect generation",
+    colWasted: "Unused",
+    colPerfect: "Potential",
+    tabProducts: "Goods",
+    islandSwitch: "Switch island",
     noEfficiencyData: "No production data yet.",
     alertsHeading: "Warnings",
     alertsBadge: "{count} active warnings",
@@ -168,20 +169,21 @@ const dictionaries = {
     legendConsumption: "Verbrauch",
     legendDelta: "Delta",
     efficiencyHeading: "Effizienz",
-    efficiencyExplain: "„Verschenkte Produktion“ ist die perfekte Produktion minus der "
-      + "tatsächlichen: Gebäude, die nicht mit voller Kapazität laufen, zum Beispiel wegen "
-      + "fehlender Arbeitskräfte oder fehlender Rohstoffe. Ein höherer Wert bedeutet mehr "
-      + "Verbesserungspotenzial. Produktivität 0 % neben einer perfekten Produktion heißt: "
-      + "die Gebäude stehen. Ein „-“ heißt: für diese Ware gibt es hier keine produzierenden "
-      + "Gebäude.",
+    efficiencyExplain: "Ungenutzt ist das Potenzial minus der tatsächlichen Produktion. Effizienz "
+      + "vergleicht Produktion mit Potenzial; Produktivität ist der durchschnittliche "
+      + "Gebäudemodifikator und kann über 100 % liegen. Produktivität 0 % neben einem Potenzial "
+      + "heißt: die Gebäude stehen. Ein „-“ heißt: für diese Ware gibt es hier keine "
+      + "produzierenden Gebäude.",
     productivityIdleHint: "Für diese Ware gibt es Gebäude, sie produzieren gerade aber nichts: "
       + "pausiert, ohne Arbeitskräfte oder ohne Rohstoffe.",
     productivityNoBuildingsHint: "Keine produzierenden Gebäude für diese Ware auf dieser Insel, "
       + "es gibt also nichts zu vergleichen.",
     colEfficiency: "Effizienz",
     colProductivity: "Produktivität",
-    colWasted: "Verschenkt",
-    colPerfect: "Perfekte Produktion",
+    colWasted: "Ungenutzt",
+    colPerfect: "Potenzial",
+    tabProducts: "Waren",
+    islandSwitch: "Insel wechseln",
     noEfficiencyData: "Noch keine Produktionsdaten.",
     alertsHeading: "Warnungen",
     alertsBadge: "{count} aktive Warnungen",

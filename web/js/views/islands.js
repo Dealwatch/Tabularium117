@@ -3,6 +3,7 @@
 import { i18n } from "../i18n.js";
 import { api } from "../api.js";
 import { byProduct, ruleLabel } from "../alerts.js";
+import { renderIslandHeader } from "./island-header.js";
 
 const numberFormatCache = new Map();
 
@@ -33,13 +34,13 @@ export async function renderIslandDetail(container, islandId, store) {
   let sortAsc = true; // deficits (most negative delta) first by default
   let search = "";
 
+  // The island's name, the island switch and the tab to the efficiency view
+  // all live in the shared header now, so this view only owns its table.
+  const header = renderIslandHeader(container, islandId, store, "products");
+
   const wrapper = document.createElement("div");
   const summaryLine = document.createElement("p");
-  summaryLine.className = "muted";
-  const efficiencyLink = document.createElement("a");
-  efficiencyLink.href = `#/island/${encodeURIComponent(islandId)}/efficiency`;
-  efficiencyLink.textContent = i18n.t("efficiencyHeading");
-  efficiencyLink.style.marginLeft = "1rem";
+  summaryLine.className = "muted summary-line";
 
   const toolbar = document.createElement("div");
   toolbar.className = "toolbar";
@@ -47,7 +48,7 @@ export async function renderIslandDetail(container, islandId, store) {
   search_input.type = "search";
   search_input.placeholder = i18n.t("searchPlaceholder");
   search_input.setAttribute("data-i18n-placeholder", "searchPlaceholder");
-  toolbar.append(search_input, efficiencyLink);
+  toolbar.append(search_input);
 
   const table = document.createElement("table");
   const thead = document.createElement("thead");
@@ -94,8 +95,11 @@ export async function renderIslandDetail(container, islandId, store) {
     headerRow();
     const island = productsDTO.island;
     const alertCount = store.alerts.filter((a) => a.islandId === islandId).length;
-    summaryLine.textContent = `${island.name} · ${island.sessionName} · `
-      + `${island.products} ${i18n.t("products")} · ${island.deficits} ${i18n.t("deficits")}`
+    // The name and the session are in the header; repeating them here only
+    // made the line long enough to be skipped. What is left are the counts.
+    header.update(island);
+    summaryLine.textContent = `${island.products} ${i18n.t("products")} · `
+      + `${island.deficits} ${i18n.t("deficits")}`
       + (alertCount > 0 ? ` · ${alertCount} ${i18n.t("alertsHeading")}` : "");
 
     // Warnings are per (island, product); a row carries a marker when the

@@ -18,6 +18,12 @@ First beta release, for testing by a small group of real players before a
 - Efficiency view: actual production against the theoretical perfect
   production per good, plus a productivity column showing the average
   productivity of that good's buildings.
+- One UI shell for an island: the island's name, the session it belongs to,
+  a dropdown to switch island without going back to the sidebar, and tabs
+  between the goods table and the efficiency view. The sidebar groups its
+  islands under their session instead of repeating the session's name on
+  every row, and the deficit counts are tinted rather than solid, so the
+  warnings stay the loudest thing on the page.
 - The efficiency view explains the two ways a good can produce nothing: a
   productivity of 0 % next to a perfect generation means the buildings are
   standing still, a "-" means there are no producing buildings for that good
@@ -30,7 +36,8 @@ First beta release, for testing by a small group of real players before a
 - Phone/LAN mode: a QR code and a per-start access token expose the UI to
   other devices on the same private network (RFC 1918 only), off by
   default.
-- German and English UI, switchable at runtime.
+- German and English UI, switchable at runtime, in a light and a dark
+  theme that share one accent colour.
 - Replay and record: `--replay` plays back a JSONL capture instead of the
   real pipe, `--record` writes every raw frame to a JSONL file.
 - Windows-only named-pipe client (`internal/pipe`); every other package

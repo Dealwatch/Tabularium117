@@ -1,49 +1,55 @@
 /* app.css -- Tabularium 117 UI. Mobile-first, no external fonts, no CDN. */
 
+/* One accent carries the whole UI: a warm gold, dark enough on the light
+   background to pass as link colour, light enough on the dark one to mark
+   the selected island and the efficiency bars. Deficit red and surplus green
+   stay what they are - they mean something, so they are not decoration. */
 :root {
   color-scheme: light dark;
-  --bg: #f5f5f7;
+  --bg: #f7f6f3;
   --bg-elevated: #ffffff;
-  --fg: #1c1c1e;
-  --fg-muted: #6b6b70;
-  --border: #d9d9dd;
-  --accent: #2f6fed;
-  --deficit: #c0392b;
-  --surplus: #1e8449;
-  --pill-bg: #e6e6ea;
-  --focus: #2f6fed;
-  --warning: #e08a1e;
-  --warning-fg: #a25c00;
+  --fg: #1b1a18;
+  --fg-muted: #6b6a6f;
+  --border: #e3dfd7;
+  --accent: #8a6a1f;
+  --deficit: #b4372b;
+  --surplus: #1e7a45;
+  --pill-bg: #eceae4;
+  --focus: #8a6a1f;
+  --warning: #b07908;
+  --warning-fg: #8a5e00;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #121214;
-    --bg-elevated: #1c1c1f;
-    --fg: #ececec;
-    --fg-muted: #9a9aa0;
-    --border: #333338;
-    --accent: #6fa2ff;
-    --deficit: #ff6b5c;
-    --surplus: #4fce7a;
-    --pill-bg: #2a2a2e;
-    --warning: #f0a93a;
-    --warning-fg: #f0a93a;
+    --bg: #0f0f11;
+    --bg-elevated: #161618;
+    --fg: #eae7e1;
+    --fg-muted: #908e95;
+    --border: #27272b;
+    --accent: #d4ab61;
+    --deficit: #e0645a;
+    --surplus: #6fbf7a;
+    --pill-bg: #232327;
+    --focus: #d4ab61;
+    --warning: #e0a94a;
+    --warning-fg: #e0a94a;
   }
 }
 
 :root[data-theme="dark"] {
-  --bg: #121214;
-  --bg-elevated: #1c1c1f;
-  --fg: #ececec;
-  --fg-muted: #9a9aa0;
-  --border: #333338;
-  --accent: #6fa2ff;
-  --deficit: #ff6b5c;
-  --surplus: #4fce7a;
-  --pill-bg: #2a2a2e;
-  --warning: #f0a93a;
-  --warning-fg: #f0a93a;
+  --bg: #0f0f11;
+  --bg-elevated: #161618;
+  --fg: #eae7e1;
+  --fg-muted: #908e95;
+  --border: #27272b;
+  --accent: #d4ab61;
+  --deficit: #e0645a;
+  --surplus: #6fbf7a;
+  --pill-bg: #232327;
+  --focus: #d4ab61;
+  --warning: #e0a94a;
+  --warning-fg: #e0a94a;
 }
 
 * { box-sizing: border-box; }
@@ -139,7 +145,17 @@ button:focus-visible, a:focus-visible, input:focus-visible {
            max(.75rem, env(safe-area-inset-bottom)) max(.75rem, env(safe-area-inset-left));
 }
 
-#sidebar h2 { font-size: 1rem; margin: .25rem 0 .5rem; }
+/* The sidebar's two headings are labels, not titles: small, spaced out and
+   quiet, so that the island names are what the eye lands on. */
+#sidebar h2, .session-group h3 {
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+#sidebar h2 { color: var(--fg-muted); margin: .25rem 0 .6rem; }
+.session-group h3 { color: var(--accent); margin: .9rem 0 .35rem; }
+.session-group:first-child h3 { margin-top: 0; }
 
 #island-list {
   list-style: none;
@@ -150,6 +166,10 @@ button:focus-visible, a:focus-visible, input:focus-visible {
   gap: .35rem;
 }
 
+/* An island row is a row, not a card: fourteen boxed buttons under each
+   other were fourteen borders competing with the table next to them. The
+   selected one is marked by a bar in the accent, which reads at a glance
+   without adding a frame. */
 .island-item button {
   width: 100%;
   min-height: 44px;
@@ -158,34 +178,41 @@ button:focus-visible, a:focus-visible, input:focus-visible {
   align-items: center;
   gap: .5rem;
   text-align: left;
-  background: var(--bg-elevated);
+  background: transparent;
+  border-color: transparent;
+}
+.island-item button:hover {
+  background: var(--pill-bg);
+  border-color: transparent;
 }
 .island-item button[aria-current="true"] {
-  border-color: var(--accent);
-  box-shadow: inset 0 0 0 1px var(--accent);
+  background: var(--pill-bg);
+  border-color: transparent;
+  box-shadow: inset 3px 0 0 var(--accent);
 }
 .island-item .name { font-weight: 600; }
 .island-item .meta { font-size: .8rem; color: var(--fg-muted); }
+/* A deficit count is a hint, not an alarm: fourteen solid red dots down the
+   sidebar shout over the warnings, which are the thing that has actually
+   been judged. Tinted background, coloured text. */
 .island-item .badge {
   min-width: 1.5rem;
-  padding: 0 .35rem;
-  border-radius: .8rem;
-  background: var(--deficit);
-  color: #fff;
-  font-size: .8rem;
+  padding: .05rem .45rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--deficit) 18%, transparent);
+  color: var(--deficit);
+  font-size: .78rem;
+  font-variant-numeric: tabular-nums;
   text-align: center;
 }
-
-#view.detail-hidden-on-mobile { display: none; }
 
 @media (min-width: 900px) {
   #layout {
     display: grid;
-    grid-template-columns: 18rem 1fr;
-    gap: 1rem;
+    grid-template-columns: 17rem 1fr;
+    gap: 1.5rem;
     align-items: start;
   }
-  #view.detail-hidden-on-mobile { display: block; }
 }
 
 .panel {
@@ -197,6 +224,63 @@ button:focus-visible, a:focus-visible, input:focus-visible {
 }
 
 .back-link { display: inline-block; margin-bottom: .5rem; }
+
+/* --- island header and tabs (views/island-header.js) --- */
+
+.island-header { margin-bottom: 1rem; }
+
+.island-header-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1rem;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.island-title { min-width: 0; }
+.island-header h2, .eyebrow + h2 { margin: .1rem 0 0; font-size: 1.6rem; line-height: 1.2; }
+
+/* The line above a title that says which session it belongs to. Same
+   treatment as the sidebar's labels, so the two read as one system. */
+.eyebrow {
+  margin: 0;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.island-switch {
+  min-height: 44px;
+  max-width: 100%;
+  padding: .4rem .6rem;
+  border: 1px solid var(--border);
+  border-radius: .4rem;
+  background: var(--bg-elevated);
+}
+
+.tabs {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: .9rem;
+  border-bottom: 1px solid var(--border);
+}
+.tabs a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 .1rem;
+  margin-bottom: -1px;
+  border-bottom: 2px solid transparent;
+  color: var(--fg-muted);
+  font-weight: 600;
+  text-decoration: none;
+}
+.tabs a:hover { color: var(--fg); }
+.tabs a[aria-current="page"] { color: var(--accent); border-bottom-color: var(--accent); }
+
+.summary-line { margin: 0 0 .75rem; }
 
 /* --- product table --- */
 
@@ -220,9 +304,21 @@ input[type="search"] {
 table { border-collapse: collapse; width: 100%; }
 th, td {
   text-align: left;
-  padding: .5rem .5rem;
-  border-bottom: 1px solid var(--border);
+  padding: .55rem .6rem;
+  /* Hairlines, not rules: with 56 goods under each other a full-strength
+     border on every row turns the table into a grid of boxes. */
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
 }
+thead th {
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+tbody tr:last-child td { border-bottom: none; }
 th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; }
 th button {
   all: unset;
@@ -247,12 +343,21 @@ td.delta-positive { color: var(--surplus); }
 .legend { display: flex; gap: 1rem; flex-wrap: wrap; font-size: .9rem; margin-top: .5rem; }
 .legend .swatch { display: inline-block; width: .8em; height: .8em; border-radius: 2px; margin-right: .3em; vertical-align: -1px; }
 
+.efficiency-cell {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: .6rem;
+}
+.efficiency-cell > span { min-width: 3ch; }
+
 .efficiency-bar {
-  height: .6rem;
-  border-radius: .3rem;
+  height: .5rem;
+  border-radius: .25rem;
   background: var(--pill-bg);
   overflow: hidden;
-  width: 8rem;
+  width: 7rem;
+  flex: 0 0 auto;
 }
 .efficiency-bar > span { display: block; height: 100%; background: var(--accent); }
 tr.no-data { opacity: .5; }
@@ -384,6 +489,10 @@ tr.no-data { opacity: .5; }
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   max-width: 100%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: .5rem;
+  padding: .25rem .5rem;
 }
 .table-scroll > table { min-width: 100%; }
 

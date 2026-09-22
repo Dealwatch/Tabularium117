@@ -2,6 +2,7 @@
 
 import { i18n } from "../i18n.js";
 import { api } from "../api.js";
+import { renderIslandHeader } from "./island-header.js";
 
 function locale() {
   return i18n.lang === "de" ? "de-DE" : "en-US";
@@ -21,12 +22,10 @@ function hint(text, explanation) {
 }
 
 export async function renderEfficiency(container, islandId, store) {
-  const back = document.createElement("a");
-  back.href = `#/island/${encodeURIComponent(islandId)}`;
-  back.className = "back-link";
-  back.textContent = `← ${i18n.t("helpBack")}`;
+  // The heading, the island switch and the way back to the goods table are
+  // the shared header's job (views/island-header.js).
+  const header = renderIslandHeader(container, islandId, store, "efficiency");
 
-  const heading = document.createElement("h2");
   const explain = document.createElement("p");
   explain.className = "muted";
   explain.textContent = i18n.t("efficiencyExplain");
@@ -41,10 +40,10 @@ export async function renderEfficiency(container, islandId, store) {
   const tableBox = document.createElement("div");
   tableBox.className = "table-scroll";
   tableBox.append(table);
-  container.append(back, heading, explain, tableBox);
+  container.append(explain, tableBox);
 
   function render(dto) {
-    heading.textContent = `${i18n.t("efficiencyHeading")}: ${dto.island.name}`;
+    header.update(dto.island);
     const headRow = document.createElement("tr");
     for (const [label, numeric] of [
       [i18n.t("colName"), false],
@@ -107,13 +106,21 @@ export async function renderEfficiency(container, islandId, store) {
       if (p.efficiency === null) {
         effTd.textContent = "-";
       } else {
+        // Bar and number share one line, bar first: the bars line up into a
+        // column that can be read top to bottom, which is the whole point of
+        // drawing them at all.
+        const cell = document.createElement("div");
+        cell.className = "efficiency-cell";
         const bar = document.createElement("div");
         bar.className = "efficiency-bar";
         const fill = document.createElement("span");
         const ratio = Math.max(0, Math.min(1, p.efficiency));
         fill.style.width = `${(ratio * 100).toFixed(0)}%`;
         bar.append(fill);
-        effTd.append(document.createTextNode(pct.format(p.efficiency) + " "), bar);
+        const value = document.createElement("span");
+        value.textContent = pct.format(p.efficiency);
+        cell.append(bar, value);
+        effTd.append(cell);
       }
 
       // Productivity is a different question from efficiency: how hard the

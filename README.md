@@ -46,6 +46,7 @@ gegenüber dem Spiel.
    der Adresse im eigenen Netzwerk.
 
 ![Insel-Übersicht mit Warenliste](docs/screenshots/overview.png)
+![Effizienz-Ansicht: Produktion gegen Potenzial](docs/screenshots/efficiency.png)
 ![Verlauf einer Ware über die Session](docs/screenshots/history.png)
 ![Handy-Ansicht mit Inselliste](docs/screenshots/phone.png)
 
@@ -213,6 +214,7 @@ step, no Docker, no mod, strictly read-only towards the game.
    your own network.
 
 ![Island overview with the goods list](docs/screenshots/overview.png)
+![Efficiency view: generation against potential](docs/screenshots/efficiency.png)
 ![History of one good over the session](docs/screenshots/history.png)
 ![Phone view with the island list](docs/screenshots/phone.png)
 

@@ -230,7 +230,21 @@ function renderIslandList() {
   const alertCounts = countByIsland(store.alerts);
   const warming = !!store.status?.warmingUp;
   els.islandList.replaceChildren();
+  // store.islands is sorted by session first, so a session heading is due
+  // wherever the session changes. The headings are what makes a list of
+  // fourteen islands readable: they group Latium and Albion instead of
+  // repeating the session's name on every single row.
+  let lastSession = null;
   for (const island of store.islands) {
+    if (island.sessionName !== lastSession) {
+      lastSession = island.sessionName;
+      const groupLi = document.createElement("li");
+      groupLi.className = "session-group";
+      const heading = document.createElement("h3");
+      heading.textContent = lastSession;
+      groupLi.append(heading);
+      els.islandList.append(groupLi);
+    }
     const li = document.createElement("li");
     li.className = warming ? "island-item warming" : "island-item";
     if (warming) li.title = i18n.t("warmingUp");
@@ -244,9 +258,11 @@ function renderIslandList() {
     name.textContent = island.name || `#${island.islandId}`;
     const meta = document.createElement("div");
     meta.className = "meta";
+    // The session is the group heading above, so the row itself only says
+    // what differs between the islands under it.
     meta.textContent = warming
-      ? `${island.sessionName} · ${i18n.t("warmingUpShort")}`
-      : `${island.sessionName} · ${island.products} ${i18n.t("products")}`;
+      ? i18n.t("warmingUpShort")
+      : `${island.products} ${i18n.t("products")}`;
     left.append(name, meta);
 
     btn.append(left);
@@ -265,7 +281,9 @@ function renderIslandList() {
     if (island.deficits > 0) {
       const badge = document.createElement("span");
       badge.className = "badge";
-      badge.textContent = String(island.deficits);
+      // The minus says which direction the number points, so that a count
+      // next to an island name cannot be read as "25 goods produced".
+      badge.textContent = `\u2212${island.deficits}`;
       badge.title = `${island.deficits} ${i18n.t("deficits")}`;
       badges.append(badge);
     }

@@ -14,9 +14,12 @@ function seriesColors() {
   const dark = document.documentElement.getAttribute("data-theme") === "dark"
     || (!document.documentElement.hasAttribute("data-theme")
       && window.matchMedia?.("(prefers-color-scheme: dark)").matches);
+  // The series keep their own meaning-carrying colours; only the chrome
+  // follows the theme tokens in css/app.css, so the chart's grid does not
+  // sit brighter in the page than every other line around it.
   return dark
-    ? { generation: "#4fce7a", consumption: "#ff6b5c", delta: "#6fa2ff", grid: "#333338", text: "#ececec" }
-    : { generation: "#1e8449", consumption: "#c0392b", delta: "#2f6fed", grid: "#d9d9dd", text: "#1c1c1e" };
+    ? { generation: "#6fbf7a", consumption: "#e0645a", delta: "#6fa2ff", grid: "#27272b", text: "#eae7e1" }
+    : { generation: "#1e7a45", consumption: "#b4372b", delta: "#2f6fed", grid: "#e3dfd7", text: "#1b1a18" };
 }
 
 export async function renderHistory(container, islandId, guid, store) {
@@ -29,6 +32,14 @@ export async function renderHistory(container, islandId, guid, store) {
   back.href = `#/island/${encodeURIComponent(islandId)}`;
   back.className = "back-link";
   back.textContent = `← ${i18n.t("helpBack")}`;
+
+  // Which island this good belongs to: the history is reached from a row and
+  // has no island header of its own, and "History: Wheat" alone does not say
+  // whose wheat it is when fourteen islands grow it.
+  const eyebrow = document.createElement("p");
+  eyebrow.className = "eyebrow";
+  const island = store.islands.find((i) => i.id === islandId);
+  eyebrow.textContent = island ? `${island.name} · ${island.sessionName}` : "";
 
   const heading = document.createElement("h2");
   const rangeBar = document.createElement("div");
@@ -57,7 +68,7 @@ export async function renderHistory(container, islandId, guid, store) {
   legend.className = "legend";
   const message = document.createElement("p");
 
-  container.append(back, heading, rangeBar, chartContainer, legend, message);
+  container.append(back, eyebrow, heading, rangeBar, chartContainer, legend, message);
 
   function labelFor(key) {
     return i18n.t(`legend${key.charAt(0).toUpperCase() + key.slice(1)}`);
