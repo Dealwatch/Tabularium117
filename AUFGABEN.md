@@ -165,6 +165,20 @@ Reihenfolge einhalten – spätere Phasen bauen auf früheren auf. Referenz: `KO
   `visibilitychange` erneut angefordert) steht unter `#/help`. Geprüft wurde headless bei 390×844;
   der Test auf einem echten Handy im echten WLAN bleibt Owner-Aufgabe.
 
+## UI-Überarbeitung vor Veröffentlichung
+
+- [x] **UI.1 Navigation und Darstellung.** Bronze-Akzent, Hell/Dunkel, Inselkopf,
+  Waren/Effizienz, permanente Warnungsnavigation und kompakte Verbindungsdetails.
+- [x] **UI.2 Handy und Tabellen.** Direkte Detailansicht, Zurück-Link, Inselwähler,
+  Warenfilter, Einheiten, leere Suchergebnisse und zugängliche Verlaufslinks.
+- [x] **UI.3 Logikprüfung.** Sechs Node-DOM-Tests für Filter/Suche, Sortierung,
+  Lokalisierung, Inselwechsel, verspätete Antworten und Effizienz-Sonderwerte.
+- [ ] **UI.4 Visuelle Abnahme.** Desktop und Handy, beide Sprachen und Themes,
+  einschließlich Diagramm und LAN-Panel prüfen; README-Screenshots erneuern.
+  Browser-Vorschau in der Bearbeitung durch automatisches Nutzungslimit blockiert.
+  Die alten Screenshot-Dateien bleiben erhalten, sind aber nicht mehr im README
+  eingebunden. Go-Prüfung steht mangels installiertem Go ebenfalls noch aus.
+
 ## Phase 8 – Release
 
 - [x] **T8.1 Build-Pipeline.** GitHub Actions: Tests, `go vet`, Build windows/amd64 mit Versions-Info,

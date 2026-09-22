@@ -12,31 +12,33 @@
 <body>
 <header id="statusbar">
   <div id="statusbar-main">
-    <strong id="app-name" data-i18n="appName">Tabularium 117</strong>
+    <a class="brand" href="#/" aria-label="Tabularium 117"><span class="brand-mark" aria-hidden="true">T</span><strong id="app-name" data-i18n="appName">Tabularium 117</strong></a>
     <span id="conn-state" class="pill">…</span>
     <button id="alert-badge" type="button" class="alert-badge" hidden>
       <span aria-hidden="true">&#9888;</span><span id="alert-count">0</span>
     </button>
     <span id="lan-indicator" class="pill phone" hidden><span aria-hidden="true">&#128241;</span> <span id="lan-indicator-text">Phone</span></span>
-    <span id="protocol-version" class="muted"></span>
-    <span id="session-headline" class="muted"></span>
+
     <span id="last-frame" class="muted"></span>
     <span id="warmup-hint" class="warmup-hint" hidden></span>
   </div>
-  <div id="statusbar-controls">
+  <nav id="statusbar-controls" data-i18n-aria-label="navLabel">
+    <a class="nav-link" href="#/" data-i18n="islandsHeading">Islands</a>
+    <a class="nav-link" href="#/alerts" data-i18n="alertsHeading">Warnings</a>
     <a id="phone-link" href="#/phone" data-i18n="phoneHeading" hidden>Phone</a>
     <a id="help-link" href="#/help" data-i18n="helpHeading">Help</a>
     <button id="lang-toggle" type="button" data-i18n="languageToggle">Sprache: Deutsch</button>
-    <button id="theme-toggle" type="button" aria-label="Toggle theme" data-i18n-title="themeToggle">&#9680;</button>
-  </div>
+    <button id="theme-toggle" type="button" data-i18n-aria-label="themeToggle" aria-label="Toggle theme" data-i18n-title="themeToggle">&#9680;</button>
+  </nav>
 </header>
+<details id="connection-details"><summary data-i18n="details">Connection details</summary><span id="protocol-version" class="muted"></span> · <span id="session-headline" class="muted"></span></details>
 
 <div id="layout">
-  <nav id="sidebar" aria-label="Islands">
+  <nav id="sidebar" aria-label="Islands" data-i18n-aria-label="islandsHeading">
     <h2 data-i18n="islandsHeading">Islands</h2>
     <ul id="island-list"></ul>
   </nav>
-  <main id="view"></main>
+  <main id="view" tabindex="-1"></main>
 </div>
 
 <script type="module" src="js/app.js"></script>

@@ -31,12 +31,19 @@ gegenüber dem Spiel.
 5. **Handy-Modus** – per Schalter im UI einschaltbar, zeigt einen QR-Code mit
    der Adresse im eigenen Netzwerk.
 
-![Insel-Übersicht mit Warenliste](docs/screenshots/overview.png)
-![Verlauf einer Ware über die Session](docs/screenshots/history.png)
-![Handy-Ansicht mit Inselliste](docs/screenshots/phone.png)
+### Bedienung
 
-*Die Screenshots zeigen wiedergegebene Beispieldaten aus einem Mitschnitt
-(`testdata/connector-reencoded.jsonl`), kein Live-Spiel.*
+Wähle eine Insel und wechsle zwischen **Waren** und **Effizienz**. Die
+Warentabelle lässt sich durchsuchen und nach **Alle**, **Defizite** oder
+**Warnungen** filtern. Produktion, Verbrauch und Bilanz sind pro Minute;
+ein Klick auf den Warennamen öffnet den Verlauf. **Warnungen** und ihre
+Historie bleiben über die Hauptnavigation erreichbar, auch ohne aktive Warnung.
+
+Auf dem Handy öffnet die Auswahl direkt die Inselansicht. **← Inseln** führt
+zurück; über den Inselwähler wechselst du direkt. Breite Tabellen lassen sich
+seitlich scrollen, während die Warennamen sichtbar bleiben. Die Oberfläche
+startet dunkel; ein gewählter heller Modus und die Sprache werden gespeichert.
+Technische Verbindungsdaten stehen unter **Verbindungsdetails**.
 
 ### Schnellstart
 
@@ -193,6 +200,19 @@ step, no Docker, no mod, strictly read-only towards the game.
 
 *The screenshots show replayed sample data from a recording
 (`testdata/connector-reencoded.jsonl`), not a live game.*
+
+### Using the dashboard
+
+Select an island, then use **Goods** or **Efficiency**. Search the goods table
+and filter by **All**, **Deficits** or **Warnings**. Production, consumption
+and balance are per minute; a product name opens its history. **Warnings**
+and their history remain available even when no warnings are active.
+
+On a phone, selecting an island opens its detail view directly. Use
+**← Islands** to return or the island picker to switch. Wide tables scroll
+sideways while product names stay visible. The interface starts in dark mode;
+your chosen light mode and language are remembered. Technical information is
+available under **Connection details**.
 
 ### Quick start
 

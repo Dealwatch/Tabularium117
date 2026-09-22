@@ -1,5 +1,6 @@
 // views/history.js -- the uPlot chart for one product (KONZEPT.md section 2.2).
 
+import { islandNavigation } from "./navigation.js";
 import { i18n } from "../i18n.js";
 import { api, ApiError } from "../api.js";
 import uPlot from "../../vendor/uplot/uPlot.esm.js";
@@ -24,6 +25,8 @@ export async function renderHistory(container, islandId, guid, store) {
   let chart = null;
   let data = null;
   let lastLoadAt = 0;
+  let disposed = false;
+  let request = 0;
 
   const back = document.createElement("a");
   back.href = `#/island/${encodeURIComponent(islandId)}`;
@@ -57,7 +60,10 @@ export async function renderHistory(container, islandId, guid, store) {
   legend.className = "legend";
   const message = document.createElement("p");
 
-  container.append(back, heading, rangeBar, chartContainer, legend, message);
+  const panel = document.createElement("section"); panel.className = "data-panel chart-panel";
+  const units = document.createElement("p"); units.className = "muted"; units.textContent = i18n.t("perMinute");
+  container.append(islandNavigation(islandId, store, "history"), back, heading, panel);
+  panel.append(rangeBar, units, chartContainer, legend, message);
 
   function labelFor(key) {
     return i18n.t(`legend${key.charAt(0).toUpperCase() + key.slice(1)}`);
@@ -71,7 +77,7 @@ export async function renderHistory(container, islandId, guid, store) {
       const swatch = document.createElement("span");
       swatch.className = "swatch";
       swatch.style.background = colors[key];
-      const value = latest ? latest[key].toFixed(1) : "-";
+      const value = latest ? new Intl.NumberFormat(i18n.lang === "de" ? "de-DE" : "en-US", {minimumFractionDigits: 1, maximumFractionDigits: 1}).format(latest[key]) : "–";
       span.append(swatch, document.createTextNode(`${labelFor(key)}: ${value}`));
       legend.append(span);
     }
@@ -85,7 +91,7 @@ export async function renderHistory(container, islandId, guid, store) {
       renderLegend(null);
       return;
     }
-    message.textContent = "";
+    message.textContent = points.length === 1 ? i18n.t("sparseHistory") : "";
     const colors = seriesColors();
     // The series mixes raw readings with compacted means - and, in an old
     // database, means of two different widths. They are one series all the
@@ -140,12 +146,18 @@ export async function renderHistory(container, islandId, guid, store) {
 
   async function load() {
     lastLoadAt = Date.now();
+    const current = ++request;
     try {
-      data = await api.history(islandId, guid, range);
+      const result = await api.history(islandId, guid, range);
+      if (disposed || current !== request) return;
+      data = result;
       heading.textContent = `${i18n.t("historyHeading")}: ${data.product.name}`;
       buildChart(data.points, data.from, data.to);
     } catch (err) {
+      if (disposed || current !== request) return;
       if (err instanceof ApiError && err.status === 503) {
+        data = null;
+        if (chart) { chart.destroy(); chart = null; }
         chartContainer.replaceChildren();
         legend.replaceChildren();
         message.textContent = i18n.t("historyDisabled");
@@ -164,10 +176,14 @@ export async function renderHistory(container, islandId, guid, store) {
   };
   document.addEventListener("tabularium-snapshot", onSnapshot);
 
+  const onTheme = () => { if (data && !disposed) buildChart(data.points, data.from, data.to); };
+  document.addEventListener("tabularium-theme-changed", onTheme);
   const onLang = () => load();
   document.addEventListener("tabularium-lang-changed", onLang);
 
   return () => {
+    disposed = true;
+    document.removeEventListener("tabularium-theme-changed", onTheme);
     document.removeEventListener("tabularium-snapshot", onSnapshot);
     document.removeEventListener("tabularium-lang-changed", onLang);
     resizeObserver.disconnect();

@@ -64,7 +64,7 @@ function initTheme() {
   } catch {
     // No storage available; default to following the system.
   }
-  applyTheme(stored);
+  applyTheme(stored || "dark");
 }
 
 function toggleTheme() {
@@ -72,6 +72,7 @@ function toggleTheme() {
     || (window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light");
   const next = current === "dark" ? "light" : "dark";
   applyTheme(next);
+  document.dispatchEvent(new CustomEvent("tabularium-theme-changed"));
   try {
     localStorage.setItem(THEME_KEY, next);
   } catch {
@@ -179,6 +180,7 @@ function renderAlertBadge() {
 function alertsChanged() {
   renderAlertBadge();
   renderIslandList();
+  renderHomeIfShown();
   document.dispatchEvent(new CustomEvent("tabularium-alerts-changed"));
 }
 
@@ -306,7 +308,7 @@ function resyncIslands() {
       dropSelectionIfGone();
     } catch (err) {
       console.error("tabularium117: cannot load islands", err);
-    } finally {
+   } finally {
       resyncing = null;
     }
   })();
@@ -368,7 +370,9 @@ function showErrorLine(container, message) {
   container.append(p);
 }
 
+let routeVersion = 0;
 async function route() {
+  const version = ++routeVersion;
   if (typeof currentUnmount === "function") {
     try { currentUnmount(); } catch { /* ignore */ }
   }
@@ -376,38 +380,53 @@ async function route() {
 
   const r = parseHash();
   renderIslandList();
-  els.view.replaceChildren();
-
+  document.body.classList.toggle("detail-route", r.route !== "home");
+  document.querySelectorAll("#statusbar-controls a").forEach((a) => {
+    const selected = a.hash === (r.route === "alerts" ? "#/alerts" : r.route === "phone" ? "#/phone" : r.route === "help" ? "#/help" : "#/");
+    if (selected) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+  });
+  const content = document.createElement("div");
+  content.className = "view-content";
+  const back = document.createElement("a");
+  back.href = "#/"; back.className = "mobile-back"; back.textContent = i18n.t("islandBack");
+  const loading = document.createElement("p"); loading.className = "muted"; loading.textContent = i18n.t("loading");
+  loading.setAttribute("role", "status");
+  els.view.replaceChildren(back, content, loading);
+  let unmount = null;
   try {
     switch (r.route) {
       case "help":
-        currentUnmount = renderHelp(els.view);
+        unmount = renderHelp(content);
         break;
       case "phone":
-        currentUnmount = await renderPhone(els.view, store);
+        unmount = await renderPhone(content, store);
         break;
       case "alerts":
-        currentUnmount = await renderAlerts(els.view, store, r.all);
+        unmount = await renderAlerts(content, store, r.all);
         break;
       case "island":
-        currentUnmount = await renderIslandDetail(els.view, r.islandId, store);
+        unmount = await renderIslandDetail(content, r.islandId, store);
         break;
       case "history":
-        currentUnmount = await renderHistory(els.view, r.islandId, r.guid, store);
+        unmount = await renderHistory(content, r.islandId, r.guid, store);
         break;
       case "efficiency":
-        currentUnmount = await renderEfficiency(els.view, r.islandId, store);
+        unmount = await renderEfficiency(content, r.islandId, store);
         break;
       default:
-        renderHome(els.view);
+        renderHome(content);
     }
+    if (version !== routeVersion) { if (typeof unmount === "function") unmount(); return; }
+    currentUnmount = unmount;
   } catch (err) {
     if (err instanceof ApiError) {
-      showErrorLine(els.view, err.message);
+      showErrorLine(content, err.message);
     } else {
       console.error("tabularium117: routing failure", err);
-      showErrorLine(els.view, String(err));
+      showErrorLine(content, String(err));
     }
+  } finally {
+    loading.remove();
   }
 }
 
@@ -426,8 +445,16 @@ function renderHome(container) {
 
   const p = document.createElement("p");
   p.className = "muted";
-  p.textContent = i18n.t("selectIsland");
-  container.append(p);
+  const title = document.createElement("h1"); title.textContent = i18n.t("overviewHeading");
+  p.textContent = i18n.t("overviewIntro");
+  const stats = document.createElement("div"); stats.className = "summary-cards";
+  for (const [value, label] of [[store.islands.length, "islandCount"], [store.islands.reduce((n, i) => n + i.deficits, 0), "onlyDeficits"], [store.alerts.length, "activeWarnings"]]) {
+    const card = document.createElement("div"); card.className = "stat-card";
+    const number = document.createElement("strong"); number.textContent = value;
+    const caption = document.createElement("span"); caption.textContent = i18n.t(label);
+    card.append(number, caption); stats.append(card);
+  }
+  container.append(title, p, stats);
 }
 
 // renderHomeIfShown repaints the start page when it is the one on screen.
@@ -440,7 +467,9 @@ function renderHomeIfShown() {
   renderHome(els.view);
 }
 
-window.addEventListener("hashchange", route);
+window.addEventListener("hashchange", () => {
+  route().then(() => { els.view.focus({ preventScroll: true }); window.scrollTo({ top: 0 }); });
+});
 
 // --- wiring ---
 
@@ -470,6 +499,7 @@ new LiveConnection({
   onSnapshot: (island) => {
     upsertIsland(island);
     renderIslandList();
+    renderHomeIfShown();
     document.dispatchEvent(new CustomEvent("tabularium-snapshot", { detail: island }));
   },
   onAlert: applyAlertEvent,

@@ -1,5 +1,6 @@
 // views/islands.js -- the product table for one island (KONZEPT.md section 2.1/2.2).
 
+import { islandNavigation } from "./navigation.js";
 import { i18n } from "../i18n.js";
 import { api } from "../api.js";
 import { byProduct, ruleLabel } from "../alerts.js";
@@ -32,14 +33,15 @@ export async function renderIslandDetail(container, islandId, store) {
   let sortKey = "delta";
   let sortAsc = true; // deficits (most negative delta) first by default
   let search = "";
+  let filter = "all";
+  let disposed = false;
+  let request = 0;
 
+  container.append(islandNavigation(islandId, store, "goods"));
   const wrapper = document.createElement("div");
+  wrapper.className = "data-panel";
   const summaryLine = document.createElement("p");
   summaryLine.className = "muted";
-  const efficiencyLink = document.createElement("a");
-  efficiencyLink.href = `#/island/${encodeURIComponent(islandId)}/efficiency`;
-  efficiencyLink.textContent = i18n.t("efficiencyHeading");
-  efficiencyLink.style.marginLeft = "1rem";
 
   const toolbar = document.createElement("div");
   toolbar.className = "toolbar";
@@ -47,7 +49,17 @@ export async function renderIslandDetail(container, islandId, store) {
   search_input.type = "search";
   search_input.placeholder = i18n.t("searchPlaceholder");
   search_input.setAttribute("data-i18n-placeholder", "searchPlaceholder");
-  toolbar.append(search_input, efficiencyLink);
+  search_input.setAttribute("aria-label", i18n.t("searchPlaceholder"));
+  const filters = document.createElement("div"); filters.className = "filter-buttons";
+  filters.setAttribute("role", "group"); filters.setAttribute("aria-label", i18n.t("filtersLabel"));
+  const filterButtons = [];
+  for (const [value, key] of [["all", "allGoods"], ["deficits", "onlyDeficits"], ["warnings", "onlyWarnings"]]) {
+    const button = document.createElement("button"); button.type = "button"; button.textContent = i18n.t(key);
+    button.setAttribute("aria-pressed", String(value === filter));
+    button.addEventListener("click", () => { filter = value; filterButtons.forEach(([b, v]) => b.setAttribute("aria-pressed", String(v === filter))); renderTable(); });
+    filterButtons.push([button, value]); filters.append(button);
+  }
+  toolbar.append(search_input, filters);
 
   const table = document.createElement("table");
   const thead = document.createElement("thead");
@@ -58,6 +70,9 @@ export async function renderIslandDetail(container, islandId, store) {
   // box instead of dragging the whole page sideways (task T7.4).
   const tableBox = document.createElement("div");
   tableBox.className = "table-scroll";
+  tableBox.tabIndex = 0;
+  tableBox.setAttribute("role", "region");
+  tableBox.setAttribute("aria-label", i18n.t("goods"));
   tableBox.append(table);
   wrapper.append(summaryLine, toolbar, tableBox);
   container.append(wrapper);
@@ -69,6 +84,8 @@ export async function renderIslandDetail(container, islandId, store) {
     for (const col of columns) {
       const th = document.createElement("th");
       if (col.numeric) th.className = "num";
+      th.scope = "col";
+      if (sortKey === col.key) th.setAttribute("aria-sort", sortAsc ? "ascending" : "descending");
       const btn = document.createElement("button");
       btn.type = "button";
       btn.textContent = i18n.t(col.label) + (sortKey === col.key ? (sortAsc ? " ↑" : " ↓") : "");
@@ -76,6 +93,7 @@ export async function renderIslandDetail(container, islandId, store) {
         if (sortKey === col.key) sortAsc = !sortAsc;
         else { sortKey = col.key; sortAsc = true; }
         renderTable();
+        thead.querySelectorAll("button")[columns.indexOf(col)]?.focus();
       });
       th.append(btn);
       tr.append(th);
@@ -103,6 +121,8 @@ export async function renderIslandDetail(container, islandId, store) {
     const alerted = byProduct(store.alerts, islandId);
 
     let rows = productsDTO.products;
+    if (filter === "deficits") rows = rows.filter((p) => p.delta < 0);
+    if (filter === "warnings") rows = rows.filter((p) => alerted.has(String(p.guid)));
     if (search.trim()) {
       const needle = search.trim().toLowerCase();
       rows = rows.filter((p) => p.name.toLowerCase().includes(needle));
@@ -127,7 +147,7 @@ export async function renderIslandDetail(container, islandId, store) {
         td.textContent = store.status?.warmingUp ? i18n.t("warmingUp") : i18n.t("noProduction");
         if (store.status?.warmingUp) tr.className = "no-data";
       } else {
-        td.textContent = "";
+        td.textContent = i18n.t("noMatches");
       }
       tr.append(td);
       tbody.append(tr);
@@ -137,14 +157,7 @@ export async function renderIslandDetail(container, islandId, store) {
     const fmt0 = numberFormat(0);
     for (const p of rows) {
       const tr = document.createElement("tr");
-      tr.className = "clickable";
-      tr.tabIndex = 0;
-      tr.addEventListener("click", () => {
-        window.location.hash = `#/island/${encodeURIComponent(islandId)}/product/${encodeURIComponent(p.guid)}`;
-      });
-      tr.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") tr.click();
-      });
+      tr.className = "product-row";
 
       const nameTd = document.createElement("td");
       const warnings = alerted.get(String(p.guid));
@@ -158,6 +171,13 @@ export async function renderIslandDetail(container, islandId, store) {
       } else {
         nameTd.textContent = p.name;
       }
+      const historyLink = document.createElement("a");
+      historyLink.className = "product-link";
+      historyLink.href = `#/island/${encodeURIComponent(islandId)}/product/${encodeURIComponent(p.guid)}`;
+      historyLink.setAttribute("aria-label", `${p.name}: ${i18n.t("openHistory")}`);
+      while (nameTd.firstChild) historyLink.append(nameTd.firstChild);
+      const hint = document.createElement("span"); hint.className = "history-hint"; hint.textContent = " ↗"; hint.setAttribute("aria-hidden", "true");
+      historyLink.append(hint); historyLink.title = i18n.t("openHistory"); nameTd.append(historyLink);
       const genTd = document.createElement("td");
       genTd.className = "num";
       genTd.textContent = fmt1.format(p.generation);
@@ -166,7 +186,7 @@ export async function renderIslandDetail(container, islandId, store) {
       consTd.textContent = fmt1.format(p.consumption);
       const deltaTd = document.createElement("td");
       deltaTd.className = `num ${deltaClass(p.delta)}`;
-      deltaTd.textContent = fmt1.format(p.delta);
+      deltaTd.textContent = (p.delta > 0 ? "+" : "") + fmt1.format(p.delta);
       const buildingsTd = document.createElement("td");
       buildingsTd.className = "num";
       buildingsTd.textContent = fmt0.format(p.buildings);
@@ -182,7 +202,10 @@ export async function renderIslandDetail(container, islandId, store) {
   });
 
   async function load() {
-    productsDTO = await api.products(islandId);
+    const current = ++request;
+    const dto = await api.products(islandId);
+    if (disposed || current !== request) return;
+    productsDTO = dto;
     renderTable();
   }
 
@@ -202,6 +225,7 @@ export async function renderIslandDetail(container, islandId, store) {
   document.addEventListener("tabularium-alerts-changed", onAlerts);
 
   return () => {
+    disposed = true;
     document.removeEventListener("tabularium-snapshot", onSnapshot);
     document.removeEventListener("tabularium-lang-changed", onLang);
     document.removeEventListener("tabularium-alerts-changed", onAlerts);

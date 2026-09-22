@@ -29,6 +29,9 @@ export async function renderAlerts(container, store, showHistory) {
   // box instead of dragging the whole page sideways (task T7.4).
   const tableBox = document.createElement("div");
   tableBox.className = "table-scroll";
+  tableBox.tabIndex = 0;
+  tableBox.setAttribute("role", "region");
+  tableBox.setAttribute("aria-label", i18n.t("alertsHeading"));
   tableBox.append(table);
   container.append(heading, toolbar, explain, message, tableBox);
 

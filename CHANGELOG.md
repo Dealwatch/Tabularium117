@@ -10,6 +10,16 @@ First beta release, for testing by a small group of real players before a
 
 ### Added
 
+- Bronze-accented dashboard with a remembered light/dark mode, island context,
+  goods/efficiency navigation and a permanent warnings entry.
+- Goods filters for deficits and active warnings, per-minute column labels,
+  accessible history links, explicit search-empty states and keyboard sorting.
+- Mobile detail navigation with an island picker and pinned product names in
+  horizontally scrollable tables.
+- Immediate chart recoloring on theme changes and an explanation for a single
+  history sample. Out-of-order history and product responses no longer replace
+  newer results; obsolete route renders are isolated and cleaned up.
+
 - Live island overview: every good with production, consumption, and delta;
   deficits sort to the top and are marked in red.
 - History per good, with 1 h, 4 h, 24 h, 7 day, and whole-session ranges;

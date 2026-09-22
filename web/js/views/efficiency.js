@@ -1,5 +1,6 @@
 // views/efficiency.js -- the efficiency view (KONZEPT.md section 2.3).
 
+import { islandNavigation } from "./navigation.js";
 import { i18n } from "../i18n.js";
 import { api } from "../api.js";
 
@@ -8,12 +9,8 @@ function locale() {
 }
 
 export async function renderEfficiency(container, islandId, store) {
-  const back = document.createElement("a");
-  back.href = `#/island/${encodeURIComponent(islandId)}`;
-  back.className = "back-link";
-  back.textContent = `← ${i18n.t("helpBack")}`;
-
-  const heading = document.createElement("h2");
+  let disposed = false;
+  let request = 0;
   const explain = document.createElement("p");
   explain.className = "muted";
   explain.textContent = i18n.t("efficiencyExplain");
@@ -27,11 +24,14 @@ export async function renderEfficiency(container, islandId, store) {
   // box instead of dragging the whole page sideways (task T7.4).
   const tableBox = document.createElement("div");
   tableBox.className = "table-scroll";
+  tableBox.tabIndex = 0;
+  tableBox.setAttribute("role", "region");
+  tableBox.setAttribute("aria-label", i18n.t("efficiencyHeading"));
   tableBox.append(table);
-  container.append(back, heading, explain, tableBox);
+  container.append(islandNavigation(islandId, store, "efficiency"), explain, tableBox);
+  tableBox.classList.add("data-panel");
 
   function render(dto) {
-    heading.textContent = `${i18n.t("efficiencyHeading")}: ${dto.island.name}`;
     const headRow = document.createElement("tr");
     for (const [label, numeric] of [
       [i18n.t("colName"), false],
@@ -123,8 +123,9 @@ export async function renderEfficiency(container, islandId, store) {
   }
 
   async function load() {
+    const current = ++request;
     const dto = await api.efficiency(islandId);
-    render(dto);
+    if (!disposed && current === request) render(dto);
   }
 
   await load();
@@ -139,6 +140,7 @@ export async function renderEfficiency(container, islandId, store) {
   document.addEventListener("tabularium-lang-changed", onLang);
 
   return () => {
+    disposed = true;
     document.removeEventListener("tabularium-snapshot", onSnapshot);
     document.removeEventListener("tabularium-lang-changed", onLang);
   };

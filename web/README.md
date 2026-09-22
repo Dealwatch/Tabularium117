@@ -14,3 +14,16 @@ LAN client gets a small indicator in the status bar instead.
 New top-level directories must be added to the `//go:embed` pattern in
 `embed.go` to reach the executable. To look at the UI without the game:
 `go run ./cmd/tabularium117 --replay testdata/connector-reencoded.jsonl --serve-after-replay`.
+
+
+The dashboard defaults to dark mode and stores explicit theme and language
+choices locally. `views/navigation.js` provides island context and the picker.
+Below 900 px, non-home routes hide the island list and expose a return link;
+tables retain their own horizontal scrolling region. Warnings remain reachable
+without active alerts. The goods filters operate only on received data and do
+not change backend calculations or alert thresholds.
+
+Frontend logic checks (optional development tool, Node 22+):
+`node --test scripts/ui.test.mjs`. The minimal DOM test double checks behavior,
+not CSS layout, browser APIs, uPlot rendering, LAN access or the real game.
+See `docs/ui-review.md` for the remaining visual acceptance steps.
