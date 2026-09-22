@@ -6,9 +6,19 @@
 [![Lizenz / License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Ko-fi](https://img.shields.io/badge/Ko--fi-Unterst%C3%BCtzen%20%2F%20Support-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/dealwatch)
 
-> Status: in Entwicklung / under development. Es gibt noch kein Release. /
-> There is no release yet. Konzept: `KONZEPT.md`, Aufgaben: `AUFGABEN.md`,
-> Pipe-Protokoll: `docs/protocol.md`.
+> **Status: Beta.** Tabularium 117 läuft gegen das echte Spiel und geht
+> gerade in den Test mit den ersten Spielern. Es kann also noch rumpeln –
+> Fehlerberichte sind ausdrücklich erwünscht (siehe `docs/beta.md`). Den
+> Download gibt es auf der
+> [Release-Seite](https://github.com/Dealwatch/Tabularium117/releases),
+> sobald die erste Beta getaggt ist. Konzept: `KONZEPT.md`, Aufgaben:
+> `AUFGABEN.md`, Pipe-Protokoll: `docs/protocol.md`.
+>
+> **Status: beta.** Tabularium 117 runs against the real game and is going
+> into testing with its first players, so expect rough edges – bug reports
+> are explicitly welcome (see `docs/beta.md`). The download appears on the
+> [releases page](https://github.com/Dealwatch/Tabularium117/releases) as
+> soon as the first beta is tagged.
 
 ---
 
