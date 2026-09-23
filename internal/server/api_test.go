@@ -92,6 +92,7 @@ type efficiencyJSON struct {
 		Name              string   `json:"name"`
 		Generation        float32  `json:"generation"`
 		PerfectGeneration float32  `json:"perfectGeneration"`
+		Buildings         int32    `json:"buildings"`
 		Efficiency        *float64 `json:"efficiency"`
 		Wasted            float32  `json:"wasted"`
 		AvgProductivity   float32  `json:"avgProductivity"`
@@ -354,6 +355,9 @@ func TestEfficiency(t *testing.T) {
 		}
 		if p.Name != "Hafer" {
 			t.Errorf("product 2068 = %q, want the German name", p.Name)
+		}
+		if p.Buildings != 6 {
+			t.Errorf("product 2068 has %d buildings, want 6", p.Buildings)
 		}
 		if want := float32(27.916876) - float32(23.191875); p.Wasted != want {
 			t.Errorf("wasted = %v, want %v", p.Wasted, want)

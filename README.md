@@ -45,11 +45,12 @@ gegenüber dem Spiel.
 
 ![Insel-Übersicht mit Warenliste](docs/screenshots/overview.png)
 ![Effizienz-Ansicht: Produktion gegen Potenzial](docs/screenshots/efficiency.png)
-![Verlauf einer Ware über die Session](docs/screenshots/history.png)
 ![Handy-Ansicht mit Inselliste](docs/screenshots/phone.png)
 
-*Die Screenshots zeigen wiedergegebene Beispieldaten aus einem Mitschnitt
-(`testdata/connector-reencoded.jsonl`), kein Live-Spiel.*
+*Die Screenshots stammen aus beta.1 mit wiedergegebenen Beispieldaten
+(`testdata/connector-reencoded.jsonl`), nicht aus einem Live-Spiel. Der
+Mitschnitt enthält nur einen Messpunkt pro Ware und zeigt daher keinen
+aussagekräftigen Verlauf; neue Bilder folgen mit einem längeren Mitschnitt.*
 
 ### Schnellstart
 
@@ -166,7 +167,10 @@ ohne Unterbrechung weiter. Umlaute liefert das Spiel als `_`.
 
 **Fertiges Dashboard:** [`docs/grafana/tabularium117.json`](docs/grafana/tabularium117.json)
 zeigt Verbindung, aktuelle Defizite, Bilanz und Effizienz über die Zeit sowie
-alle Waren auf einen Blick, auswählbar nach Session, Insel und Ware. Import in
+alle Waren auf einen Blick. Die Tabellen zeigen alle Waren der gewählten
+Session und Inseln; die Diagramme starten mit einer passenden Ware und lassen
+sich über „Chart goods“ auf weitere Waren einstellen. Die JSON-Datei wird
+separat aus dem Repository geladen und liegt nicht in der EXE. Import in
 Grafana (10 oder neuer): *Dashboards → New → Import*, die Datei hochladen und
 die Prometheus-Datenquelle wählen. Die Session ist eine Einzelauswahl, weil
 Insel-Nummern sich zwischen Sessions wiederholen.
@@ -289,11 +293,12 @@ step, no Docker, no mod, strictly read-only towards the game.
 
 ![Island overview with the goods list](docs/screenshots/overview.png)
 ![Efficiency view: generation against potential](docs/screenshots/efficiency.png)
-![History of one good over the session](docs/screenshots/history.png)
 ![Phone view with the island list](docs/screenshots/phone.png)
 
-*The screenshots show replayed sample data from a recording
-(`testdata/connector-reencoded.jsonl`), not a live game.*
+*These beta.1 screenshots show replayed sample data from a recording
+(`testdata/connector-reencoded.jsonl`), not a live game. The recording has
+only one reading per good, so it cannot show a useful history chart; new
+screenshots will follow once a longer recording is available.*
 
 ### Quick start
 
@@ -403,7 +408,10 @@ a break. The game sends umlauts as `_`.
 
 **Ready-made dashboard:** [`docs/grafana/tabularium117.json`](docs/grafana/tabularium117.json)
 shows the connection, the current deficits, balance and efficiency over time
-and every good at a glance, filterable by session, island and good. To import
+and every good at a glance. The tables show all goods of the selected session
+and islands; the charts start with one matching good and let you choose more
+under "Chart goods". Download the JSON separately from the repository; it is
+not part of the exe. To import
 it in Grafana (10 or newer): *Dashboards → New → Import*, upload the file and
 pick the Prometheus data source. The session is a single choice because
 island numbers repeat between sessions.
