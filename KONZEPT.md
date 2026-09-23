@@ -268,7 +268,7 @@ dieser Abschnitt ist die Referenz dafür.
 | GET | `/islands` | Bekannte Inseln, sortiert nach (SessionGUID, IslandID), je mit `products`, `deficits` (Delta < 0) und `tick` (Spielzeit-Zeitstempel des Ticks, aus dem dieser Snapshot stammt) |
 | GET | `/islands/{id}/products` | Insel plus alle Waren mit Namen, Kategorie, Rohwerten sowie `workforce`/`buildingsByGuid` (GUID → Name + Anzahl); Defizite zuerst, dann nach Name |
 | GET | `/islands/{id}/products/{guid}/history?range=1h\|4h\|24h\|7d\|session` | Zeitreihe mit `from`, `to` und `points` (`aggregated` markiert verdichtete Punkte, `bucketMs` ihre Breite in ms, `tick` die Spielzeit-Id); Standard `1h`, unbekannter Bereich → 400 |
-| GET | `/islands/{id}/efficiency` | Waren mit `efficiency` (Generation / PerfectGeneration, `null` wenn Perfekt = 0), `wasted` (Perfekt − Ist) und `avgProductivity` (mittlere Gebäude-Produktivität in Prozent, §2.3), sortiert nach `wasted` absteigend |
+| GET | `/islands/{id}/efficiency` | Waren mit `efficiency` (Generation / PerfectGeneration, `null` wenn Perfekt = 0), `wasted` (Perfekt − Ist), `avgProductivity` (mittlere Gebäude-Produktivität in Prozent, §2.3) und `buildings` (Anzahl Gebäude – trennt „keine Gebäude“ von „Gebäude, aber kein Potenzial“), sortiert nach `wasted` absteigend |
 | GET | `/alerts?active=true\|false&limit=` | Warnungen, neueste zuerst. `active=true` (Standard) kommt aus der Regel-Engine, `active=false` aus der Datenbank (offene **und** beendete); ohne Datenbank 503 wie beim Verlauf |
 | GET | `/events` | SSE-Stream: `status`, `snapshot` (Inselübersicht wie in `/islands`) und `alert`; Heartbeat `: ping` alle 15 s |
 | GET | `/lan` | LAN-Zustand: `enabled`, `available` (eine private Adresse existiert), `ip`, `interface`, `port`, `reason` (wenn nicht möglich) und `url` – die Adresse **mit Token**, ausschließlich in Antworten an den Loopback-Listener |
@@ -315,7 +315,7 @@ Konventionen:
   liegt auch im `status`-Ereignis des SSE-Streams.
 - **`tick`** ist der Spielzeit-Zeitstempel der Pipe (§4). Er identifiziert den Tick und wird nicht
   angezeigt – rohe Spiel-Millisekunden sagen Spielenden nichts; die Statusleiste zeigt weiter
-  „letzter Frame vor X“.
+  „letzte Meldung vor X“.
 - Die statische UI liegt unter `/` und wird per `embed` aus `web/` ausgeliefert.
 
 ### Prometheus-Metriken (`GET /metrics`, experimentell)
