@@ -45,12 +45,12 @@ gegenüber dem Spiel.
 
 ![Insel-Übersicht mit Warenliste](docs/screenshots/overview.png)
 ![Effizienz-Ansicht: Produktion gegen Potenzial](docs/screenshots/efficiency.png)
+![Verlauf einer Ware über die letzte Stunde](docs/screenshots/history.png)
 ![Handy-Ansicht mit Inselliste](docs/screenshots/phone.png)
 
-*Die Screenshots stammen aus beta.1 mit wiedergegebenen Beispieldaten
-(`testdata/connector-reencoded.jsonl`), nicht aus einem Live-Spiel. Der
-Mitschnitt enthält nur einen Messpunkt pro Ware und zeigt daher keinen
-aussagekräftigen Verlauf; neue Bilder folgen mit einem längeren Mitschnitt.*
+*Übersicht, Effizienz und Verlauf stammen aus einem laufenden Spiel mit dem
+aktuellen Entwicklungsstand; die Handy-Ansicht zeigt noch beta.1 mit
+wiedergegebenen Beispieldaten.*
 
 ### Schnellstart
 
@@ -171,9 +171,13 @@ alle Waren auf einen Blick. Die Tabellen zeigen alle Waren der gewählten
 Session und Inseln; die Diagramme starten mit einer passenden Ware und lassen
 sich über „Chart goods“ auf weitere Waren einstellen. Die JSON-Datei wird
 separat aus dem Repository geladen und liegt nicht in der EXE. Import in
-Grafana (10 oder neuer): *Dashboards → New → Import*, die Datei hochladen und
-die Prometheus-Datenquelle wählen. Die Session ist eine Einzelauswahl, weil
-Insel-Nummern sich zwischen Sessions wiederholen.
+Grafana (10 oder neuer, getestet mit 13.2): *Dashboards → New → Import*, die
+Datei hochladen und die Prometheus-Datenquelle wählen. Die Session ist eine
+Einzelauswahl, weil Insel-Nummern sich zwischen Sessions wiederholen. Die
+Auswahllisten werden beim Öffnen des Dashboards geladen; neue Inseln oder
+Waren erscheinen nach einem Neuladen der Seite.
+
+![Grafana-Dashboard mit Defiziten, Bilanz und Effizienz](docs/screenshots/grafana.png)
 
 **Einschränkung – Spielstände sind nicht unterscheidbar:** Die Pipe liefert
 keine Kennung für den Spielstand. `session_guid` bezeichnet die Region (z. B.
@@ -293,12 +297,12 @@ step, no Docker, no mod, strictly read-only towards the game.
 
 ![Island overview with the goods list](docs/screenshots/overview.png)
 ![Efficiency view: generation against potential](docs/screenshots/efficiency.png)
+![History of one good over the last hour](docs/screenshots/history.png)
 ![Phone view with the island list](docs/screenshots/phone.png)
 
-*These beta.1 screenshots show replayed sample data from a recording
-(`testdata/connector-reencoded.jsonl`), not a live game. The recording has
-only one reading per good, so it cannot show a useful history chart; new
-screenshots will follow once a longer recording is available.*
+*The overview, efficiency and history screenshots come from a running game
+with the current development version; the phone view still shows beta.1 with
+replayed sample data.*
 
 ### Quick start
 
@@ -411,10 +415,13 @@ shows the connection, the current deficits, balance and efficiency over time
 and every good at a glance. The tables show all goods of the selected session
 and islands; the charts start with one matching good and let you choose more
 under "Chart goods". Download the JSON separately from the repository; it is
-not part of the exe. To import
-it in Grafana (10 or newer): *Dashboards → New → Import*, upload the file and
-pick the Prometheus data source. The session is a single choice because
-island numbers repeat between sessions.
+not part of the exe. To import it in Grafana (10 or newer, tested with 13.2):
+*Dashboards → New → Import*, upload the file and pick the Prometheus data
+source. The session is a single choice because island numbers repeat between
+sessions. The selectors are filled when the dashboard opens; new islands or
+goods appear after a page reload.
+
+![Grafana dashboard with deficits, balance and efficiency](docs/screenshots/grafana.png)
 
 **Limitation – saves cannot be told apart:** the pipe provides no identifier
 for the save. `session_guid` names the region (e.g. Latium), which is the same
