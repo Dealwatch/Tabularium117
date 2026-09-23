@@ -18,7 +18,7 @@ import (
 // internally every 10 ms for as long as the context allows, so without a
 // bound a permanently busy pipe would block forever and never produce a
 // status event. Whether the game accepts a second client at all is still open
-// (docs/protocol.md, open question 2).
+// (docs/protocol.md, open question 1, simultaneous pipe clients).
 const dialTimeout = 30 * time.Second
 
 // windowsDialer opens the named pipe with go-winio.

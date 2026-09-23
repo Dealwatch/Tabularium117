@@ -526,14 +526,18 @@ beschreibt, was der Code tut.
 
 ## 11. Definition „MVP fertig“
 
-- [ ] `tabularium117.exe` startet ohne Installation, öffnet Browser automatisch
-- [ ] Erkennt laufendes Anno 117 mit `/pipe`, verbindet automatisch neu
-- [ ] Zeigt alle Inseln und Waren mit Namen (DE/EN)
-- [ ] Verlauf für jede Ware (mindestens 4 h)
-- [ ] Effizienz-Ansicht
-- [ ] Defizit-Warnungen
-- [ ] LAN-Modus mit QR-Code, am Handy bedienbar
-- [ ] Release auf GitHub mit README
+Erreicht mit v0.1.0-beta.1 (2026-09-22).
+
+- [x] `tabularium117.exe` startet ohne Installation, öffnet Browser automatisch
+- [x] Erkennt laufendes Anno 117 mit `/pipe`, verbindet automatisch neu
+- [x] Zeigt alle Inseln und Waren mit Namen (DE/EN) – alle Inseln, die die Pipe
+  liefert; im getesteten Spielstand waren das die eigenen, nicht die der KI
+  (`docs/protocol.md`, offene Fragen)
+- [x] Verlauf für jede Ware (mindestens 4 h; gehalten werden 7 Tage voll aufgelöst)
+- [x] Effizienz-Ansicht
+- [x] Defizit-Warnungen
+- [x] LAN-Modus mit QR-Code, am Handy bedienbar
+- [x] Release auf GitHub mit README
 
 ## 12. Entscheidungen aus der Protokollanalyse
 

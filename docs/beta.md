@@ -61,8 +61,7 @@ notieren, auch wenn es nicht wie ein Fehler wirkt:
 - [ ] Den **anno-mods Game-Connector gleichzeitig mit Tabularium 117**
       laufen lassen (beide gegen dieselbe laufende Spielinstanz) – empfängt
       Tabularium 117 weiterhin Daten, oder bricht die Verbindung ab? Das ist
-      derzeit die einzige offene Protokollfrage in `docs/protocol.md` und
-      für uns besonders wichtig zu wissen.
+      eine besonders wichtige offene Protokollfrage in `docs/protocol.md`.
 - [ ] Hell/Dunkel-Design und Deutsch/Englisch umschalten.
 
 ### Fehler melden
@@ -157,9 +156,8 @@ if it does not look like a bug:
       use – please allow **"Private networks"**.
 - [ ] Run the **anno-mods game connector at the same time** as Tabularium
       117 (both against the same running game) – does Tabularium 117 keep
-      receiving frames, or does the connection break? This is currently the
-      one open protocol question in `docs/protocol.md` and especially
-      useful for us to know.
+      receiving frames, or does the connection break? This is an especially
+      important open protocol question in `docs/protocol.md`.
 - [ ] Switch light/dark theme and German/English.
 
 ### Reporting a problem
