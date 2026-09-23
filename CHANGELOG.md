@@ -5,6 +5,11 @@ All notable changes to Tabularium 117 are documented here, in the
 
 ## [Unreleased]
 
+## [0.1.0-beta.2] - 2026-09-23
+
+Second beta: the Steam launch option explained in the app, and optional
+metrics for Prometheus and Grafana.
+
 ### Added
 
 - The README states the measured resource usage of `tabularium117.exe`.
