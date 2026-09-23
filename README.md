@@ -118,6 +118,22 @@ anderer Ort wählen. Sie hält 7 Tage in voller Auflösung, verdichtet danach au
 Update-Prüfung und keine Konten. Tabularium 117 liest die Pipe nur – es schreibt nie
 etwas ins Spiel.
 
+### Ressourcenbedarf
+
+Tabularium 117 selbst braucht kaum Leistung. Gemessen über 5 Minuten,
+während es mit einer laufenden Anno-117-Sitzung verbunden war, auf einem
+Ryzen 7 9800X3D:
+
+- **CPU:** im Schnitt 0,003 %, in der Spitze 0,098 %
+- **Arbeitsspeicher:** 16,4 MB, im Schnitt wie in der Spitze
+
+Gemessen wurde nur `tabularium117.exe`, nicht der Browser, der die Oberfläche
+anzeigt – dessen Bedarf hängt vom Browser ab und davon, was sonst noch offen
+ist. Auf anderer Hardware fallen die Werte anders aus. Dass sie so niedrig
+sind, liegt an der Arbeitsweise: Das Spiel liefert etwa alle zwei Minuten
+neue Statistiken, und dazwischen gibt es für Tabularium 117 so gut wie nichts
+zu tun.
+
 ### Kommandozeilen-Referenz
 
 | Flag | Standard | Bedeutung |
@@ -289,6 +305,20 @@ use `--data-dir <path>` to pick another location. It keeps 7 days at full
 resolution, then 10-minute means, and deletes them after 90 days. There is no
 telemetry, no update check, and no accounts. Tabularium 117 only reads the pipe – it
 never writes anything into the game.
+
+### Resource usage
+
+Tabularium 117 itself needs next to nothing. Measured over 5 minutes while
+connected to a running Anno 117 session, on a Ryzen 7 9800X3D:
+
+- **CPU:** 0.003 % on average, 0.098 % at peak
+- **Memory:** 16.4 MB, both on average and at peak
+
+This measures `tabularium117.exe` only, not the browser that shows the UI –
+that depends on which browser you use and what else is open. Other hardware
+gives other numbers. They are this low because of how the work arrives: the
+game sends new statistics about every two minutes, and in between there is
+almost nothing for Tabularium 117 to do.
 
 ### Command-line reference
 

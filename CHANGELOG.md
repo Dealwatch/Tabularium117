@@ -5,6 +5,10 @@ All notable changes to Tabularium 117 are documented here, in the
 
 ## [Unreleased]
 
+### Added
+
+- The README states the measured resource usage of `tabularium117.exe`.
+
 ### Changed
 
 - The in-app help, the README and the beta guide explain how to add the
