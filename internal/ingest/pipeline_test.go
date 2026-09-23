@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"fmt"
 	"io"
 	"log/slog"
 	"os"
@@ -316,8 +317,8 @@ func TestPipeStatusMapping(t *testing.T) {
 
 	onStatus(pipe.Status{State: pipe.StateConnected, At: at.Add(2 * time.Second)})
 	conn = st.Connection()
-	if conn.Err != "" || conn.ProtocolVersion != 0 {
-		t.Errorf("connection = %+v, want the per-connection fields reset", conn)
+	if conn.State != state.StateConnected || conn.Err != "" || conn.ProtocolVersion != 0 {
+		t.Errorf("connection = %+v, want connected with the per-connection fields reset", conn)
 	}
 
 	stat := protocol.AreaStatistics{Snapshot: model.IslandSnapshot{Key: model.IslandKey{SessionGUID: 2, IslandID: 2}}}
@@ -408,5 +409,103 @@ func TestSessionCallbacksAreOptional(t *testing.T) {
 	p := &ingest.Pipeline{State: state.New()}
 	if err := p.Run(context.Background(), src); err != nil {
 		t.Fatalf("Run: %v", err)
+	}
+}
+
+// A message that lists a good twice keeps the later entry, where it was
+// sent - the same rule the history applies with INSERT OR REPLACE - so
+// that the table, the alerts, the history and /metrics cannot disagree. The
+// first time it happens is logged: it has never been seen, and the log is how
+// anyone would find out.
+func TestDuplicateProductsKeepTheLaterEntry(t *testing.T) {
+	var buf bytes.Buffer
+	st := state.New()
+	var stored []model.IslandSnapshot
+	p := &ingest.Pipeline{
+		State:      st,
+		Log:        logTo(&buf),
+		OnSnapshot: func(snap model.IslandSnapshot) { stored = append(stored, snap) },
+	}
+
+	key := model.IslandKey{SessionGUID: 3245, IslandID: 5}
+	at := time.Now()
+	stat := func(products ...model.ProductStat) source.Frame {
+		return frame(t, protocol.AreaStatistics{Snapshot: model.IslandSnapshot{Key: key, Name: "Juliana", Products: products}}, at)
+	}
+	src := &sliceSource{frames: []source.Frame{
+		stat(
+			// GUID 0 is a real product (docs/protocol.md), so it has to be
+			// handled like any other.
+			model.ProductStat{ProductGUID: 0, Generation: 1},
+			model.ProductStat{ProductGUID: 2068, Generation: 1},
+			model.ProductStat{ProductGUID: 2069, Generation: 7},
+			model.ProductStat{ProductGUID: 0, Generation: 2},
+			model.ProductStat{ProductGUID: 2068, Generation: 3},
+		),
+		stat(
+			model.ProductStat{ProductGUID: 2068, Generation: 4},
+			model.ProductStat{ProductGUID: 2068, Generation: 5},
+		),
+	}}
+	if err := p.Run(context.Background(), src); err != nil {
+		t.Fatalf("Run: %v", err)
+	}
+
+	snap, ok := st.Snapshot(key)
+	if !ok {
+		t.Fatal("the island was not stored")
+	}
+	got := make([]string, 0, len(snap.Products))
+	for _, prod := range snap.Products {
+		got = append(got, fmt.Sprintf("%d=%g", prod.ProductGUID, prod.Generation))
+	}
+	if want := "2068=5"; strings.Join(got, " ") != want {
+		t.Errorf("state holds %v, want [%s]", got, want)
+	}
+	if len(stored) != 2 {
+		t.Fatalf("OnSnapshot saw %d snapshots, want 2", len(stored))
+	}
+	var first []string
+	for _, prod := range stored[0].Products {
+		first = append(first, fmt.Sprintf("%d=%g", prod.ProductGUID, prod.Generation))
+	}
+	if want := "2069=7 0=2 2068=3"; strings.Join(first, " ") != want {
+		t.Errorf("the history was handed %v, want [%s]", first, want)
+	}
+
+	if got := p.Stats().DuplicateProducts; got != 3 {
+		t.Errorf("DuplicateProducts = %d, want 3 (two in the first message, one in the second)", got)
+	}
+	logged := buf.String()
+	if n := strings.Count(logged, "listed a good more than once"); n != 1 {
+		t.Errorf("the duplicate was logged %d times, want once per run:\n%s", n, logged)
+	}
+	if !strings.Contains(logged, "guid=0") || !strings.Contains(logged, "island=5") {
+		t.Errorf("the log line does not say where to look:\n%s", logged)
+	}
+}
+
+// Without duplicates nothing is touched: not the order, not the count.
+func TestProductsWithoutDuplicatesAreUntouched(t *testing.T) {
+	st := state.New()
+	p := &ingest.Pipeline{State: st}
+	key := model.IslandKey{SessionGUID: 1, IslandID: 1}
+	products := []model.ProductStat{{ProductGUID: 3}, {ProductGUID: 1}, {ProductGUID: 2}}
+	src := &sliceSource{frames: []source.Frame{
+		frame(t, protocol.AreaStatistics{Snapshot: model.IslandSnapshot{Key: key, Products: products}}, time.Now()),
+	}}
+	if err := p.Run(context.Background(), src); err != nil {
+		t.Fatalf("Run: %v", err)
+	}
+	snap, _ := st.Snapshot(key)
+	var got []int32
+	for _, prod := range snap.Products {
+		got = append(got, prod.ProductGUID)
+	}
+	if fmt.Sprint(got) != "[3 1 2]" {
+		t.Errorf("products = %v, want the order as sent", got)
+	}
+	if p.Stats().DuplicateProducts != 0 {
+		t.Error("DuplicateProducts counted without a duplicate")
 	}
 }

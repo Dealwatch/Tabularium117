@@ -353,16 +353,21 @@ Entscheidungen:
 
 - **Namen nur in den Info-Metriken**, damit ein umbenannter Ort nicht jede
   Warenreihe abreißen lässt. Verknüpft wird in PromQL über die GUID-Labels.
+  Nach einer Umbenennung endet die alte `island_info`-Reihe mit dem nächsten
+  Abruf (Prometheus markiert sie als veraltet), ein `group_left`-Join bleibt
+  also eindeutig. Umlaute kommen vom Spiel als `_` an (§12) und stehen so im
+  Label.
 - **Namen immer englisch:** Ein Label, das der Sprache des Aufrufers folgt,
   würde eine Ware in zwei Zeitreihen spalten.
 - **Zeitstempel statt Alter:** Ein Alter ändert sich bei jedem Abruf, auch wenn
   nichts passiert; das Alter rechnet PromQL.
 - **Stabile Ausgabe:** Inseln nach (SessionGUID, IslandID), Waren nach GUID.
-  Doppelte Waren in einer Nachricht werden auf den ersten Eintrag reduziert –
-  eine doppelte Reihe würde Prometheus den ganzen Abruf verwerfen lassen.
-- **Produktivität bewusst noch nicht enthalten:** Die Formel ist in
-  `docs/protocol.md` belegt, aber nur aus einem Spielstand. Ein Metrik-Name ist
-  eine Zusage; sie kommt dazu, wenn jemand sie braucht.
+  Eine doppelte Reihe würde Prometheus den ganzen Abruf verwerfen lassen; eine
+  Ware, die eine Nachricht zweimal nennt, gibt es aber ohnehin nur einmal
+  (siehe §8).
+- **Produktivität bewusst noch nicht enthalten:** Ihre Bedeutung ist geklärt
+  (`docs/protocol.md`, „Productivity fields, resolved“), aber jeder
+  Metrik-Name ist eine Zusage. Sie kommt dazu, wenn jemand sie braucht.
 - **Experimentell:** Namen und Labels können sich bis 1.0 noch ändern.
 
 ## 6. Sicherheit & Netzwerk
@@ -484,6 +489,10 @@ beschreibt, was der Code tut.
 - Unbekannte Protokollversion (≠ 2) → klare Meldung in UI, Dekodieren stoppen (die Ubisoft-Referenz
   macht weiter; wir nicht), Rohdaten optional in Debug-Log schreiben.
 - Kurze Frames sind Dekodierfehler, nie Nullwerte (die Referenz liefert stillschweigend 0).
+- Nennt eine Nachricht dieselbe Ware zweimal, gilt der spätere Eintrag – wie im Verlauf
+  (`INSERT OR REPLACE`). Entschieden wird das einmal in `internal/ingest`, damit Tabelle,
+  Warnungen, Verlauf und `/metrics` dasselbe sehen; der erste Fall pro Lauf wird geloggt.
+  Beobachtet wurde das bisher nie – der Log-Eintrag ist der Weg, es zu erfahren.
 - **Replay-Modus** (`--replay datei.jsonl`) für Entwicklung und Tests ohne Spiel;
   **Record-Modus** (`--record datei.jsonl`) zum Aufzeichnen echter Daten. Aufgezeichnet werden
   **rohe Frames** (base64) mit Empfangszeit, nicht dekodiertes JSON – Format in `docs/protocol.md`.
@@ -502,7 +511,7 @@ beschreibt, was der Code tut.
 | Ubisoft ändert/entfernt die Pipe per Patch | Tool funktioniert nicht | Protokoll gekapselt in `internal/protocol`, Versionserkennung, klare Fehlermeldung |
 | Pipe liefert weniger als erhofft (z. B. nur aktive Insel) | Features eingeschränkt | Capture zeigt alle Inseln zweier Sessions in einem Tick – live bestätigt am 2026-09-22 (Record-Modus) |
 | Spiel erlaubt nur einen Pipe-Client (Konflikt mit Connector) | Tools nicht parallel nutzbar | Noch ungetestet (`docs/protocol.md`, „Open questions“); ggf. im README dokumentieren |
-| Bedeutung von `timeStamp`, `AverageProductivity`, Workforce-GUID 0 unklar | Fehlinterpretation in UI | Werte nur durchreichen, Effizienz aus `Generation/PerfectGeneration`; offene Fragen in `docs/protocol.md` |
+| Bedeutung von Workforce-GUID 0 und Produkt-GUID 0 unklar (`timeStamp` und `AverageProductivity` sind seit dem Live-Mitschnitt geklärt) | Fehlinterpretation in UI | Werte nur durchreichen, Effizienz aus `Generation/PerfectGeneration`; offene Fragen in `docs/protocol.md` |
 | Virenscanner-Fehlalarm | Nutzer vertrauen nicht | Open Source, reproduzierbarer Build, Prüfsummen |
 | Überschneidung mit Connector-Projekt | Doppelarbeit | Im anno-mods-Discord abstimmen |
 

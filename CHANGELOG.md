@@ -21,6 +21,10 @@ All notable changes to Tabularium 117 are documented here, in the
 - The in-app help, the README and the beta guide explain how to add the
   `/pipe` launch option on **Steam** as well as in Ubisoft Connect. Until now
   they only described Ubisoft Connect.
+- Should a message ever list the same good twice, every view now keeps the
+  later entry, as the history already did, and the log says so once per run.
+  This has never been observed; until now the goods table would have shown
+  both rows.
 
 ## [0.1.0-beta.1] - 2026-09-22
 

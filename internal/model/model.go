@@ -11,8 +11,11 @@ type IslandKey struct {
 
 // ProductStat is one product's situation on one island at one point in time.
 //
-// SummedProductivity and AvgProductivity are passed through unchanged: their
-// unit and meaning are still open (docs/protocol.md, open questions).
+// SummedProductivity is the sum of the per-building productivity factors
+// (16 buildings at 100 % give 16.0) and AvgProductivity their mean in percent,
+// boosts included, so it can exceed 100: AvgProductivity = SummedProductivity
+// / Buildings * 100 (docs/protocol.md, "Productivity fields, resolved"). Both
+// are passed through unchanged.
 type ProductStat struct {
 	ProductGUID        int32
 	Generation         float32

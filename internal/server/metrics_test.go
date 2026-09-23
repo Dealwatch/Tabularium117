@@ -324,3 +324,62 @@ func samples(t *testing.T, body string) []sample {
 func containsLine(body, line string) bool {
 	return strings.Contains("\n"+body, "\n"+line+"\n")
 }
+
+// The pipeline keeps one entry per good, but state takes whatever it is
+// given, and a duplicate series would cost the whole scrape. /metrics applies
+// the pipeline's rule once more: the later entry wins.
+func TestMetricsKeepTheLaterDuplicate(t *testing.T) {
+	st := state.New()
+	st.Put(model.IslandSnapshot{
+		Key:  model.IslandKey{SessionGUID: 3245, IslandID: 5},
+		Name: "Juliana",
+		Products: []model.ProductStat{
+			{ProductGUID: 2068, Generation: 1},
+			{ProductGUID: 2069, Generation: 7},
+			{ProductGUID: 2068, Generation: 3},
+		},
+	})
+	got := scrape(t, metricsServer(t, st))
+
+	seen := map[string]bool{}
+	for _, s := range samples(t, got) {
+		if seen[s.series] {
+			t.Errorf("duplicate series %s", s.series)
+		}
+		seen[s.series] = true
+	}
+	if !containsLine(got, `tabularium117_product_generation_per_minute{session_guid="3245",island_id="5",product_guid="2068"} 3`) {
+		t.Errorf("Oats does not carry the later entry's value 3:\n%s", got)
+	}
+}
+
+// Renaming an island changes its name label and nothing else. The value
+// series are keyed by GUIDs only, so a dashboard keeps its history across a
+// rename; the old island_info series simply ends. The name arrives as the
+// pipe sends it: umlauts as "_" (docs/protocol.md).
+func TestMetricsRenameChangesOnlyTheInfoSeries(t *testing.T) {
+	st := state.New()
+	key := model.IslandKey{SessionGUID: 3245, IslandID: 5}
+	products := []model.ProductStat{{ProductGUID: 2068, Generation: 13.7, Buildings: 12}}
+	st.Put(model.IslandSnapshot{Key: key, Name: "Juliana", Products: products})
+	base := metricsServer(t, st)
+	before := scrape(t, base)
+
+	st.Put(model.IslandSnapshot{Key: key, Name: "R_mische K_ste", Products: products})
+	after := scrape(t, base)
+
+	beforeLines, afterLines := strings.Split(before, "\n"), strings.Split(after, "\n")
+	if len(beforeLines) != len(afterLines) {
+		t.Fatalf("the rename changed the number of lines: %d, then %d", len(beforeLines), len(afterLines))
+	}
+	var changed []string
+	for i := range beforeLines {
+		if beforeLines[i] != afterLines[i] {
+			changed = append(changed, afterLines[i])
+		}
+	}
+	want := `tabularium117_island_info{session_guid="3245",island_id="5",island_name="R_mische K_ste",session_name="Latium"} 1`
+	if len(changed) != 1 || changed[0] != want {
+		t.Errorf("the rename changed %q, want only the island_info line:\n%s", changed, want)
+	}
+}

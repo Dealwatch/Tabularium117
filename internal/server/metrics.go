@@ -51,7 +51,7 @@ func (s *Server) metrics() []byte {
 	e := &exposition{}
 
 	up := "0"
-	if conn.State == "connected" || conn.State == "replaying" {
+	if conn.Delivering() {
 		up = "1"
 	}
 	e.family("tabularium117_connection_up",
@@ -145,17 +145,28 @@ func (s *Server) metrics() []byte {
 }
 
 // sortedProducts returns a copy of products in GUID order. The snapshot
-// belongs to state and must not be reordered in place. Should a message ever
-// list a good twice, only the first entry is kept: two samples with the same
-// labels make Prometheus reject the whole scrape, not just that line.
+// belongs to state and must not be reordered in place.
+//
+// The pipeline already keeps one entry per good (ingest.collapseDuplicates),
+// but state accepts whatever it is given, and here a duplicate would cost
+// more than anywhere else: two samples with the same labels make Prometheus
+// reject the whole scrape. So the rule is applied once more, the same way -
+// the later entry wins.
 func sortedProducts(products []model.ProductStat) []model.ProductStat {
 	out := slices.Clone(products)
 	slices.SortStableFunc(out, func(a, b model.ProductStat) int {
 		return cmp.Compare(a.ProductGUID, b.ProductGUID)
 	})
-	return slices.CompactFunc(out, func(a, b model.ProductStat) bool {
-		return a.ProductGUID == b.ProductGUID
-	})
+	// The sort is stable, so of equal GUIDs the later entry is the last one
+	// of its run.
+	kept := out[:0]
+	for i, p := range out {
+		if i+1 < len(out) && out[i+1].ProductGUID == p.ProductGUID {
+			continue
+		}
+		kept = append(kept, p)
+	}
+	return kept
 }
 
 // unixSeconds is t as a Unix timestamp with millisecond precision.

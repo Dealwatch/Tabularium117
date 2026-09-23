@@ -144,3 +144,41 @@ func TestConcurrentAccess(t *testing.T) {
 	}
 	wg.Wait()
 }
+
+// The connection words are an API: /api/v1/status sends them as they are,
+// and web/js/app.js and every other client compare against the literal
+// strings. A rename must fail here rather than silently in the UI or in the
+// tabularium117_connection_up metric.
+func TestConnectionWordsAreTheAPI(t *testing.T) {
+	pinned := map[string]string{
+		state.ModePipe:          "pipe",
+		state.ModeReplay:        "replay",
+		state.StateWaiting:      "waiting",
+		state.StateConnected:    "connected",
+		state.StateDisconnected: "disconnected",
+		state.StateReplaying:    "replaying",
+	}
+	for got, want := range pinned {
+		if got != want {
+			t.Errorf("a connection word changed: %q, want %q", got, want)
+		}
+	}
+	if len(pinned) != 6 {
+		t.Error("two connection words share one spelling")
+	}
+
+	for _, tc := range []struct {
+		state string
+		want  bool
+	}{
+		{state.StateWaiting, false},
+		{state.StateConnected, true},
+		{state.StateDisconnected, false},
+		{state.StateReplaying, true},
+		{"", false},
+	} {
+		if got := (state.Connection{State: tc.state}).Delivering(); got != tc.want {
+			t.Errorf("Delivering() in state %q = %v, want %v", tc.state, got, tc.want)
+		}
+	}
+}

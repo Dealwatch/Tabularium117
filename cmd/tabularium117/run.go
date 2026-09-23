@@ -160,7 +160,8 @@ func run(ctx context.Context, cfg config, stdout, stderr io.Writer) (err error) 
 	}
 	stats := pipeline.Stats()
 	logger.Info("stopped", "frames", stats.Frames, "snapshots", stats.Snapshots,
-		"decode_errors", stats.DecodeErrors, "dropped_by_version", stats.VersionDropped)
+		"decode_errors", stats.DecodeErrors, "dropped_by_version", stats.VersionDropped,
+		"duplicate_products", stats.DuplicateProducts)
 
 	switch {
 	case runErr == nil:
@@ -242,8 +243,8 @@ func openSource(cfg config, st *state.State, pipeline *ingest.Pipeline, logger *
 		return nil, nil, fmt.Errorf("open recording: %w", err)
 	}
 	st.SetConnection(state.Connection{
-		Mode:  "replay",
-		State: "replaying",
+		Mode:  state.ModeReplay,
+		State: state.StateReplaying,
 		Since: time.Now(),
 	})
 	// Until the UI exists, the replay reports what it stores on the console;

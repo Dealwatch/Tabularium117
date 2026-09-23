@@ -157,8 +157,10 @@ Namen stehen nur in `tabularium117_island_info` und
 `tabularium117_product_info` (immer englisch); in Abfragen werden sie über die
 GUID dazugeholt, z. B.
 `tabularium117_product_balance_per_minute * on (product_guid) group_left (product_name) tabularium117_product_info`.
-Die vollständige Liste steht in `KONZEPT.md`, Abschnitt 5. Die Metriken sind
-experimentell: Namen und Labels können sich bis Version 1.0 noch ändern.
+Benennt man eine Insel um, ändert sich nur diese Info-Zeile; die Werte laufen
+ohne Unterbrechung weiter. Umlaute liefert das Spiel als `_`. Die vollständige
+Liste steht in `KONZEPT.md`, Abschnitt 5. Die Metriken sind experimentell:
+Namen und Labels können sich bis Version 1.0 noch ändern.
 
 ### Kommandozeilen-Referenz
 
@@ -369,8 +371,10 @@ Names appear only in `tabularium117_island_info` and
 `tabularium117_product_info` (always English); queries join them in by GUID,
 e.g.
 `tabularium117_product_balance_per_minute * on (product_guid) group_left (product_name) tabularium117_product_info`.
-The full list is in `KONZEPT.md`, section 5. The metrics are experimental:
-names and labels may still change before version 1.0.
+Renaming an island changes only that info line; the values carry on without
+a break. The game sends umlauts as `_`. The full list is in `KONZEPT.md`,
+section 5. The metrics are experimental: names and labels may still change
+before version 1.0.
 
 ### Command-line reference
 
