@@ -118,9 +118,15 @@ version clearly and, unless configured otherwise, stop decoding (`KONZEPT.md`
 `testdata/`, `Player` in what `--anonymize-recording` writes). **[live]**
 
 - `SessionStart` is **not** sent when the client connects to a game that
-  already has a save loaded: the live connect sequence was `Version`,
-  `SessionEnd`, then a full statistics tick 1 s later. The headline is only
+  already has a save loaded: the live connect sequence is `Version`,
+  `SessionEnd`, then a statistics tick 1 s later. The headline is only
   known once a save is (re)loaded while connected. **[live]**
+- That first tick is **not always full**. On 2026-09-22 it carried the real
+  numbers; on 2026-09-23 (save loaded shortly before connecting) every
+  island had `numEntries = 0`, and the first real tick followed 86 s later.
+  **[live]** **[inferred]** The game resends its latest tick on connect, and
+  shortly after a load that is still the empty one. Consumers must treat an
+  all-empty tick after *connect* exactly like one after `SessionStart`.
 - Loading a save sends `SessionEnd`, then `SessionStart`, then one tick in
   which **every island has `numEntries = 0`** (see below). **[live]**
 - Session-scoped state must reset on `SessionStart` *and* on `SessionEnd`;
@@ -236,8 +242,9 @@ game paused, minimised, maximised; main menu; save reloaded; stop.
 - **Main menu:** `SessionEnd`, no further frames. **[live]**
 - **Reload:** `SessionEnd` again, `SessionStart <profile name>` 11 s later,
   then 1 s later a tick of 10 frames with `numEntries = 0` for every island
-  (names as in the save, i.e. the unsaved renames were gone). The next real
-  tick was outside the capture window; **[inferred]** it follows on the
+  (names as in the save, i.e. the unsaved renames were gone). On 2026-09-22
+  the next real tick was outside the capture window; on 2026-09-23 it came
+  109 s after the empty one. **[live]** **[inferred]** It follows on the
   normal ~2 min schedule. **Any consumer must treat an all-empty tick right
   after `SessionStart` as "no statistics yet", not as "everything is zero".**
   **[live]**

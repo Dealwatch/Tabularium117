@@ -33,6 +33,14 @@ All notable changes to Tabularium 117 are documented here, in the
   selection whenever the time range changed, including on every automatic
   refresh. The selectors now load once when the dashboard opens.
 
+### Known limitations
+
+- Starting Tabularium 117 while a save is already loaded does not always
+  get a full tick straight away, as the 0.1.0-beta.1 notes said: if the
+  save was loaded shortly before, the first tick is empty and the UI shows
+  the warm-up state until the real numbers arrive, up to two minutes later
+  (seen in a second live recording).
+
 ## [0.1.0-beta.2] - 2026-09-23
 
 Second beta: the Steam launch option explained in the app, and optional
