@@ -10,7 +10,20 @@ All notable changes to Tabularium 117 are documented here, in the
 - A ready-made Grafana dashboard for the Prometheus metrics,
   `docs/grafana/tabularium117.json`: connection, current deficits, balance
   and efficiency over time, and every good at a glance, filterable by
-  session, island and good.
+  session and island, with a separate good selector for the charts.
+
+### Changed
+
+- The status bar keeps the connection and age of the last frame visible;
+  source, session, protocol and connection errors are in expandable details.
+  A replay is shown neutrally rather than like a lost connection.
+- The efficiency table says directly when buildings are idle or missing.
+  Its longer explanations are optional, next to a short introduction. The
+  efficiency API now includes the building count, so zero potential is not
+  mistaken for zero buildings.
+- The Grafana deficit and all-goods tables always cover all goods of the
+  selected islands. Its charts initially focus on one available good, with
+  a separate selector for comparing a few goods.
 
 ## [0.1.0-beta.2] - 2026-09-23
 

@@ -249,21 +249,25 @@ test("the efficiency view separates the two ways of producing nothing", async ()
     island,
     products: [
       // Buildings that stand still: there is a potential, nothing comes out.
-      { guid: 1, name: "Timber", generation: 0, perfectGeneration: 10, efficiency: 0, wasted: 10, avgProductivity: 0 },
+      { guid: 1, name: "Timber", generation: 0, perfectGeneration: 10, buildings: 2, efficiency: 0, wasted: 10, avgProductivity: 0 },
       // No buildings at all: nothing to compare against.
-      { guid: 2, name: "Amphorae", generation: 0, perfectGeneration: 0, efficiency: null, wasted: 0, avgProductivity: 0 },
-      { guid: 3, name: "Sheep", generation: 13.7, perfectGeneration: 28.1, efficiency: 0.49, wasted: 14.4, avgProductivity: 220 },
+      { guid: 2, name: "Amphorae", generation: 0, perfectGeneration: 0, buildings: 0, efficiency: null, wasted: 0, avgProductivity: 0 },
+      // A zero perfect value alone does not prove there are no buildings.
+      { guid: 3, name: "Silica", generation: 0, perfectGeneration: 0, buildings: 2, efficiency: null, wasted: 0, avgProductivity: 0 },
+      { guid: 4, name: "Sheep", generation: 13.7, perfectGeneration: 28.1, buildings: 4, efficiency: 0.49, wasted: 14.4, avgProductivity: 220 },
     ],
   });
 
   const root = new Element();
   const cleanup = await renderEfficiency(root, island.id, { islands: [island], alerts: [], status: {} });
 
-  const hints = nodes(root, ".hint");
-  const titles = hints.map((node) => node.getAttribute("title"));
-  assert.equal(hints.length, 2, "exactly the two rows that produce nothing carry an explanation");
-  assert.ok(titles.some((t) => /produce nothing right now/.test(t)), "standing buildings say so");
-  assert.ok(titles.some((t) => /No producing buildings/.test(t)), "no buildings says so");
+  const notes = nodes(root, ".cell-note");
+  assert.equal(notes.length, 3, "zero output and missing potential explain themselves in the table");
+  assert.ok(notes.some((node) => node.textContent === "not producing"));
+  assert.ok(notes.some((node) => node.textContent === "no buildings"));
+  assert.ok(notes.some((node) => node.textContent === "no potential"));
+  assert.match(nodes(root, "details")[0].textContent, /The data does not say why/,
+    "the expanded explanation does not guess why a building is idle");
   assert.match(rowText(root), /220%/, "productivity above 100 % is shown as it is");
   cleanup();
 });

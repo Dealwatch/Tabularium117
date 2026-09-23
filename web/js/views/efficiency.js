@@ -8,17 +8,16 @@ function locale() {
   return i18n.lang === "de" ? "de-DE" : "en-US";
 }
 
-// hint renders a value that needs a sentence to be read correctly. The
-// explanation is a native title tooltip - no build step, no popup library -
-// and the dotted underline is what tells a reader there is one at all. A
-// phone has no hover, so the same sentence is in the paragraph above the
-// table as well (i18n efficiencyExplain).
-function hint(text, explanation) {
-  const span = document.createElement("span");
-  span.className = "hint";
-  span.title = explanation;
-  span.textContent = text;
-  return span;
+// The reason for zero output must be visible on a phone and to a screen
+// reader, not hidden in a hover-only title attribute.
+function valueWithNote(value, note) {
+  const wrapper = document.createElement("span");
+  wrapper.append(document.createTextNode(value));
+  const label = document.createElement("span");
+  label.className = "cell-note";
+  label.textContent = note;
+  wrapper.append(label);
+  return wrapper;
 }
 
 export async function renderEfficiency(container, islandId, store) {
@@ -31,9 +30,29 @@ export async function renderEfficiency(container, islandId, store) {
   // the shared header's job (views/island-header.js).
   const header = renderIslandHeader(container, islandId, store, "efficiency");
 
-  const explain = document.createElement("p");
-  explain.className = "muted";
-  explain.textContent = i18n.t("efficiencyExplain");
+  const intro = document.createElement("p");
+  intro.className = "muted efficiency-intro";
+  intro.textContent = i18n.t("efficiencyIntro");
+  const details = document.createElement("details");
+  details.className = "efficiency-explainer";
+  const summary = document.createElement("summary");
+  summary.textContent = i18n.t("efficiencyDetails");
+  const meanings = document.createElement("dl");
+  for (const [term, meaning] of [
+    ["colEfficiency", "efficiencyMeaning"],
+    ["colProductivity", "productivityMeaning"],
+    ["colWasted", "unusedMeaning"],
+    ["productivityIdleNote", "productivityIdleMeaning"],
+    ["productivityNoBuildingsNote", "productivityNoBuildingsMeaning"],
+    ["productivityNoPotentialNote", "productivityNoPotentialMeaning"],
+  ]) {
+    const dt = document.createElement("dt");
+    dt.textContent = i18n.t(term);
+    const dd = document.createElement("dd");
+    dd.textContent = i18n.t(meaning);
+    meanings.append(dt, dd);
+  }
+  details.append(summary, meanings);
 
   const table = document.createElement("table");
   const thead = document.createElement("thead");
@@ -45,7 +64,7 @@ export async function renderEfficiency(container, islandId, store) {
   const tableBox = document.createElement("div");
   tableBox.className = "table-scroll";
   tableBox.append(table);
-  container.append(explain, tableBox);
+  container.append(intro, details, tableBox);
 
   function render(dto) {
     header.update(dto.island);
@@ -134,16 +153,16 @@ export async function renderEfficiency(container, islandId, store) {
       // (KONZEPT.md section 2.3). Without buildings there is nothing to
       // average, and the field is then a zero that means "not applicable".
       //
-      // The numbers alone cannot separate the two ways of producing nothing:
-      // "0.0 / 10.0 / 0 %" means the buildings stand still, while "-" means
-      // there are no buildings at all. Both get the sentence that says so,
-      // because a reader new to the view reads them as the same row.
+      // The row itself explains the two ways of producing nothing. Longer
+      // explanations are available in the details above the table.
       const productivityTd = document.createElement("td");
       productivityTd.className = "num";
-      if (p.perfectGeneration === 0 && p.avgProductivity === 0) {
-        productivityTd.append(hint("-", i18n.t("productivityNoBuildingsHint")));
+      if (p.perfectGeneration === 0 && p.buildings === 0) {
+        productivityTd.append(valueWithNote("–", i18n.t("productivityNoBuildingsNote")));
+      } else if (p.perfectGeneration === 0) {
+        productivityTd.append(valueWithNote(percent(p.avgProductivity), i18n.t("productivityNoPotentialNote")));
       } else if (p.generation === 0 && p.perfectGeneration > 0) {
-        productivityTd.append(hint(percent(p.avgProductivity), i18n.t("productivityIdleHint")));
+        productivityTd.append(valueWithNote(percent(p.avgProductivity), i18n.t("productivityIdleNote")));
       } else {
         productivityTd.textContent = percent(p.avgProductivity);
       }

@@ -356,6 +356,7 @@ type efficiencyProductDTO struct {
 	Name              string   `json:"name"`
 	Generation        float32  `json:"generation"`
 	PerfectGeneration float32  `json:"perfectGeneration"`
+	Buildings         int32    `json:"buildings"`
 	Efficiency        *float64 `json:"efficiency"`
 	Wasted            float32  `json:"wasted"`
 	AvgProductivity   float32  `json:"avgProductivity"`
@@ -375,6 +376,7 @@ func (s *Server) efficiencyProduct(p model.ProductStat, lang string) efficiencyP
 		Name:              s.catalog.Name(p.ProductGUID, lang),
 		Generation:        p.Generation,
 		PerfectGeneration: p.PerfectGeneration,
+		Buildings:         p.Buildings,
 		Wasted:            p.PerfectGeneration - p.Generation,
 		AvgProductivity:   p.AvgProductivity,
 	}

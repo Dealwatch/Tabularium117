@@ -18,10 +18,17 @@
       <span aria-hidden="true">&#9888;</span><span id="alert-count">0</span>
     </button>
     <span id="lan-indicator" class="pill phone" hidden><span aria-hidden="true">&#128241;</span> <span id="lan-indicator-text">Phone</span></span>
-    <span id="protocol-version" class="muted"></span>
-    <span id="session-headline" class="muted"></span>
     <span id="last-frame" class="muted"></span>
     <span id="warmup-hint" class="warmup-hint" hidden></span>
+    <details id="connection-details" class="connection-details">
+      <summary data-i18n="connectionDetails">Details</summary>
+      <dl>
+        <div><dt data-i18n="sourceLabel">Source</dt><dd id="source-mode">–</dd></div>
+        <div><dt data-i18n="sessionLabel">Session</dt><dd id="session-headline">–</dd></div>
+        <div><dt data-i18n="protocolLabel">Protocol</dt><dd id="protocol-version">–</dd></div>
+        <div id="connection-error-row" hidden><dt data-i18n="connectionErrorLabel">Connection error</dt><dd id="connection-error"></dd></div>
+      </dl>
+    </details>
   </div>
   <div id="statusbar-controls">
     <a id="phone-link" href="#/phone" data-i18n="phoneHeading" hidden>Phone</a>

@@ -120,7 +120,35 @@ a { color: var(--accent); }
 }
 .pill.connected { background: color-mix(in srgb, var(--surplus) 25%, var(--pill-bg)); }
 .pill.waiting { background: color-mix(in srgb, orange 25%, var(--pill-bg)); }
-.pill.disconnected, .pill.replaying { background: color-mix(in srgb, var(--deficit) 25%, var(--pill-bg)); }
+.pill.disconnected { background: color-mix(in srgb, var(--deficit) 25%, var(--pill-bg)); }
+.pill.replaying, .pill.ended { background: var(--pill-bg); }
+
+/* Keep the signal and its freshness in sight. Pipe diagnostics are available
+   when needed without competing with the island and product data. */
+.connection-details { font-size: .85rem; }
+.connection-details summary {
+  cursor: pointer;
+  color: var(--fg-muted);
+  min-height: 44px;
+  padding: .65rem .2rem;
+}
+.connection-details summary:hover { color: var(--accent); }
+.connection-details summary:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.connection-details dl {
+  margin: .4rem 0 0;
+  padding: .65rem .85rem;
+  border: 1px solid var(--border);
+  border-radius: .4rem;
+  background: var(--bg-elevated);
+  min-width: min(16rem, calc(100vw - 1.5rem));
+}
+.connection-details dl > div { display: flex; gap: .75rem; justify-content: space-between; }
+.connection-details dl > div + div { margin-top: .35rem; }
+.connection-details dt { color: var(--fg-muted); }
+.connection-details dd { margin: 0; text-align: right; overflow-wrap: anywhere; }
 
 button {
   min-height: 44px;
@@ -387,6 +415,21 @@ td.delta-positive { color: var(--surplus); }
 }
 .efficiency-cell > span { min-width: 3ch; }
 
+.efficiency-intro { margin: 0 0 .3rem; }
+.efficiency-explainer { margin-bottom: .9rem; font-size: .9rem; }
+.efficiency-explainer summary { cursor: pointer; color: var(--accent); width: fit-content; }
+.efficiency-explainer summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.efficiency-explainer dl { margin: .5rem 0 0; max-width: 48rem; }
+.efficiency-explainer dt { font-weight: 600; }
+.efficiency-explainer dd { margin: 0 0 .4rem; color: var(--fg-muted); }
+.cell-note {
+  display: block;
+  color: var(--fg-muted);
+  font-size: .72rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
 .efficiency-bar {
   height: .5rem;
   border-radius: .25rem;
@@ -397,15 +440,6 @@ td.delta-positive { color: var(--surplus); }
 }
 .efficiency-bar > span { display: block; height: 100%; background: var(--accent); }
 tr.no-data { opacity: .5; }
-
-/* A value that needs a sentence to be read correctly (views/efficiency.js).
-   The dotted underline is the only thing that says an explanation exists,
-   so it stays visible in both themes rather than relying on colour. */
-.hint {
-  text-decoration: underline dotted;
-  text-underline-offset: 2px;
-  cursor: help;
-}
 
 /* The first tick after a savegame is loaded carries no products at all, so
    the islands are known but empty. Greying them says "not yet", where full

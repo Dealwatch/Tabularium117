@@ -40,7 +40,7 @@
   ],
   "uid": "tabularium117",
   "title": "Tabularium 117",
-  "description": "The Anno 117 economy from Tabularium 117's /metrics endpoint: deficits, balance, efficiency and the connection. Needs Tabularium 117 v0.1.0-beta.2 or later.",
+  "description": "The Anno 117 economy from Tabularium 117's /metrics endpoint: all goods in the tables, selected goods in the charts. Needs Tabularium 117 v0.1.0-beta.2 or later.",
   "tags": [
     "anno117",
     "tabularium117"
@@ -129,32 +129,24 @@
         }
       },
       {
-        "name": "product",
-        "label": "Good",
+        "name": "chart_good",
+        "label": "Chart goods",
         "type": "query",
         "datasource": {
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "query": "query_result(tabularium117_product_info)",
-        "definition": "query_result(tabularium117_product_info)",
+        "query": "query_result(count by (product_guid, product_name) (tabularium117_product_balance_per_minute{session_guid=\"$session\",island_id=~\"$island\"} * on (product_guid) group_left (product_name) tabularium117_product_info))",
+        "definition": "query_result(count by (product_guid, product_name) (tabularium117_product_balance_per_minute{session_guid=\"$session\",island_id=~\"$island\"} * on (product_guid) group_left (product_name) tabularium117_product_info))",
         "regex": "/product_guid=\"(?<value>[^\"]+)\".*product_name=\"(?<text>[^\"]+)\"/",
         "refresh": 2,
         "sort": 1,
-        "includeAll": true,
+        "includeAll": false,
         "multi": true,
         "options": [],
         "hide": 0,
-        "allValue": ".*",
-        "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
-          "value": [
-            "$__all"
-          ]
-        }
+        "current": {},
+        "description": "Choose one or a few goods to compare in the charts. The deficit and all-goods tables still show every good of the selected islands."
       }
     ]
   },
@@ -388,7 +380,7 @@
       "id": 4,
       "type": "stat",
       "title": "Deficits",
-      "description": "How many island and good combinations of the selection have a negative balance.",
+      "description": "Negative balances across all goods of the selected session and islands.",
       "gridPos": {
         "h": 4,
         "w": 4,
@@ -401,7 +393,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "count(tabularium117_product_balance_per_minute{session_guid=\"$session\",island_id=~\"$island\",product_guid=~\"$product\"} < 0) or vector(0)",
+          "expr": "count(tabularium117_product_balance_per_minute{session_guid=\"$session\",island_id=~\"$island\"} < 0) or vector(0)",
           "refId": "A",
           "range": false,
           "instant": true
@@ -613,7 +605,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sort(\n  (tabularium117_product_balance_per_minute{session_guid=\"$session\",island_id=~\"$island\",product_guid=~\"$product\"} < 0)\n  * on (product_guid) group_left (product_name) tabularium117_product_info\n  * on (session_guid, island_id) group_left (island_name) tabularium117_island_info\n)",
+          "expr": "sort(\n  (tabularium117_product_balance_per_minute{session_guid=\"$session\",island_id=~\"$island\"} < 0)\n  * on (product_guid) group_left (product_name) tabularium117_product_info\n  * on (session_guid, island_id) group_left (island_name) tabularium117_island_info\n)",
           "refId": "A",
           "range": false,
           "instant": true,
@@ -706,7 +698,7 @@
       "id": 8,
       "type": "timeseries",
       "title": "Balance per minute",
-      "description": "Balance of each good, summed over the selected islands. Negative is a deficit. Narrow it down with the Good selector above.",
+      "description": "Balance per minute for the chart goods, summed over the selected islands. Select a few goods above to compare them.",
       "gridPos": {
         "h": 10,
         "w": 14,
@@ -719,7 +711,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (product_name) (\n  tabularium117_product_balance_per_minute{session_guid=\"$session\",island_id=~\"$island\",product_guid=~\"$product\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n)",
+          "expr": "sum by (product_name) (\n  tabularium117_product_balance_per_minute{session_guid=\"$session\",island_id=~\"$island\",product_guid=~\"$chart_good\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n)",
           "refId": "A",
           "range": true,
           "instant": false,
@@ -782,7 +774,7 @@
       "id": 9,
       "type": "timeseries",
       "title": "Efficiency",
-      "description": "Actual production against the potential if every building worked at 100 %, per good over the selected islands. Boosts can take it above 100 %.",
+      "description": "Production as a share of 100 % potential for the chart goods. Boosts can take it above 100 %.",
       "gridPos": {
         "h": 10,
         "w": 12,
@@ -795,7 +787,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "100 * sum by (product_name) (\n  tabularium117_product_generation_per_minute{session_guid=\"$session\",island_id=~\"$island\",product_guid=~\"$product\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n)\n/\n(sum by (product_name) (\n  tabularium117_product_perfect_generation_per_minute{session_guid=\"$session\",island_id=~\"$island\",product_guid=~\"$product\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n) > 0)",
+          "expr": "100 * sum by (product_name) (\n  tabularium117_product_generation_per_minute{session_guid=\"$session\",island_id=~\"$island\",product_guid=~\"$chart_good\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n)\n/\n(sum by (product_name) (\n  tabularium117_product_perfect_generation_per_minute{session_guid=\"$session\",island_id=~\"$island\",product_guid=~\"$chart_good\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n) > 0)",
           "refId": "A",
           "range": true,
           "instant": false,
@@ -854,7 +846,7 @@
       "id": 10,
       "type": "timeseries",
       "title": "Production and consumption",
-      "description": "Production and consumption per minute of the selected goods over the selected islands. Most useful with one or a few goods selected.",
+      "description": "Production and consumption per minute for the chart goods, summed over the selected islands.",
       "gridPos": {
         "h": 10,
         "w": 12,
@@ -867,7 +859,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (product_name) (\n  tabularium117_product_generation_per_minute{session_guid=\"$session\",island_id=~\"$island\",product_guid=~\"$product\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n)",
+          "expr": "sum by (product_name) (\n  tabularium117_product_generation_per_minute{session_guid=\"$session\",island_id=~\"$island\",product_guid=~\"$chart_good\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n)",
           "refId": "A",
           "range": true,
           "instant": false,
@@ -878,7 +870,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (product_name) (\n  tabularium117_product_consumption_per_minute{session_guid=\"$session\",island_id=~\"$island\",product_guid=~\"$product\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n)",
+          "expr": "sum by (product_name) (\n  tabularium117_product_consumption_per_minute{session_guid=\"$session\",island_id=~\"$island\",product_guid=~\"$chart_good\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n)",
           "refId": "B",
           "range": true,
           "instant": false,
@@ -937,7 +929,7 @@
       "id": 11,
       "type": "table",
       "title": "All goods",
-      "description": "Every good of the selection, summed over the selected islands, as it stands now.",
+      "description": "Every good of the selected session and islands, regardless of the chart goods selector.",
       "gridPos": {
         "h": 12,
         "w": 24,
@@ -950,7 +942,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (product_name) (\n  tabularium117_product_generation_per_minute{session_guid=\"$session\",island_id=~\"$island\",product_guid=~\"$product\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n)",
+          "expr": "sum by (product_name) (\n  tabularium117_product_generation_per_minute{session_guid=\"$session\",island_id=~\"$island\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n)",
           "refId": "A",
           "range": false,
           "instant": true,
@@ -961,7 +953,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (product_name) (\n  tabularium117_product_consumption_per_minute{session_guid=\"$session\",island_id=~\"$island\",product_guid=~\"$product\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n)",
+          "expr": "sum by (product_name) (\n  tabularium117_product_consumption_per_minute{session_guid=\"$session\",island_id=~\"$island\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n)",
           "refId": "B",
           "range": false,
           "instant": true,
@@ -972,7 +964,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (product_name) (\n  tabularium117_product_balance_per_minute{session_guid=\"$session\",island_id=~\"$island\",product_guid=~\"$product\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n)",
+          "expr": "sum by (product_name) (\n  tabularium117_product_balance_per_minute{session_guid=\"$session\",island_id=~\"$island\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n)",
           "refId": "C",
           "range": false,
           "instant": true,
@@ -983,7 +975,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (product_name) (\n  tabularium117_product_perfect_generation_per_minute{session_guid=\"$session\",island_id=~\"$island\",product_guid=~\"$product\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n)",
+          "expr": "sum by (product_name) (\n  tabularium117_product_perfect_generation_per_minute{session_guid=\"$session\",island_id=~\"$island\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n)",
           "refId": "D",
           "range": false,
           "instant": true,
@@ -994,7 +986,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (product_name) (\n  tabularium117_product_buildings{session_guid=\"$session\",island_id=~\"$island\",product_guid=~\"$product\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n)",
+          "expr": "sum by (product_name) (\n  tabularium117_product_buildings{session_guid=\"$session\",island_id=~\"$island\"} * on (product_guid) group_left (product_name) tabularium117_product_info\n)",
           "refId": "E",
           "range": false,
           "instant": true,

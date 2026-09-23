@@ -33,6 +33,9 @@ const els = {
   connState: document.getElementById("conn-state"),
   protocolVersion: document.getElementById("protocol-version"),
   sessionHeadline: document.getElementById("session-headline"),
+  sourceMode: document.getElementById("source-mode"),
+  connectionErrorRow: document.getElementById("connection-error-row"),
+  connectionError: document.getElementById("connection-error"),
   lastFrame: document.getElementById("last-frame"),
   langToggle: document.getElementById("lang-toggle"),
   themeToggle: document.getElementById("theme-toggle"),
@@ -119,10 +122,12 @@ function renderStatusBar(status) {
   const conn = status.connection || {};
   els.connState.textContent = connectionLabel(conn.state);
   els.connState.className = `pill ${connectionPillClass(conn.state)}`;
-  els.protocolVersion.textContent = conn.protocolVersion
-    ? i18n.t("protocolVersion", { version: conn.protocolVersion })
-    : "";
-  els.sessionHeadline.textContent = status.session?.headline || "";
+  els.protocolVersion.textContent = conn.protocolVersion || "–";
+  els.sessionHeadline.textContent = status.session?.headline || "–";
+  els.sourceMode.textContent = conn.mode === "replay"
+    ? i18n.t("sourceReplay") : i18n.t("sourcePipe");
+  els.connectionErrorRow.hidden = !conn.err;
+  els.connectionError.textContent = conn.err || "";
   renderWarmup(status);
   // The island list greys out while warming up, so it has to be repainted
   // when that changes - the snapshots themselves may not change at all.

@@ -3,10 +3,12 @@
 This is the maintainer's checklist for cutting a Tabularium 117 release.
 
 1. Run the full verification: `./scripts/check.sh`. Do not release on a red
-   check.
+   check. If the UI changed, update its README screenshots from a long enough
+   real or clearly labelled example recording to show a useful history chart.
 2. Update `CHANGELOG.md`: move the `[Unreleased]` (or beta) section's
    entries under a new `## [X.Y.Z] - YYYY-MM-DD` heading with the actual
-   release date.
+   release date. In the release notes, tell existing testers plainly to
+   download the new `tabularium117.exe`; the app has no automatic updater.
 3. Commit the changelog update.
 4. Tag the release:
    ```sh
