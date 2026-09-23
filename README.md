@@ -164,6 +164,13 @@ GUID dazugeholt, z. B.
 Benennt man eine Insel um, ändert sich nur diese Info-Zeile; die Werte laufen
 ohne Unterbrechung weiter. Umlaute liefert das Spiel als `_`.
 
+**Fertiges Dashboard:** [`docs/grafana/tabularium117.json`](docs/grafana/tabularium117.json)
+zeigt Verbindung, aktuelle Defizite, Bilanz und Effizienz über die Zeit sowie
+alle Waren auf einen Blick, auswählbar nach Session, Insel und Ware. Import in
+Grafana (10 oder neuer): *Dashboards → New → Import*, die Datei hochladen und
+die Prometheus-Datenquelle wählen. Die Session ist eine Einzelauswahl, weil
+Insel-Nummern sich zwischen Sessions wiederholen.
+
 **Einschränkung – Spielstände sind nicht unterscheidbar:** Die Pipe liefert
 keine Kennung für den Spielstand. `session_guid` bezeichnet die Region (z. B.
 Latium), die in jedem Spielstand dieselbe ist, und `island_id` ist eine kleine
@@ -393,6 +400,13 @@ e.g.
 `tabularium117_product_balance_per_minute * on (product_guid) group_left (product_name) tabularium117_product_info`.
 Renaming an island changes only that info line; the values carry on without
 a break. The game sends umlauts as `_`.
+
+**Ready-made dashboard:** [`docs/grafana/tabularium117.json`](docs/grafana/tabularium117.json)
+shows the connection, the current deficits, balance and efficiency over time
+and every good at a glance, filterable by session, island and good. To import
+it in Grafana (10 or newer): *Dashboards → New → Import*, upload the file and
+pick the Prometheus data source. The session is a single choice because
+island numbers repeat between sessions.
 
 **Limitation – saves cannot be told apart:** the pipe provides no identifier
 for the save. `session_guid` names the region (e.g. Latium), which is the same

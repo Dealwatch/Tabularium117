@@ -377,6 +377,10 @@ Entscheidungen:
   dieselben Labels erzeugen, und ihre Reihen gehen nahtlos ineinander über.
   Auseinanderhalten lassen sie sich nur über die Zeit. Dieselbe Grenze hat der
   Verlauf, der Inseln ebenfalls über (SessionGUID, IslandID) führt.
+- **Dashboard:** `docs/grafana/tabularium117.json` baut nur auf diesen
+  Metriken auf. Die Session ist dort eine Einzelauswahl, weil `island_id`
+  nur innerhalb einer Session eindeutig ist (§4). Wer eine Metrik umbenennt,
+  muss das Dashboard mitziehen.
 - **Experimentell:** Namen und Labels können sich bis 1.0 noch ändern.
 
 ## 6. Sicherheit & Netzwerk

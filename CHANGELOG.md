@@ -5,6 +5,13 @@ All notable changes to Tabularium 117 are documented here, in the
 
 ## [Unreleased]
 
+### Added
+
+- A ready-made Grafana dashboard for the Prometheus metrics,
+  `docs/grafana/tabularium117.json`: connection, current deficits, balance
+  and efficiency over time, and every good at a glance, filterable by
+  session, island and good.
+
 ## [0.1.0-beta.2] - 2026-09-23
 
 Second beta: the Steam launch option explained in the app, and optional
