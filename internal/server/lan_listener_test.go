@@ -605,3 +605,60 @@ func TestForeignHostIsRefused(t *testing.T) {
 		t.Error("a request with a refused host was answered with a cookie")
 	}
 }
+
+// /metrics is for the PC's own Prometheus. On the LAN listener it does not
+// exist, not even for a phone that holds the token: the token opens the UI,
+// and nothing more should be reachable with it than the UI needs.
+func TestMetricsAreLoopbackOnly(t *testing.T) {
+	f := startLANFixture(t)
+
+	local := get(t, f.localURL+"/metrics", nil)
+	localBody, _ := io.ReadAll(local.Body)
+	local.Body.Close()
+	if local.StatusCode != http.StatusOK || !strings.Contains(string(localBody), "tabularium117_islands 14") {
+		t.Fatalf("GET /metrics on the loopback listener = %d:\n%s", local.StatusCode, localBody)
+	}
+
+	resp := f.toggle(t, `{"enabled":true}`, nil)
+	var enabled lanJSON
+	decode(t, resp, &enabled)
+	resp.Body.Close()
+	if !enabled.Enabled {
+		t.Fatalf("LAN mode did not switch on: %+v", enabled)
+	}
+
+	// Without the token the guard answers first, exactly as for every path.
+	anonymous, err := f.lanClient.Get(f.lanURL + "/metrics")
+	if err != nil {
+		t.Fatal(err)
+	}
+	anonymous.Body.Close()
+	if anonymous.StatusCode != http.StatusUnauthorized {
+		t.Errorf("GET /metrics on the LAN without a token = %d, want 401", anonymous.StatusCode)
+	}
+
+	// With the token: the rest of the API answers, /metrics does not.
+	login, err := f.lanClient.Get(enabled.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+	login.Body.Close()
+	var status statusJSON
+	getWithClient(t, f.lanClient, f.lanURL+"/api/v1/status", &status)
+
+	for _, method := range []string{http.MethodGet, http.MethodHead} {
+		req, _ := http.NewRequest(method, f.lanURL+"/metrics", nil)
+		phone, err := f.lanClient.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		body, _ := io.ReadAll(phone.Body)
+		phone.Body.Close()
+		if phone.StatusCode != http.StatusNotFound {
+			t.Errorf("%s /metrics on the LAN with the token = %d, want 404", method, phone.StatusCode)
+		}
+		if strings.Contains(string(body), "tabularium117_") {
+			t.Errorf("%s /metrics on the LAN leaked metrics:\n%s", method, body)
+		}
+	}
+}

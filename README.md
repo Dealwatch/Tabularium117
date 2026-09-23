@@ -134,6 +134,32 @@ sind, liegt an der Arbeitsweise: Das Spiel liefert etwa alle zwei Minuten
 neue Statistiken, und dazwischen gibt es für Tabularium 117 so gut wie nichts
 zu tun.
 
+### Prometheus und Grafana (optional, experimentell)
+
+**Für die normale Nutzung braucht es weder Prometheus noch Grafana** – dieser
+Abschnitt ist nur für alle, die beides ohnehin betreiben und ihre Wirtschaft
+über Wochen in eigenen Dashboards verfolgen wollen.
+
+Tabularium 117 stellt den Live-Zustand unter `http://127.0.0.1:53118/metrics`
+im Prometheus-Textformat bereit: Verbindung, Inseln sowie Produktion,
+Verbrauch, Bilanz, Potenzial und Gebäudezahl je Ware und Insel. Der Endpunkt
+ist nur auf dem PC selbst erreichbar, nie über den Handy-Modus, und kostet
+nichts, solange ihn niemand abfragt. Minimale Prometheus-Konfiguration:
+
+```yaml
+scrape_configs:
+  - job_name: tabularium117
+    static_configs:
+      - targets: ['127.0.0.1:53118']
+```
+
+Namen stehen nur in `tabularium117_island_info` und
+`tabularium117_product_info` (immer englisch); in Abfragen werden sie über die
+GUID dazugeholt, z. B.
+`tabularium117_product_balance_per_minute * on (product_guid) group_left (product_name) tabularium117_product_info`.
+Die vollständige Liste steht in `KONZEPT.md`, Abschnitt 5. Die Metriken sind
+experimentell: Namen und Labels können sich bis Version 1.0 noch ändern.
+
 ### Kommandozeilen-Referenz
 
 | Flag | Standard | Bedeutung |
@@ -319,6 +345,32 @@ that depends on which browser you use and what else is open. Other hardware
 gives other numbers. They are this low because of how the work arrives: the
 game sends new statistics about every two minutes, and in between there is
 almost nothing for Tabularium 117 to do.
+
+### Prometheus and Grafana (optional, experimental)
+
+**Normal use needs neither Prometheus nor Grafana** – this section is only for
+people who already run both and want to follow their economy over weeks in
+their own dashboards.
+
+Tabularium 117 serves the live state at `http://127.0.0.1:53118/metrics` in the
+Prometheus text format: the connection, the islands, and production,
+consumption, balance, potential and building count per good and island. The
+endpoint is reachable from the PC itself only, never through phone mode, and
+costs nothing while nobody scrapes it. A minimal Prometheus configuration:
+
+```yaml
+scrape_configs:
+  - job_name: tabularium117
+    static_configs:
+      - targets: ['127.0.0.1:53118']
+```
+
+Names appear only in `tabularium117_island_info` and
+`tabularium117_product_info` (always English); queries join them in by GUID,
+e.g.
+`tabularium117_product_balance_per_minute * on (product_guid) group_left (product_name) tabularium117_product_info`.
+The full list is in `KONZEPT.md`, section 5. The metrics are experimental:
+names and labels may still change before version 1.0.
 
 ### Command-line reference
 

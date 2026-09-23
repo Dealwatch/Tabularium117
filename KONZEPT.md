@@ -304,7 +304,8 @@ Konventionen:
 - **Zwei Listener, eine API:** Loopback und LAN liefern dieselben Endpunkte
   aus. Unterschiede gibt es nur dort, wo etwas Geheimes oder Schaltendes im
   Spiel ist: `lan.url`, `qr.png` und `POST /lan` gehören dem Loopback-Listener,
-  und `status.lan.local` sagt der UI, auf welcher Seite sie läuft. Woher eine
+  und `status.lan.local` sagt der UI, auf welcher Seite sie läuft. `/metrics`
+  (außerhalb von `/api/v1`, siehe unten) gibt es nur auf dem Loopback-Listener. Woher eine
   Anfrage kommt, entscheidet der annehmende Listener (`ConnContext`), nie ein
   Header wie `Host` oder `X-Forwarded-For`.
 - **Aufwärmphase:** Nach einem `SessionStart` liefert der erste Tick jede Insel mit null Waren
@@ -316,6 +317,53 @@ Konventionen:
   angezeigt – rohe Spiel-Millisekunden sagen Spielenden nichts; die Statusleiste zeigt weiter
   „letzter Frame vor X“.
 - Die statische UI liegt unter `/` und wird per `embed` aus `web/` ausgeliefert.
+
+### Prometheus-Metriken (`GET /metrics`, experimentell)
+
+Außerhalb von `/api/v1`: `GET /metrics` liefert den Live-Zustand im
+Prometheus-Textformat (`text/plain; version=0.0.4; charset=utf-8`). Umgesetzt in
+`internal/server/metrics.go`. Optional – die UI braucht den Endpunkt nicht, und
+wer kein Prometheus betreibt, merkt nichts davon.
+
+- **Nur Loopback:** Über den LAN-Listener gibt es den Endpunkt nicht – mit
+  gültigem Token 404, ohne Token wie überall 401. Das Sicherheitsmodell aus
+  Abschnitt 6 bleibt unverändert.
+- **Kein eigener Zustand:** Jeder Wert wird beim Abruf aus `state.State`
+  gelesen. Keine zusätzliche Goroutine, kein Cache, keine Datenbank; die
+  Zeitreihen speichert Prometheus.
+- **Alle Metriken sind Gauges.** Werte, die nie gesetzt wurden, fehlen, statt
+  als 0 zu erscheinen.
+
+| Metrik | Labels | Bedeutung |
+|---|---|---|
+| `tabularium117_connection_up` | `mode` | 1, wenn die Pipe verbunden ist oder eine Aufnahme abgespielt wird, sonst 0 |
+| `tabularium117_last_frame_timestamp_seconds` | – | Unix-Zeit des letzten Frames; fehlt, solange keiner kam. Alter: `time() - …` |
+| `tabularium117_protocol_version` | – | angekündigte Protokollversion; fehlt, solange unbekannt |
+| `tabularium117_warming_up` | – | 1 in der Aufwärmphase (siehe oben); die Warenreihen fehlen dann, statt auf 0 zu fallen |
+| `tabularium117_islands` | – | Anzahl bekannter Inseln |
+| `tabularium117_island_info` | `session_guid`, `island_id`, `island_name`, `session_name` | immer 1; liefert die Namen |
+| `tabularium117_product_info` | `product_guid`, `product_name` | immer 1; unbekannte GUID → `#123` |
+| `tabularium117_product_generation_per_minute` | `session_guid`, `island_id`, `product_guid` | Produktion/min |
+| `tabularium117_product_consumption_per_minute` | wie oben | Verbrauch/min |
+| `tabularium117_product_balance_per_minute` | wie oben | Delta/min, wie vom Spiel gemeldet |
+| `tabularium117_product_perfect_generation_per_minute` | wie oben | Potenzial/min |
+| `tabularium117_product_buildings` | wie oben | Anzahl Gebäude |
+
+Entscheidungen:
+
+- **Namen nur in den Info-Metriken**, damit ein umbenannter Ort nicht jede
+  Warenreihe abreißen lässt. Verknüpft wird in PromQL über die GUID-Labels.
+- **Namen immer englisch:** Ein Label, das der Sprache des Aufrufers folgt,
+  würde eine Ware in zwei Zeitreihen spalten.
+- **Zeitstempel statt Alter:** Ein Alter ändert sich bei jedem Abruf, auch wenn
+  nichts passiert; das Alter rechnet PromQL.
+- **Stabile Ausgabe:** Inseln nach (SessionGUID, IslandID), Waren nach GUID.
+  Doppelte Waren in einer Nachricht werden auf den ersten Eintrag reduziert –
+  eine doppelte Reihe würde Prometheus den ganzen Abruf verwerfen lassen.
+- **Produktivität bewusst noch nicht enthalten:** Die Formel ist in
+  `docs/protocol.md` belegt, aber nur aus einem Spielstand. Ein Metrik-Name ist
+  eine Zusage; sie kommt dazu, wenn jemand sie braucht.
+- **Experimentell:** Namen und Labels können sich bis 1.0 noch ändern.
 
 ## 6. Sicherheit & Netzwerk
 

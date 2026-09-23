@@ -8,6 +8,13 @@ All notable changes to Tabularium 117 are documented here, in the
 ### Added
 
 - The README states the measured resource usage of `tabularium117.exe`.
+- **Prometheus metrics (optional, experimental):** `GET /metrics` serves the
+  live state in the Prometheus text format - connection, islands, and
+  production, consumption, balance, potential and building count per good and
+  island, with names in separate info metrics. Loopback only: the phone-mode
+  listener answers 404. Nothing runs unless something scrapes it, and normal
+  use needs neither Prometheus nor Grafana. Names and labels may still change
+  before 1.0.
 
 ### Changed
 
