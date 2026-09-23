@@ -5,6 +5,11 @@ All notable changes to Tabularium 117 are documented here, in the
 
 ## [Unreleased]
 
+## [0.1.0-beta.3] - 2026-09-23
+
+Third beta: a clearer status bar and efficiency view, and a ready-made
+Grafana dashboard for the metrics.
+
 ### Added
 
 - A ready-made Grafana dashboard for the Prometheus metrics,
