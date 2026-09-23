@@ -24,9 +24,8 @@ All notable changes to Tabularium 117 are documented here, in the
 - The Grafana deficit and all-goods tables always cover all goods of the
   selected islands. Its charts initially focus on one available good, with
   a separate selector for comparing a few goods.
-- The README screenshots of the overview, the efficiency view and the
-  history come from a running game, and the Grafana section shows the
-  dashboard.
+- The README screenshots come from a running game, and the Grafana section
+  shows the dashboard.
 
 ### Fixed
 

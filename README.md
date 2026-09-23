@@ -48,9 +48,8 @@ gegenüber dem Spiel.
 ![Verlauf einer Ware über die letzte Stunde](docs/screenshots/history.png)
 ![Handy-Ansicht mit Inselliste](docs/screenshots/phone.png)
 
-*Übersicht, Effizienz und Verlauf stammen aus einem laufenden Spiel mit dem
-aktuellen Entwicklungsstand; die Handy-Ansicht zeigt noch beta.1 mit
-wiedergegebenen Beispieldaten.*
+*Alle Bilder stammen aus einem laufenden Spiel mit dem aktuellen
+Entwicklungsstand.*
 
 ### Schnellstart
 
@@ -300,9 +299,8 @@ step, no Docker, no mod, strictly read-only towards the game.
 ![History of one good over the last hour](docs/screenshots/history.png)
 ![Phone view with the island list](docs/screenshots/phone.png)
 
-*The overview, efficiency and history screenshots come from a running game
-with the current development version; the phone view still shows beta.1 with
-replayed sample data.*
+*All screenshots come from a running game with the current development
+version.*
 
 ### Quick start
 
