@@ -3,6 +3,14 @@
 All notable changes to Tabularium 117 are documented here, in the
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) style.
 
+## [Unreleased]
+
+### Changed
+
+- The in-app help, the README and the beta guide explain how to add the
+  `/pipe` launch option on **Steam** as well as in Ubisoft Connect. Until now
+  they only described Ubisoft Connect.
+
 ## [0.1.0-beta.1] - 2026-09-22
 
 First beta release, for testing by a small group of real players before a

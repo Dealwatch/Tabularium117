@@ -79,9 +79,14 @@ vergleichen.
 
 ### Pipe aktivieren
 
-Anno 117 braucht den Startparameter `/pipe`, sonst gibt es nichts zu lesen.
-In Ubisoft Connect: Rechtsklick auf das Spiel → Eigenschaften →
-„Startargumente hinzufügen“ → `/pipe` eintragen. Das Spiel muss laufen und ein
+Anno 117 braucht den Startparameter `/pipe`, sonst gibt es nichts zu lesen:
+
+- **Steam:** Bibliothek → Rechtsklick auf Anno 117 → Eigenschaften →
+  Allgemein → im Feld **Startoptionen** `/pipe` eintragen.
+- **Ubisoft Connect:** Rechtsklick auf das Spiel → Eigenschaften →
+  „Startargumente hinzufügen“ → `/pipe` eintragen.
+
+Das Spiel muss laufen und ein
 Savegame geladen haben; Tabularium 117 verbindet sich automatisch, sobald die Pipe
 existiert, und versucht es weiter, falls sie (noch) fehlt. Die Pipe ist eine
 von Ubisoft nicht offiziell unterstützte „Easter-Egg“-Schnittstelle – Details
@@ -248,9 +253,14 @@ can rebuild it and compare.
 
 ### Enable the pipe
 
-Anno 117 needs the `/pipe` launch argument, or there is nothing to read. In
-Ubisoft Connect: right-click the game → Properties → "Add launch arguments"
-→ enter `/pipe`. The game must be running with a savegame loaded; Tabularium 117
+Anno 117 needs the `/pipe` launch argument, or there is nothing to read:
+
+- **Steam:** Library → right-click Anno 117 → Properties → General → enter
+  `/pipe` in the **Launch Options** field.
+- **Ubisoft Connect:** right-click the game → Properties → "Add launch
+  arguments" → enter `/pipe`.
+
+The game must be running with a savegame loaded; Tabularium 117
 connects automatically once the pipe exists, and keeps retrying if it is
 missing (yet). The pipe is an "easter egg" interface that Ubisoft does not
 officially support – details and open questions are in `docs/protocol.md`.

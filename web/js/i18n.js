@@ -126,8 +126,10 @@ const dictionaries = {
       + "on a secure connection, and phone mode serves plain HTTP inside your own network.",
     helpHeading: "Help",
     helpPipeIntro: "Tabularium 117 reads Anno 117's unofficial pipe interface. To enable it:",
-    helpPipeStep1: "Open Ubisoft Connect, right-click Anno 117 and choose \"Properties\".",
-    helpPipeStep2: "Under \"Launch options\", add the launch argument /pipe.",
+    helpPipeStep1: "Steam: in your library, right-click Anno 117 → Properties → General, "
+      + "and enter /pipe under \"Launch Options\".",
+    helpPipeStep2: "Or Ubisoft Connect: right-click Anno 117 → Properties → \"Add launch "
+      + "arguments\", and enter /pipe.",
     helpPipeStep3: "Start the game and load a savegame. Tabularium 117 connects automatically and "
       + "reconnects if the game restarts or loads a different savegame.",
     helpLocal: "All data stays on this PC unless you explicitly enable LAN mode under "
@@ -266,8 +268,10 @@ const dictionaries = {
       + "Netzwerk aus.",
     helpHeading: "Hilfe",
     helpPipeIntro: "Tabularium 117 liest die inoffizielle Pipe-Schnittstelle von Anno 117. So wird sie aktiviert:",
-    helpPipeStep1: "Ubisoft Connect öffnen, Rechtsklick auf Anno 117, „Eigenschaften“ wählen.",
-    helpPipeStep2: "Unter „Startoptionen“ den Startparameter /pipe hinzufügen.",
+    helpPipeStep1: "Steam: in der Bibliothek Rechtsklick auf Anno 117 → Eigenschaften → "
+      + "Allgemein, und unter „Startoptionen“ /pipe eintragen.",
+    helpPipeStep2: "Oder Ubisoft Connect: Rechtsklick auf Anno 117 → Eigenschaften → "
+      + "„Startargumente hinzufügen“, und /pipe eintragen.",
     helpPipeStep3: "Das Spiel starten und einen Spielstand laden. Tabularium 117 verbindet sich "
       + "automatisch und stellt die Verbindung wieder her, wenn das Spiel neu startet oder ein "
       + "anderer Spielstand geladen wird.",

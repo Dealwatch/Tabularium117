@@ -29,9 +29,10 @@ live im Browser, auf dem PC oder auf dem Handy im selben Netzwerk.
    für sich genommen nicht, dass die Datei Schadsoftware enthält – prüfbar
    ist sie über die Prüfsumme aus Schritt 2 und den offenen Quellcode; siehe
    README.
-4. Anno 117 braucht den Startparameter `/pipe` (Ubisoft Connect →
-   Rechtsklick auf das Spiel → Eigenschaften → Startargumente hinzufügen),
-   sonst gibt es nichts zu lesen.
+4. Anno 117 braucht den Startparameter `/pipe`, sonst gibt es nichts zu
+   lesen. **Steam:** Bibliothek → Rechtsklick auf Anno 117 → Eigenschaften →
+   Allgemein → Startoptionen → `/pipe`. **Ubisoft Connect:** Rechtsklick auf
+   das Spiel → Eigenschaften → Startargumente hinzufügen → `/pipe`.
 
 ### Test-Checkliste
 
@@ -126,9 +127,10 @@ your phone in the same network.
    anyway"**. This warning is expected for an unsigned build and does not by
    itself mean the file contains malware - what you can check is the checksum
    from step 2 and the source, which is public; see the README.
-4. Anno 117 needs the `/pipe` launch argument (Ubisoft Connect → right-click
-   the game → Properties → add launch arguments), or there is nothing to
-   read.
+4. Anno 117 needs the `/pipe` launch argument, or there is nothing to read.
+   **Steam:** Library → right-click Anno 117 → Properties → General → Launch
+   Options → `/pipe`. **Ubisoft Connect:** right-click the game → Properties →
+   Add launch arguments → `/pipe`.
 
 ### Test checklist
 

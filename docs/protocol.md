@@ -6,8 +6,9 @@ format, update this file and that package together.
 
 The pipe is an unsupported "easter egg" (Ubisoft's words); compatibility across
 game versions is not guaranteed. Activate it by launching the game with the
-`/pipe` argument (Ubisoft Connect: right-click the game → Properties → "Add
-launch arguments" → `/pipe`).
+`/pipe` argument: on Steam under Properties → General → "Launch Options",
+which is the maintainer's setup and passes the argument through to the game
+**[live]**; in Ubisoft Connect under Properties → "Add launch arguments".
 
 ## Sources
 
