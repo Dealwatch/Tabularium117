@@ -84,6 +84,7 @@ function connectionPillClass(state) {
     case "connected": return "connected";
     case "waiting": return "waiting";
     case "replaying": return "replaying";
+    case "ended": return "ended";
     default: return "disconnected";
   }
 }
@@ -93,6 +94,7 @@ function connectionLabel(state) {
     case "connected": return i18n.t("statusConnected");
     case "waiting": return i18n.t("statusWaiting");
     case "replaying": return i18n.t("statusReplaying");
+    case "ended": return i18n.t("statusEnded");
     default: return i18n.t("statusDisconnected");
   }
 }

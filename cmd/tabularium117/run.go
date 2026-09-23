@@ -152,6 +152,11 @@ func run(ctx context.Context, cfg config, stdout, stderr io.Writer) (err error) 
 	runErr := pipeline.Run(ctx, src)
 
 	if cfg.replayPath != "" {
+		// The reader has returned, so nothing is delivered any more - even
+		// if --serve-after-replay keeps the UI up. Left at "replaying", the
+		// status bar and tabularium117_connection_up would claim otherwise.
+		endReplay(ctx, st, runErr)
+		web.server.PublishStatus()
 		printSummary(stdout, st)
 		if cfg.serveAfterReplay && ctx.Err() == nil {
 			logger.Info("the recording has ended; the UI stays up until Ctrl+C", "url", web.url)
@@ -160,7 +165,8 @@ func run(ctx context.Context, cfg config, stdout, stderr io.Writer) (err error) 
 	}
 	stats := pipeline.Stats()
 	logger.Info("stopped", "frames", stats.Frames, "snapshots", stats.Snapshots,
-		"decode_errors", stats.DecodeErrors, "dropped_by_version", stats.VersionDropped)
+		"decode_errors", stats.DecodeErrors, "dropped_by_version", stats.VersionDropped,
+		"duplicate_products", stats.DuplicateProducts)
 
 	switch {
 	case runErr == nil:
@@ -175,6 +181,20 @@ func run(ctx context.Context, cfg config, stdout, stderr io.Writer) (err error) 
 	default:
 		return runErr
 	}
+}
+
+// endReplay marks the replay as over. A read error is kept as the reason; a
+// stop we asked for is not an error and leaves none.
+func endReplay(ctx context.Context, st *state.State, runErr error) {
+	var reason string
+	if runErr != nil && ctx.Err() == nil {
+		reason = runErr.Error()
+	}
+	st.UpdateConnection(func(c *state.Connection) {
+		c.State = state.StateEnded
+		c.Err = reason
+		c.Since = time.Now()
+	})
 }
 
 // attachAlerts chains the rule engine onto the pipeline, last in the chain.
@@ -242,8 +262,8 @@ func openSource(cfg config, st *state.State, pipeline *ingest.Pipeline, logger *
 		return nil, nil, fmt.Errorf("open recording: %w", err)
 	}
 	st.SetConnection(state.Connection{
-		Mode:  "replay",
-		State: "replaying",
+		Mode:  state.ModeReplay,
+		State: state.StateReplaying,
 		Since: time.Now(),
 	})
 	// Until the UI exists, the replay reports what it stores on the console;

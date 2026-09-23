@@ -8,14 +8,36 @@ import (
 	"github.com/Dealwatch/Tabularium117/internal/model"
 )
 
+// The values of Connection.Mode and Connection.State. They are strings
+// because they go out unchanged in /api/v1/status, and the UI (web/js/app.js)
+// and anyone reading the API compare against these exact words: renaming one
+// is an API change, which state_test.go pins.
+const (
+	ModePipe   = "pipe"
+	ModeReplay = "replay"
+
+	// StateWaiting: the pipe does not exist yet, the game is not running or
+	// was started without /pipe.
+	StateWaiting = "waiting"
+	// StateConnected: the pipe is open and frames can arrive.
+	StateConnected = "connected"
+	// StateDisconnected: a connection existed and was lost or given up.
+	StateDisconnected = "disconnected"
+	// StateReplaying: a recording is being played back instead of the pipe.
+	StateReplaying = "replaying"
+	// StateEnded: the recording has been played to its end (or failed). The
+	// last picture stays visible with --serve-after-replay, but nothing is
+	// delivered any more.
+	StateEnded = "ended"
+)
+
 // Connection describes the data source's status as plain data, ready for the
 // HTTP layer to serialise. It deliberately holds no error value and
 // no package types: Err is the message as it should be shown.
 type Connection struct {
-	// Mode is "pipe" or "replay".
+	// Mode is ModePipe or ModeReplay.
 	Mode string
-	// State is the source's state, e.g. the pipe's "waiting", "connected" or
-	// "disconnected".
+	// State is one of the State constants above.
 	State string
 	// Err is the reason for the current state, empty when there is none.
 	Err string
@@ -26,6 +48,14 @@ type Connection struct {
 	ProtocolVersion int32
 	// LastFrameAt is the receive time of the most recent frame.
 	LastFrameAt time.Time
+}
+
+// Delivering reports whether the source connection is open: the pipe is
+// connected, or a recording is still playing. It says nothing about whether
+// the frames are usable - an unsupported protocol version leaves the pipe
+// connected while the statistics are dropped.
+func (c Connection) Delivering() bool {
+	return c.State == StateConnected || c.State == StateReplaying
 }
 
 // State is the current, in-memory picture of the game.

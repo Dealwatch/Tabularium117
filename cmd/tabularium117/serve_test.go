@@ -184,3 +184,80 @@ func TestBrowserCommand(t *testing.T) {
 		t.Errorf("browserCommand = %q %v, want the URL as the last argument", name, args)
 	}
 }
+
+// Once a recording has ended, nothing is being delivered any more, even
+// though --serve-after-replay keeps the UI up. The status has to say so, and
+// tabularium117_connection_up has to drop to 0: a Prometheus alert on a dead
+// source must not be fooled by a server that merely stayed open.
+func TestServeAfterReplayReportsTheEnd(t *testing.T) {
+	cfg := parse(t, "--replay", fixturePath, "--replay-speed", "0", "--data-dir", t.TempDir(),
+		"--port", "0", "--no-browser", "--serve-after-replay")
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	stdout, stderr := &safeBuffer{}, &safeBuffer{}
+	done := make(chan error, 1)
+	go func() { done <- run(ctx, cfg, stdout, stderr) }()
+	url := waitForURL(t, stderr)
+
+	// The summary is printed after the replay has ended.
+	deadline := time.Now().Add(10 * time.Second)
+	for !strings.Contains(stdout.String(), "14 islands, 423 products") {
+		if time.Now().After(deadline) {
+			t.Fatalf("the replay summary never appeared:\n%s", stdout.String())
+		}
+		time.Sleep(5 * time.Millisecond)
+	}
+
+	var status struct {
+		Connection struct {
+			Mode  string `json:"mode"`
+			State string `json:"state"`
+		} `json:"connection"`
+		Islands int `json:"islands"`
+	}
+	resp, err := http.Get(url + "api/v1/status")
+	if err != nil {
+		t.Fatalf("GET the status: %v", err)
+	}
+	err = json.NewDecoder(resp.Body).Decode(&status)
+	resp.Body.Close()
+	if err != nil {
+		t.Fatalf("decode the status: %v", err)
+	}
+	if status.Connection.Mode != "replay" || status.Connection.State != "ended" {
+		t.Errorf("connection = %+v after the replay, want mode replay, state ended", status.Connection)
+	}
+	if status.Islands != 14 {
+		t.Errorf("islands = %d, want the replayed 14 to stay visible", status.Islands)
+	}
+
+	metrics, err := http.Get(url + "metrics")
+	if err != nil {
+		t.Fatalf("GET /metrics: %v", err)
+	}
+	body, _ := io.ReadAll(metrics.Body)
+	metrics.Body.Close()
+	if !strings.Contains(string(body), "\ntabularium117_connection_up{mode=\"replay\"} 0\n") {
+		t.Errorf("connection_up is not 0 after the replay ended:\n%s", firstLines(string(body), 6))
+	}
+	if !strings.Contains(string(body), "\ntabularium117_islands 14\n") {
+		t.Error("the replayed islands are gone from /metrics")
+	}
+
+	cancel()
+	select {
+	case err := <-done:
+		if err != nil {
+			t.Fatalf("Ctrl+C must end the run cleanly, got: %v", err)
+		}
+	case <-time.After(10 * time.Second):
+		t.Fatal("the run did not stop after the context was cancelled")
+	}
+}
+
+func firstLines(s string, n int) string {
+	lines := strings.SplitN(s, "\n", n+1)
+	return strings.Join(lines[:min(n, len(lines))], "\n")
+}

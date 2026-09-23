@@ -52,7 +52,11 @@ type Pipeline struct {
 	// versionLogged keeps the "unsupported version" error to one line per
 	// connection instead of one per frame.
 	versionLogged bool
-	stats         Stats
+	// duplicateLogged keeps the duplicate-product warning to one line per
+	// run: one is enough to know the assumption broke, and a save that
+	// triggers it would do so every tick.
+	duplicateLogged bool
+	stats           Stats
 }
 
 // Stats counts what the pipeline has seen. It is a snapshot, not a live view.
@@ -68,6 +72,9 @@ type Stats struct {
 	VersionDropped int
 	// RecordErrors is the number of frames that could not be recorded.
 	RecordErrors int
+	// DuplicateProducts is the number of product entries dropped because the
+	// same message listed that good again (see collapseDuplicates).
+	DuplicateProducts int
 }
 
 // Run consumes src until it stops or ctx is done.
@@ -231,9 +238,54 @@ func (p *Pipeline) handleStatistics(m protocol.AreaStatistics) {
 		return
 	}
 
+	p.collapseDuplicates(&m.Snapshot)
 	p.State.Put(m.Snapshot)
 	if p.OnSnapshot != nil {
 		p.OnSnapshot(m.Snapshot)
+	}
+}
+
+// collapseDuplicates keeps one entry per good in snap. No capture has ever
+// listed a good twice in one message, but nothing in the format forbids it,
+// and every consumer would handle it differently: the table would show two
+// rows, the history keeps the later one (INSERT OR REPLACE), and /metrics
+// would emit a duplicate series, which makes Prometheus drop the whole
+// scrape. So it is decided once, here, the way the history already decides
+// it: the later entry wins, and stays where it was sent.
+//
+// The decoder hands over a fresh slice, so it is filtered in place.
+func (p *Pipeline) collapseDuplicates(snap *model.IslandSnapshot) {
+	last := make(map[int32]int, len(snap.Products))
+	for i, prod := range snap.Products {
+		last[prod.ProductGUID] = i
+	}
+	dropped := len(snap.Products) - len(last)
+	if dropped == 0 {
+		return
+	}
+
+	// Only the first duplicate is named: the log line is a hint where to
+	// look, not an inventory. A bool, because GUID 0 is a real product.
+	var duplicate int32
+	named := false
+	kept := snap.Products[:0]
+	for i, prod := range snap.Products {
+		if last[prod.ProductGUID] == i {
+			kept = append(kept, prod)
+		} else if !named {
+			duplicate, named = prod.ProductGUID, true
+		}
+	}
+	snap.Products = kept
+
+	p.mu.Lock()
+	p.stats.DuplicateProducts += dropped
+	logIt := !p.duplicateLogged
+	p.duplicateLogged = true
+	p.mu.Unlock()
+	if logIt {
+		p.log().Warn("a message listed a good more than once; kept the later entry (logged once per run)",
+			"session", snap.Key.SessionGUID, "island", snap.Key.IslandID, "guid", duplicate, "dropped", dropped)
 	}
 }
 
@@ -256,10 +308,10 @@ func (p *Pipeline) PipeStatus() pipe.StatusFunc {
 		if s.Err != nil {
 			errText = s.Err.Error()
 		}
-		stateName := s.State.String()
+		stateName := connectionState(s.State)
 
 		p.State.UpdateConnection(func(c *state.Connection) {
-			c.Mode = "pipe"
+			c.Mode = state.ModePipe
 			if c.State != stateName {
 				c.Since = s.At
 			}
@@ -271,6 +323,23 @@ func (p *Pipeline) PipeStatus() pipe.StatusFunc {
 		})
 		// Losing the connection deliberately keeps the islands (see doc.go).
 		p.notifyStatus()
+	}
+}
+
+// connectionState maps the pipe client's state onto the API's words. The
+// mapping is spelled out rather than taken from pipe.State.String(): that is
+// the pipe package's own display name, and renaming it there must not change
+// what /api/v1/status says.
+func connectionState(s pipe.State) string {
+	switch s {
+	case pipe.StateWaiting:
+		return state.StateWaiting
+	case pipe.StateConnected:
+		return state.StateConnected
+	default:
+		// StateDisconnected, and anything the pipe client may add later:
+		// a state this code does not know is not one that delivers frames.
+		return state.StateDisconnected
 	}
 }
 

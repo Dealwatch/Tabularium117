@@ -98,7 +98,8 @@ type LANOptions struct {
 	ClientAllowed func(netip.Addr) bool
 }
 
-// Server serves the embedded UI, the read-only REST API and the SSE stream.
+// Server serves the embedded UI, the read-only REST API, the SSE stream and,
+// on the loopback listener only, the Prometheus metrics.
 //
 // It has two faces. The loopback listener is the PC Tabularium 117 runs on: it is
 // trusted, needs no credential, and is the only side that may switch LAN
@@ -363,6 +364,7 @@ func (s *Server) routes() http.Handler {
 
 	root := http.NewServeMux()
 	root.Handle("/api/v1/", api)
+	root.HandleFunc(metricsPath, s.handleMetrics)
 	root.Handle("/", http.FileServerFS(web.FS))
 	return readOnly(root)
 }

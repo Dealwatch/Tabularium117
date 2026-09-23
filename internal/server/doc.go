@@ -1,7 +1,8 @@
-// Package server serves the embedded web UI, the read-only REST API and the
-// SSE live feed. It is the "HTTP-Server" box of KONZEPT.md section 3; the
-// endpoints themselves are specified in KONZEPT.md section 5, which stays the
-// single reference for them.
+// Package server serves the embedded web UI, the read-only REST API, the
+// SSE live feed and, on the loopback listener only, GET /metrics in the
+// Prometheus text format (metrics.go). It is the "HTTP-Server" box of
+// KONZEPT.md section 3; the endpoints themselves are specified in KONZEPT.md
+// section 5, which stays the single reference for them.
 //
 // The package reads internal/state for the live picture, internal/store for
 // the history and the rule engine of internal/alerts for the warnings that

@@ -304,7 +304,8 @@ Konventionen:
 - **Zwei Listener, eine API:** Loopback und LAN liefern dieselben Endpunkte
   aus. Unterschiede gibt es nur dort, wo etwas Geheimes oder Schaltendes im
   Spiel ist: `lan.url`, `qr.png` und `POST /lan` gehören dem Loopback-Listener,
-  und `status.lan.local` sagt der UI, auf welcher Seite sie läuft. Woher eine
+  und `status.lan.local` sagt der UI, auf welcher Seite sie läuft. `/metrics`
+  (außerhalb von `/api/v1`, siehe unten) gibt es nur auf dem Loopback-Listener. Woher eine
   Anfrage kommt, entscheidet der annehmende Listener (`ConnContext`), nie ein
   Header wie `Host` oder `X-Forwarded-For`.
 - **Aufwärmphase:** Nach einem `SessionStart` liefert der erste Tick jede Insel mit null Waren
@@ -316,6 +317,67 @@ Konventionen:
   angezeigt – rohe Spiel-Millisekunden sagen Spielenden nichts; die Statusleiste zeigt weiter
   „letzter Frame vor X“.
 - Die statische UI liegt unter `/` und wird per `embed` aus `web/` ausgeliefert.
+
+### Prometheus-Metriken (`GET /metrics`, experimentell)
+
+Außerhalb von `/api/v1`: `GET /metrics` liefert den Live-Zustand im
+Prometheus-Textformat (`text/plain; version=0.0.4; charset=utf-8`). Umgesetzt in
+`internal/server/metrics.go`. Optional – die UI braucht den Endpunkt nicht, und
+wer kein Prometheus betreibt, merkt nichts davon.
+
+- **Nur Loopback:** Über den LAN-Listener gibt es den Endpunkt nicht – mit
+  gültigem Token 404, ohne Token wie überall 401. Das Sicherheitsmodell aus
+  Abschnitt 6 bleibt unverändert. Prometheus muss daher auf demselben
+  Windows-PC laufen; ein entfernter Server oder ein Container erreicht
+  `127.0.0.1:53118` nicht. Metriken über das LAN sind bewusst nicht Teil
+  dieses Stands.
+- **Kein eigener Zustand:** Jeder Wert wird beim Abruf aus `state.State`
+  gelesen. Keine zusätzliche Goroutine, kein Cache, keine Datenbank; die
+  Zeitreihen speichert Prometheus.
+- **Alle Metriken sind Gauges.** Werte, die nie gesetzt wurden, fehlen, statt
+  als 0 zu erscheinen.
+
+| Metrik | Labels | Bedeutung |
+|---|---|---|
+| `tabularium117_connection_up` | `mode` | 1, wenn die Pipe verbunden ist oder eine Aufnahme noch läuft, sonst 0 (auch nach dem Ende einer Aufnahme mit `--serve-after-replay`). Sagt nur, dass die Verbindung offen ist, nicht, dass die Daten brauchbar sind: Bei einer nicht unterstützten Protokollversion bleibt die Pipe verbunden, die Statistiken werden aber verworfen |
+| `tabularium117_last_frame_timestamp_seconds` | – | Unix-Zeit des letzten Frames; fehlt, solange keiner kam. Alter: `time() - …` |
+| `tabularium117_protocol_version` | – | angekündigte Protokollversion; fehlt, solange unbekannt |
+| `tabularium117_warming_up` | – | 1 in der Aufwärmphase (siehe oben); die Warenreihen fehlen dann, statt auf 0 zu fallen |
+| `tabularium117_islands` | – | Anzahl bekannter Inseln |
+| `tabularium117_island_info` | `session_guid`, `island_id`, `island_name`, `session_name` | immer 1; liefert die Namen |
+| `tabularium117_product_info` | `product_guid`, `product_name` | immer 1; unbekannte GUID → `#123` |
+| `tabularium117_product_generation_per_minute` | `session_guid`, `island_id`, `product_guid` | Produktion/min |
+| `tabularium117_product_consumption_per_minute` | wie oben | Verbrauch/min |
+| `tabularium117_product_balance_per_minute` | wie oben | Delta/min, wie vom Spiel gemeldet |
+| `tabularium117_product_perfect_generation_per_minute` | wie oben | Potenzial/min |
+| `tabularium117_product_buildings` | wie oben | Anzahl Gebäude |
+
+Entscheidungen:
+
+- **Namen nur in den Info-Metriken**, damit ein umbenannter Ort nicht jede
+  Warenreihe abreißen lässt. Verknüpft wird in PromQL über die GUID-Labels.
+  Nach einer Umbenennung endet die alte `island_info`-Reihe mit dem nächsten
+  Abruf (Prometheus markiert sie als veraltet), ein `group_left`-Join bleibt
+  also eindeutig. Umlaute kommen vom Spiel als `_` an (§12) und stehen so im
+  Label.
+- **Namen immer englisch:** Ein Label, das der Sprache des Aufrufers folgt,
+  würde eine Ware in zwei Zeitreihen spalten.
+- **Zeitstempel statt Alter:** Ein Alter ändert sich bei jedem Abruf, auch wenn
+  nichts passiert; das Alter rechnet PromQL.
+- **Stabile Ausgabe:** Inseln nach (SessionGUID, IslandID), Waren nach GUID.
+  Eine doppelte Reihe würde Prometheus den ganzen Abruf verwerfen lassen; eine
+  Ware, die eine Nachricht zweimal nennt, gibt es aber ohnehin nur einmal
+  (siehe §8).
+- **Produktivität bewusst noch nicht enthalten:** Ihre Bedeutung ist geklärt
+  (`docs/protocol.md`, „Productivity fields, resolved“), aber jeder
+  Metrik-Name ist eine Zusage. Sie kommt dazu, wenn jemand sie braucht.
+- **Keine Spielstand-Identität:** Die Pipe liefert keine Kennung für den
+  Spielstand. `session_guid` ist die Region (Latium ist in jedem Spielstand
+  3245), `island_id` ein `uint8` (§4). Zwei Spielstände können deshalb
+  dieselben Labels erzeugen, und ihre Reihen gehen nahtlos ineinander über.
+  Auseinanderhalten lassen sie sich nur über die Zeit. Dieselbe Grenze hat der
+  Verlauf, der Inseln ebenfalls über (SessionGUID, IslandID) führt.
+- **Experimentell:** Namen und Labels können sich bis 1.0 noch ändern.
 
 ## 6. Sicherheit & Netzwerk
 
@@ -436,6 +498,10 @@ beschreibt, was der Code tut.
 - Unbekannte Protokollversion (≠ 2) → klare Meldung in UI, Dekodieren stoppen (die Ubisoft-Referenz
   macht weiter; wir nicht), Rohdaten optional in Debug-Log schreiben.
 - Kurze Frames sind Dekodierfehler, nie Nullwerte (die Referenz liefert stillschweigend 0).
+- Nennt eine Nachricht dieselbe Ware zweimal, gilt der spätere Eintrag – wie im Verlauf
+  (`INSERT OR REPLACE`). Entschieden wird das einmal in `internal/ingest`, damit Tabelle,
+  Warnungen, Verlauf und `/metrics` dasselbe sehen; der erste Fall pro Lauf wird geloggt.
+  Beobachtet wurde das bisher nie – der Log-Eintrag ist der Weg, es zu erfahren.
 - **Replay-Modus** (`--replay datei.jsonl`) für Entwicklung und Tests ohne Spiel;
   **Record-Modus** (`--record datei.jsonl`) zum Aufzeichnen echter Daten. Aufgezeichnet werden
   **rohe Frames** (base64) mit Empfangszeit, nicht dekodiertes JSON – Format in `docs/protocol.md`.
@@ -454,7 +520,7 @@ beschreibt, was der Code tut.
 | Ubisoft ändert/entfernt die Pipe per Patch | Tool funktioniert nicht | Protokoll gekapselt in `internal/protocol`, Versionserkennung, klare Fehlermeldung |
 | Pipe liefert weniger als erhofft (z. B. nur aktive Insel) | Features eingeschränkt | Capture zeigt alle Inseln zweier Sessions in einem Tick – live bestätigt am 2026-09-22 (Record-Modus) |
 | Spiel erlaubt nur einen Pipe-Client (Konflikt mit Connector) | Tools nicht parallel nutzbar | Noch ungetestet (`docs/protocol.md`, „Open questions“); ggf. im README dokumentieren |
-| Bedeutung von `timeStamp`, `AverageProductivity`, Workforce-GUID 0 unklar | Fehlinterpretation in UI | Werte nur durchreichen, Effizienz aus `Generation/PerfectGeneration`; offene Fragen in `docs/protocol.md` |
+| Bedeutung von Workforce-GUID 0 und Produkt-GUID 0 unklar (`timeStamp` und `AverageProductivity` sind seit dem Live-Mitschnitt geklärt) | Fehlinterpretation in UI | Werte nur durchreichen, Effizienz aus `Generation/PerfectGeneration`; offene Fragen in `docs/protocol.md` |
 | Virenscanner-Fehlalarm | Nutzer vertrauen nicht | Open Source, reproduzierbarer Build, Prüfsummen |
 | Überschneidung mit Connector-Projekt | Doppelarbeit | Im anno-mods-Discord abstimmen |
 

@@ -8,12 +8,29 @@ All notable changes to Tabularium 117 are documented here, in the
 ### Added
 
 - The README states the measured resource usage of `tabularium117.exe`.
+- **Prometheus metrics (optional, experimental):** `GET /metrics` serves the
+  live state in the Prometheus text format - connection, islands, and
+  production, consumption, balance, potential and building count per good and
+  island, with names in separate info metrics. Loopback only, so Prometheus
+  has to run on the same PC; the phone-mode listener answers 404. Nothing runs
+  unless something scrapes it, and normal use needs neither Prometheus nor
+  Grafana. The pipe carries no save identifier, so two saves can share the
+  same series. Names and labels may still change before 1.0.
 
 ### Changed
 
 - The in-app help, the README and the beta guide explain how to add the
   `/pipe` launch option on **Steam** as well as in Ubisoft Connect. Until now
   they only described Ubisoft Connect.
+- Should a message ever list the same good twice, every view now keeps the
+  later entry, as the history already did, and the log says so once per run.
+  This has never been observed; until now the goods table would have shown
+  both rows.
+
+### Fixed
+
+- With `--serve-after-replay`, the status bar kept saying "replaying" after
+  the recording had ended. It now says "recording ended".
 
 ## [0.1.0-beta.1] - 2026-09-22
 
