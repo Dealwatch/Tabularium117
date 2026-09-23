@@ -327,7 +327,10 @@ wer kein Prometheus betreibt, merkt nichts davon.
 
 - **Nur Loopback:** Über den LAN-Listener gibt es den Endpunkt nicht – mit
   gültigem Token 404, ohne Token wie überall 401. Das Sicherheitsmodell aus
-  Abschnitt 6 bleibt unverändert.
+  Abschnitt 6 bleibt unverändert. Prometheus muss daher auf demselben
+  Windows-PC laufen; ein entfernter Server oder ein Container erreicht
+  `127.0.0.1:53118` nicht. Metriken über das LAN sind bewusst nicht Teil
+  dieses Stands.
 - **Kein eigener Zustand:** Jeder Wert wird beim Abruf aus `state.State`
   gelesen. Keine zusätzliche Goroutine, kein Cache, keine Datenbank; die
   Zeitreihen speichert Prometheus.
@@ -336,7 +339,7 @@ wer kein Prometheus betreibt, merkt nichts davon.
 
 | Metrik | Labels | Bedeutung |
 |---|---|---|
-| `tabularium117_connection_up` | `mode` | 1, wenn die Pipe verbunden ist oder eine Aufnahme abgespielt wird, sonst 0 |
+| `tabularium117_connection_up` | `mode` | 1, wenn die Pipe verbunden ist oder eine Aufnahme noch läuft, sonst 0 (auch nach dem Ende einer Aufnahme mit `--serve-after-replay`). Sagt nur, dass die Verbindung offen ist, nicht, dass die Daten brauchbar sind: Bei einer nicht unterstützten Protokollversion bleibt die Pipe verbunden, die Statistiken werden aber verworfen |
 | `tabularium117_last_frame_timestamp_seconds` | – | Unix-Zeit des letzten Frames; fehlt, solange keiner kam. Alter: `time() - …` |
 | `tabularium117_protocol_version` | – | angekündigte Protokollversion; fehlt, solange unbekannt |
 | `tabularium117_warming_up` | – | 1 in der Aufwärmphase (siehe oben); die Warenreihen fehlen dann, statt auf 0 zu fallen |
@@ -368,6 +371,12 @@ Entscheidungen:
 - **Produktivität bewusst noch nicht enthalten:** Ihre Bedeutung ist geklärt
   (`docs/protocol.md`, „Productivity fields, resolved“), aber jeder
   Metrik-Name ist eine Zusage. Sie kommt dazu, wenn jemand sie braucht.
+- **Keine Spielstand-Identität:** Die Pipe liefert keine Kennung für den
+  Spielstand. `session_guid` ist die Region (Latium ist in jedem Spielstand
+  3245), `island_id` ein `uint8` (§4). Zwei Spielstände können deshalb
+  dieselben Labels erzeugen, und ihre Reihen gehen nahtlos ineinander über.
+  Auseinanderhalten lassen sie sich nur über die Zeit. Dieselbe Grenze hat der
+  Verlauf, der Inseln ebenfalls über (SessionGUID, IslandID) führt.
 - **Experimentell:** Namen und Labels können sich bis 1.0 noch ändern.
 
 ## 6. Sicherheit & Netzwerk

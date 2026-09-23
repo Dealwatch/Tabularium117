@@ -94,7 +94,7 @@ func TestMetricsOutput(t *testing.T) {
 		Products: []model.ProductStat{{ProductGUID: 2068, Generation: 0, Consumption: 0.5, Delta: -0.5, PerfectGeneration: 0, Buildings: 0}},
 	})
 
-	want := `# HELP tabularium117_connection_up Whether the data source is delivering: 1 while the pipe is connected or a recording is replaying, otherwise 0.
+	want := `# HELP tabularium117_connection_up Whether the source connection is open: 1 while the pipe is connected or a recording is still playing, otherwise 0. Not a sign of usable statistics: with an unsupported protocol version the pipe stays connected while statistics are ignored.
 # TYPE tabularium117_connection_up gauge
 tabularium117_connection_up{mode="pipe"} 1
 # HELP tabularium117_last_frame_timestamp_seconds Unix time of the most recent frame received from the source. Age: time() - this.

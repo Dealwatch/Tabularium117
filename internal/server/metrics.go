@@ -55,7 +55,7 @@ func (s *Server) metrics() []byte {
 		up = "1"
 	}
 	e.family("tabularium117_connection_up",
-		"Whether the data source is delivering: 1 while the pipe is connected or a recording is replaying, otherwise 0.")
+		"Whether the source connection is open: 1 while the pipe is connected or a recording is still playing, otherwise 0. Not a sign of usable statistics: with an unsupported protocol version the pipe stays connected while statistics are ignored.")
 	e.sample("tabularium117_connection_up", labels{{"mode", conn.Mode}}, up)
 
 	// A value that has never been set is left out rather than written as 0:

@@ -157,13 +157,14 @@ func TestConnectionWordsAreTheAPI(t *testing.T) {
 		state.StateConnected:    "connected",
 		state.StateDisconnected: "disconnected",
 		state.StateReplaying:    "replaying",
+		state.StateEnded:        "ended",
 	}
 	for got, want := range pinned {
 		if got != want {
 			t.Errorf("a connection word changed: %q, want %q", got, want)
 		}
 	}
-	if len(pinned) != 6 {
+	if len(pinned) != 7 {
 		t.Error("two connection words share one spelling")
 	}
 
@@ -175,6 +176,7 @@ func TestConnectionWordsAreTheAPI(t *testing.T) {
 		{state.StateConnected, true},
 		{state.StateDisconnected, false},
 		{state.StateReplaying, true},
+		{state.StateEnded, false},
 		{"", false},
 	} {
 		if got := (state.Connection{State: tc.state}).Delivering(); got != tc.want {

@@ -25,6 +25,10 @@ const (
 	StateDisconnected = "disconnected"
 	// StateReplaying: a recording is being played back instead of the pipe.
 	StateReplaying = "replaying"
+	// StateEnded: the recording has been played to its end (or failed). The
+	// last picture stays visible with --serve-after-replay, but nothing is
+	// delivered any more.
+	StateEnded = "ended"
 )
 
 // Connection describes the data source's status as plain data, ready for the
@@ -46,8 +50,10 @@ type Connection struct {
 	LastFrameAt time.Time
 }
 
-// Delivering reports whether the source can currently deliver frames: the
-// pipe is connected, or a recording is playing.
+// Delivering reports whether the source connection is open: the pipe is
+// connected, or a recording is still playing. It says nothing about whether
+// the frames are usable - an unsupported protocol version leaves the pipe
+// connected while the statistics are dropped.
 func (c Connection) Delivering() bool {
 	return c.State == StateConnected || c.State == StateReplaying
 }
