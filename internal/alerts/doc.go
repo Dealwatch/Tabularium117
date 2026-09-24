@@ -21,11 +21,17 @@
 //     data, and the rule claims neither.
 //   - "productivity_drop": the productivity of the product's buildings has
 //     fallen more than DropPercentagePoints below its trailing mean over
-//     DropWindow, while the island has been short of the product for
-//     DropShortfallSamples consecutive samples. It clears once the
+//     DropWindow, while the product's local balance has been negative for
+//     DropNegativeSamples consecutive samples. It clears once the
 //     productivity is back within DropClearPercentagePoints of that mean,
-//     or the shortfall has been over for DeficitClearSamples samples, or
-//     the buildings are gone. Severity warning.
+//     or the balance has not been negative for DeficitClearSamples samples,
+//     or the buildings are gone. Severity warning.
+//
+// "Local balance" is the delta and means no more than the pipe says:
+// reported production on this island minus reported consumption on it. A
+// negative balance does not mean the island runs out - it may hold stock or
+// receive the product from elsewhere - and the deficit rule's name means the
+// same, a deficit of local production.
 //
 // The drop rule reads AverageProductivity (SummedProductivity /
 // AmountOfBuildings x 100, docs/protocol.md), not Generation /
@@ -42,11 +48,14 @@
 // Storage is not in the pipe. A building whose storage is full stops, and
 // that looks exactly like one that lacks workers or input goods - an island
 // with far more capacity than it consumes spends most of its time like that.
-// The difference that is in the data is the delta: a full storage keeps it
-// at zero or above, a stalled chain drives it below. Hence the shortfall
-// condition. On the capture every productivity drop happened with a delta of
-// zero or more, and the rule raises none; what it keeps is a drop that
-// explains a shortage, not every building that pauses.
+// Idling on a full storage tends to keep the local balance at zero or above,
+// since the buildings then produce about what is taken out, while a stalled
+// chain with consumption drives it below. That is an observation, not a
+// property of the protocol - generation jumps with production cycles - and
+// it is why the rule wants the balance negative for two ticks, not one. On
+// the capture every productivity drop happened at a balance of zero or more,
+// and the rule raises none. What it raises is a drop that goes with local
+// production falling behind consumption, not every building that pauses.
 //
 // One sample is one statistics tick, and the game produces a tick roughly
 // every two minutes (docs/protocol.md). Every count and window in Config is

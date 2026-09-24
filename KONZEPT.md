@@ -56,10 +56,15 @@ die Wirtschaftsdaten live, mit Verlauf und handyfreundlich anzeigt.
      negativem Delta – beginnt im selben Tick ein `deficit` (und umgekehrt).
    - `productivity_drop` (Warnung): die **Produktivität** der Gebäude (`AverageProductivity`,
      §12, bei 100 % gekappt) fällt um mehr als 20 Prozentpunkte unter ihr eigenes
-     15-Minuten-Mittel, **während** die Insel bei der Ware im Minus ist (Delta < 0 in
+     15-Minuten-Mittel, **während** die lokale Bilanz der Ware negativ ist (Delta < 0 in
      2 aufeinanderfolgenden Messungen). Klärt sich, sobald die Produktivität wieder innerhalb
-     von 10 Prozentpunkten liegt, das Minus 3 Messungen lang vorbei ist oder die Gebäude weg
-     sind (auch wenn die Ware ganz aus der Statistik verschwindet).
+     von 10 Prozentpunkten liegt, die Bilanz 3 Messungen lang nicht negativ war oder die
+     Gebäude weg sind (auch wenn die Ware ganz aus der Statistik verschwindet).
+
+   **Lokale Bilanz** heißt dabei nur, was die Pipe meldet: Produktion auf dieser Insel minus
+   Verbrauch auf dieser Insel. Ein negatives Delta heißt nicht, dass die Ware fehlt – die Insel
+   kann Lagerbestand haben oder von anderswo beliefert werden. Auch `deficit` meint genau das:
+   ein Defizit der lokalen Produktion.
 
    Die Regel lief zuerst auf der Effizienz (`Generation / PerfectGeneration`). Der
    35-Minuten-Mitschnitt vom 2026-09-23 zeigte, warum das nicht trägt: Die Pipe zählt fertige
@@ -67,13 +72,19 @@ die Wirtschaftsdaten live, mit Verlauf und handyfreundlich anzeigt.
    zwischen 0 und dem vollen Wert. Das ergab 37 Warnungen in 35 Minuten, die meisten für Gebäude
    mit 86–100 % Produktivität. Die **Kappung bei 100 %** kommt daher, dass Boni die
    Produktivität weit darüber heben (live bis 270 %) und ein nachlassender Bonus (174 % → 151 %)
-   kein Stillstand ist. Die **Bedingung „im Minus“** kommt vom vollen Lager: Die Pipe liefert
-   keinen Lagerbestand, ein volles Lager stoppt die Gebäude genauso wie fehlende Arbeitskräfte
-   oder Rohstoffe, und eine Insel mit viel mehr Kapazität als Verbrauch steht die meiste Zeit
-   so. Der Unterschied, der in den Daten steckt, ist das Delta: Ein volles Lager hält es bei
-   null oder darüber, eine stockende Kette drückt es ins Minus. Im Mitschnitt geschah jeder
-   Produktivitätseinbruch bei Delta ≥ 0 – die Regel meldet dort keinen. Sie warnt also nicht
-   bei jedem Gebäude, das pausiert, sondern erklärt einen Engpass. Die beiden unterschiedlichen Schwellen sind die
+   kein Stillstand ist. Die **Bedingung „negative lokale Bilanz“** kommt vom vollen Lager: Die
+   Pipe liefert keinen Lagerbestand, ein volles Lager stoppt die Gebäude genauso wie fehlende
+   Arbeitskräfte oder Rohstoffe, und eine Insel mit viel mehr Kapazität als Verbrauch steht die
+   meiste Zeit so. Beobachtet ist: Stehen die Gebäude wegen vollem Lager, bleibt das Delta
+   meist bei null oder darüber, weil sie dann etwa so viel produzieren, wie entnommen wird;
+   eine stockende Kette mit Verbrauch drückt es ins Minus. Eine Eigenschaft des Protokolls ist
+   das nicht – die Generation springt mit den Produktionszyklen –, deshalb verlangt die Regel
+   zwei negative Ticks, nicht einen. Im Mitschnitt geschah jeder Produktivitätseinbruch bei
+   Delta ≥ 0 – die Regel meldet dort keinen. Sie warnt also nicht bei jedem Gebäude, das
+   pausiert, sondern bei einem Einbruch, der mit einer negativen lokalen Bilanz einhergeht.
+   Damit lange Leerlaufphasen (etwa bei vollem Lager) die Vergleichsbasis nicht nach unten
+   ziehen, zählen Messwerte unter der Basis bei nicht negativer Bilanz nicht mit, und die Zeit,
+   die sie abdecken, zählt nicht zum 15-Minuten-Fenster. Die beiden unterschiedlichen Schwellen sind die
    Hysterese: eine Warnung flackert nicht, wenn ein Wert um die Schwelle pendelt. Schwellwerte
    per `--alert-deficit-samples` und `--alert-drop-pp` einstellbar.
    **Eine „Messung“ ist ein Statistik-Tick, und das Spiel liefert etwa alle zwei Minuten einen**

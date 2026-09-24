@@ -29,7 +29,7 @@ func snapshot(offset time.Duration, p model.ProductStat) model.IslandSnapshot {
 }
 
 // delta is a product whose only interesting value is its delta, on an island
-// that produces it itself - so a shortfall is a deficit, not a
+// that produces it itself - so a negative balance is a deficit, not a
 // no_local_production. Its productivity is a constant zero, so the drop rule
 // stays out of the way.
 func delta(v float32) model.ProductStat {
@@ -43,7 +43,7 @@ func imported(v float32) model.ProductStat {
 }
 
 // productivity is a product whose buildings run at the given productivity in
-// percent while the island is short of it - the drop rule's case.
+// percent while its local balance is negative - the drop rule's case.
 func productivity(percent float32) model.ProductStat {
 	return model.ProductStat{
 		ProductGUID:     product,
@@ -554,11 +554,11 @@ func TestProductionCyclesDoNotLookLikeADrop(t *testing.T) {
 }
 
 // A building whose storage is full stops, and the pipe does not report the
-// storage. An island with far more capacity than it consumes keeps its
-// balance at zero or above while its buildings idle; a stalled chain drives
-// it below. Only the second is raised - and one negative tick is not yet a
-// shortfall, because a production cycle can fall on either side of a tick.
-func TestProductivityDropNeedsAShortfall(t *testing.T) {
+// storage. Idling like that tends to keep the local balance at zero or
+// above; a stalled chain with consumption drives it below. Only a drop with a
+// negative balance is raised - and one negative tick is not enough, because a
+// production cycle can fall on either side of a tick.
+func TestProductivityDropNeedsANegativeLocalBalance(t *testing.T) {
 	const tick = 2 * time.Minute
 	series := []float32{100, 100, 100, 66, 26, 0}
 	run := func(deltas []float32) string {
@@ -576,19 +576,20 @@ func TestProductivityDropNeedsAShortfall(t *testing.T) {
 		t.Errorf("full storage, balance at zero: events = %q, want none", got)
 	}
 	if got := run([]float32{-1, -1, -1, -1, -1, -1}); got != "- - - raised - -" {
-		t.Errorf("short all along: events = %q, want the drop raised at 66 %%", got)
+		t.Errorf("negative all along: events = %q, want the drop raised at 66 %%", got)
 	}
 	if got := run([]float32{0, 0, 0, -1, 0, -1}); got != "- - - - - -" {
 		t.Errorf("single negative ticks: events = %q, want none", got)
 	}
 	if got := run([]float32{0, 0, 0, -1, -1, -1}); got != "- - - - raised -" {
-		t.Errorf("short from the drop on: events = %q, want it raised on the second short tick", got)
+		t.Errorf("negative from the drop on: events = %q, want it raised on the second negative tick", got)
 	}
 }
 
-// The chain stays slow, but the island is no longer short - the storage
-// filled up, or consumption fell. The alert has nothing left to explain.
-func TestProductivityDropClearsWhenTheShortfallEnds(t *testing.T) {
+// The chain stays slow, but the local balance is no longer negative - the
+// storage filled up, or consumption fell. The alert has nothing left to
+// explain.
+func TestProductivityDropClearsWhenTheLocalBalanceRecovers(t *testing.T) {
 	const tick = 2 * time.Minute
 	e := dropOnly(alerts.DefaultConfig())
 	for i, v := range []float32{100, 100, 100, 40} {
@@ -634,7 +635,7 @@ func TestProductivityDropEndsWhenTheBuildingsAreGone(t *testing.T) {
 	}
 
 	// Rebuilt at 30 %: without the old 100 % readings there is no drop to
-	// see yet, however short the island is.
+	// see yet, however negative the balance is.
 	for i := range 3 {
 		evs := e.Apply(snapshot(time.Duration(5+i)*tick, productivity(30)))
 		for _, ev := range evs {
@@ -678,7 +679,7 @@ func TestProductivityDropEndsWhenTheProductVanishes(t *testing.T) {
 	}
 }
 
-// A shortfall on an island without any building for the product is
+// A negative balance on an island without any building for the product is
 // no_local_production: kept and listed, but as info, not as a warning.
 func TestNoLocalProductionIsItsOwnQuietRule(t *testing.T) {
 	e := alerts.New(alerts.DefaultConfig())
@@ -704,11 +705,11 @@ func TestNoLocalProductionIsItsOwnQuietRule(t *testing.T) {
 	}
 }
 
-// The player builds the first producer while the island is still short: the
-// no_local_production alert ends, and - the shortfall going on - a deficit
-// starts in the same
-// tick. Tearing it down again turns it back. The alert never silently
-// changes its rule, because the history stores the rule it was raised with.
+// The player builds the first producer while the balance is still negative:
+// the no_local_production alert ends, and - the balance staying negative - a
+// deficit starts in the same tick. Tearing it down again turns it back. The
+// alert never silently changes its rule, because the history stores the rule
+// it was raised with.
 func TestNoLocalProductionAndDeficitHandOver(t *testing.T) {
 	e := alerts.New(alerts.DefaultConfig())
 	for i := range 3 {
@@ -769,5 +770,37 @@ func TestBoostWearingOffIsNotADrop(t *testing.T) {
 				t.Errorf("events = %q, want %q", strings.Join(got, " "), tc.want)
 			}
 		})
+	}
+}
+
+// A full storage can stop a chain for a long time while the local balance
+// stays at zero. Those idle readings must not become the baseline: when the
+// chain then stalls for real - the balance goes negative and the buildings
+// stay at 0 % - it is a drop from the level the chain ran at, not from 0 %.
+func TestIdleTimeDoesNotLowerTheBaseline(t *testing.T) {
+	const tick = 2 * time.Minute
+	e := dropOnly(alerts.DefaultConfig())
+	i := 0
+	apply := func(prod, delta float32) string {
+		p := productivity(prod)
+		p.Delta = delta
+		out := kinds(e.Apply(snapshot(time.Duration(i)*tick, p)))
+		i++
+		return out
+	}
+	for range 3 {
+		apply(100, 0)
+	}
+	for range 10 { // twenty minutes at 0 %, balance at zero: a full storage, perhaps
+		if got := apply(0, 0); got != "-" {
+			t.Fatalf("idle tick %d: events = %q, want none", i, got)
+		}
+	}
+	var got []string
+	for range 3 {
+		got = append(got, apply(0, -1))
+	}
+	if want := "- raised -"; strings.Join(got, " ") != want {
+		t.Errorf("after the idle phase: events = %q, want %q", strings.Join(got, " "), want)
 	}
 }

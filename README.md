@@ -214,7 +214,7 @@ experimentell: Namen und Labels können sich bis Version 1.0 noch ändern.
 | `--serve-after-replay` | `false` | nach Ende eines Mitschnitts weiter bedienen, bis Strg+C |
 | `--no-db` | `false` | keine Verlaufsdatenbank führen, nur Live-Daten zeigen |
 | `--alert-deficit-samples <n>` | `3` | Defizit-Warnung nach so vielen aufeinanderfolgenden Messungen mit negativem Delta (ohne eigenes Gebäude für die Ware: leiser Hinweis „Importbedarf“) |
-| `--alert-drop-pp <n>` | `20` | Produktivitäts-Warnung, wenn die Produktivität der Gebäude um so viele Prozentpunkte unter ihr 15-Minuten-Mittel fällt (≈ 7 Statistik-Ticks), während die Insel bei der Ware im Minus ist |
+| `--alert-drop-pp <n>` | `20` | Produktivitäts-Warnung, wenn die Produktivität der Gebäude um so viele Prozentpunkte unter ihr 15-Minuten-Mittel fällt (≈ 7 Statistik-Ticks), während die lokale Bilanz der Ware (Produktion minus Verbrauch auf der Insel) negativ ist |
 | `--verbose` | `false` | auf Debug-Ebene loggen |
 | `--version` | – | Version ausgeben und beenden |
 
@@ -458,7 +458,7 @@ names and labels may still change before version 1.0.
 | `--serve-after-replay` | `false` | keep serving after a replay has ended, until Ctrl+C |
 | `--no-db` | `false` | do not keep a history database; show the live data only |
 | `--alert-deficit-samples <n>` | `3` | raise a deficit warning after this many consecutive measurements with a negative delta (with no building of its own for the good: a quiet "import needed" note instead) |
-| `--alert-drop-pp <n>` | `20` | raise a productivity warning when the buildings' productivity falls this many percentage points below its 15-minute mean (about 7 statistics ticks) while the island is short of the good |
+| `--alert-drop-pp <n>` | `20` | raise a productivity warning when the buildings' productivity falls this many percentage points below its 15-minute mean (about 7 statistics ticks) while the good's local balance (production minus consumption on the island) is negative |
 | `--verbose` | `false` | log at debug level |
 | `--version` | – | print the version and exit |
 

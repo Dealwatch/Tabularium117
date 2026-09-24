@@ -32,14 +32,15 @@ type Config struct {
 	// DropPercentagePoints on purpose - that gap is the hysteresis.
 	// Default 10.
 	DropClearPercentagePoints float64
-	// DropShortfallSamples is how many consecutive samples with Delta < 0
-	// a productivity drop needs before it is raised. Default 2.
+	// DropNegativeSamples is how many consecutive samples with Delta < 0 -
+	// the island's reported production below its reported consumption - a
+	// productivity drop needs before it is raised. Default 2.
 	//
 	// A drop alone can be a full storage, which the pipe cannot see; a drop
-	// while the island runs short of the product is a stalled chain. Two
-	// samples rather than one, because a single tick can dip below zero
-	// from how production cycles fall into the ticks.
-	DropShortfallSamples int
+	// while the island's own production falls behind its consumption is
+	// worth a warning. Two samples rather than one, because a single tick
+	// can dip below zero from how production cycles fall into the ticks.
+	DropNegativeSamples int
 	// DropWindow is the length of the trailing mean's window. Default 15 min.
 	//
 	// It has to be long enough to hold MinSamplesForDrop ticks: the game
@@ -65,7 +66,7 @@ func DefaultConfig() Config {
 		DeficitClearSamples:       3,
 		DropPercentagePoints:      20,
 		DropClearPercentagePoints: 10,
-		DropShortfallSamples:      2,
+		DropNegativeSamples:       2,
 		DropWindow:                15 * time.Minute,
 		MinSamplesForDrop:         3,
 	}
@@ -92,8 +93,8 @@ func (c Config) withDefaults() Config {
 	if c.DropClearPercentagePoints >= c.DropPercentagePoints {
 		c.DropClearPercentagePoints = c.DropPercentagePoints / 2
 	}
-	if c.DropShortfallSamples < 1 {
-		c.DropShortfallSamples = d.DropShortfallSamples
+	if c.DropNegativeSamples < 1 {
+		c.DropNegativeSamples = d.DropNegativeSamples
 	}
 	if c.DropWindow <= 0 {
 		c.DropWindow = d.DropWindow
