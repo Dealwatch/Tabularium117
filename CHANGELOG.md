@@ -5,6 +5,12 @@ All notable changes to Tabularium 117 are documented here, in the
 
 ## [Unreleased]
 
+## [0.1.0-beta.4] - 2026-09-24
+
+Fourth beta: fewer and better warnings, and possible production sources for
+goods an island needs but does not produce. Testers: please download the new
+`tabularium117.exe` - the app does not update itself.
+
 ### Added
 
 - **Possible production sources** for goods marked "import needed"
@@ -54,6 +60,8 @@ All notable changes to Tabularium 117 are documented here, in the
 - The "import needed" tag is now a button: it opens the possible production
   sources below the row, and on a touch screen its tap area is 44 px high
   while the tag keeps its size.
+- The README screenshots show the current version: the goods table and the
+  phone view with possible production sources, and the efficiency view.
 
 ## [0.1.0-beta.3] - 2026-09-23
 

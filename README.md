@@ -55,10 +55,10 @@ gegenüber dem Spiel.
 5. **Handy-Modus** – per Schalter im UI einschaltbar, zeigt einen QR-Code mit
    der Adresse im eigenen Netzwerk.
 
-![Insel-Übersicht mit Warenliste](docs/screenshots/overview.png)
+![Insel-Übersicht mit Warenliste und aufgeklappten möglichen Produktionsquellen](docs/screenshots/overview.png)
 ![Effizienz-Ansicht: Produktion gegen Potenzial](docs/screenshots/efficiency.png)
 ![Verlauf einer Ware über die letzte Stunde](docs/screenshots/history.png)
-![Handy-Ansicht mit Inselliste](docs/screenshots/phone.png)
+![Handy-Ansicht: Warenliste mit möglichen Produktionsquellen](docs/screenshots/phone.png)
 
 *Alle Bilder stammen aus einem laufenden Spiel mit dem aktuellen
 Entwicklungsstand.*
@@ -317,10 +317,10 @@ step, no Docker, no mod, strictly read-only towards the game.
 5. **Phone mode** – a switch in the UI shows a QR code with the address on
    your own network.
 
-![Island overview with the goods list](docs/screenshots/overview.png)
+![Island overview with the goods list and possible production sources opened](docs/screenshots/overview.png)
 ![Efficiency view: generation against potential](docs/screenshots/efficiency.png)
 ![History of one good over the last hour](docs/screenshots/history.png)
-![Phone view with the island list](docs/screenshots/phone.png)
+![Phone view: goods list with possible production sources](docs/screenshots/phone.png)
 
 *All screenshots come from a running game with the current development
 version.*
