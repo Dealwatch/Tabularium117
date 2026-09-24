@@ -94,6 +94,24 @@ die Wirtschaftsdaten live, mit Verlauf und handyfreundlich anzeigt.
    Mindestzahl von 3 Messwerten wurde nie erreicht und `productivity_drop` konnte gar nicht
    auslösen. Daher 15 Minuten (≈ 7 Ticks, mit Reserve für den schwankenden Takt von 115–138 s).
    Anzeige in der UI + optional Browser-Benachrichtigung/Ton (Opt-in, standardmäßig aus).
+
+   **Mögliche Produktionsquellen** (Kontext zu `no_local_production`, keine Regel): Ein Eintrag
+   „Importbedarf“ lässt sich in der Warentabelle und auf der Warnungsseite aufklappen. Er zeigt
+   die anderen Inseln, die dieselbe Ware gerade mit **positiver lokaler Bilanz** herstellen
+   (mindestens ein Gebäude, Delta > 0), und zwar aus allen Sessions, denn Waren wandern auch
+   zwischen Latium und Albion. Gruppiert wird nach Session, die eigene zuerst – nur der
+   Lesbarkeit wegen, eine Quelle dort ist nicht wahrscheinlicher –, innerhalb nach Bilanz
+   absteigend. Das sind **mögliche** Quellen, mehr nicht: Die Pipe liefert keine Handelsrouten,
+   Schiffe, Ladungen oder Lagerbestände, Tabularium kann also nicht bestimmen, welche Insel eine
+   andere tatsächlich beliefert. Eine positive Bilanz ist auch keine freie Menge – sie kann schon
+   anderswohin verschifft werden oder sich im Lager sammeln; ob Exporte per Handelsroute beim
+   Lieferanten als Verbrauch zählen, ist aus den Daten nicht zu erkennen. Deshalb sagt die UI
+   „mögliche Quelle“ und „lokale Bilanz“, nie „Lieferant“ oder „Überschuss“. Die Liste wird bei
+   jeder Anfrage aus dem Live-Zustand berechnet; sie ist weder Warnung noch Verlaufseintrag und
+   wird nicht gespeichert. Die Werte stammen alle aus dem jüngsten **vollständigen Tick** (§5),
+   damit nie Zahlen zweier Ticks nebeneinander stehen. Im Mitschnitt vom 2026-09-23 hatte in
+   20 % der Fälle nur die andere Provinz Kandidaten, in 55 % nur die eigene und in 25 % keine
+   Insel; beide zugleich kam nicht vor.
 5. **Handy-Modus (LAN)** – optional per Schalter; zeigt QR-Code mit URL inkl. Zugriffstoken.
 
 ### Später (nach MVP)
@@ -145,8 +163,8 @@ die Wirtschaftsdaten live, mit Verlauf und handyfreundlich anzeigt.
 - `internal/model` – interne, stabile Datentypen (unabhängig vom Pipe-Format)
 - `internal/ingest` – Normalizer: verbindet Quelle, Decoder und Zustand; schreibt den
   Record-Mitschnitt und setzt das Versions-Gate aus §8 durch
-- `internal/state` – aktueller Zustand im Speicher: neuester Snapshot je Insel, Session und
-  Verbindungsstatus, threadsicher
+- `internal/state` – aktueller Zustand im Speicher: neuester Snapshot je Insel, der jüngste
+  vollständige Tick (§5), Session und Verbindungsstatus, threadsicher
 - `internal/catalog` – GUID → Name/Kategorie/Region (aus Calculator-Daten generiert)
 - `internal/store` – SQLite: Schema, Schreiben, Downsampling, Abfragen
 - `internal/alerts` – Regel-Engine
@@ -305,6 +323,7 @@ dieser Abschnitt ist die Referenz dafür.
 | GET | `/islands` | Bekannte Inseln, sortiert nach (SessionGUID, IslandID), je mit `products`, `deficits` (Delta < 0) und `tick` (Spielzeit-Zeitstempel des Ticks, aus dem dieser Snapshot stammt) |
 | GET | `/islands/{id}/products` | Insel plus alle Waren mit Namen, Kategorie, Rohwerten sowie `workforce`/`buildingsByGuid` (GUID → Name + Anzahl); Defizite zuerst, dann nach Name |
 | GET | `/islands/{id}/products/{guid}/history?range=1h\|4h\|24h\|7d\|session` | Zeitreihe mit `from`, `to` und `points` (`aggregated` markiert verdichtete Punkte, `bucketMs` ihre Breite in ms, `tick` die Spielzeit-Id); Standard `1h`, unbekannter Bereich → 400 |
+| GET | `/islands/{id}/products/{guid}/sources` | Mögliche Produktionsquellen der Ware für die Insel (§2.4): andere Inseln mit Gebäuden und positiver lokaler Bilanz aus allen Sessions, in `groups` je Session (`own` markiert die Session der Insel, sie steht zuerst) mit `sources` (`id`, `islandId`, `name`, `delta`) nach Bilanz absteigend. `tick` ist der vollständige Tick, aus dem alle Werte stammen; `ready` ist `false`, solange keiner mit Waren bekannt ist – `groups` ist dann leer und heißt „noch unbekannt“, nicht „keine“ |
 | GET | `/islands/{id}/efficiency` | Waren mit `efficiency` (Generation / PerfectGeneration, `null` wenn Perfekt = 0), `wasted` (Perfekt − Ist), `avgProductivity` (mittlere Gebäude-Produktivität in Prozent, §2.3) und `buildings` (Anzahl Gebäude – trennt „keine Gebäude“ von „Gebäude, aber kein Potenzial“), sortiert nach `wasted` absteigend |
 | GET | `/alerts?active=true\|false&limit=&info=true\|false` | Warnungen und Hinweise (`severity` `warning` bzw. `info`), neueste zuerst; `info=false` lässt die Hinweise weg (der Warnungsverlauf der UI nutzt das). `active=true` (Standard) kommt aus der Regel-Engine, `active=false` aus der Datenbank (offene **und** beendete); ohne Datenbank 503 wie beim Verlauf |
 | GET | `/events` | SSE-Stream: `status`, `snapshot` (Inselübersicht wie in `/islands`) und `alert`; Heartbeat `: ping` alle 15 s |
@@ -350,6 +369,19 @@ Konventionen:
   *keine* davon Waren meldet. Die UI zeigt dann „warte auf den ersten Statistik-Tick (bis zu
   2 min)“ statt zehn leerer Inseln. Der Wert wird im Server aus dem Live-Zustand berechnet und
   liegt auch im `status`-Ereignis des SSE-Streams.
+- **Vollständiger Tick:** Die Inseln eines Ticks kommen im Sekundentakt nacheinander an
+  (zuerst immer dieselbe Insel), und währenddessen mischt der Live-Zustand den neuen Tick der
+  schon gemeldeten Inseln mit dem alten der übrigen. `/sources` rechnet deshalb auf dem jüngsten
+  *vollständigen* Tick (`state.CompleteTick`). Ein Tick gilt als vollständig, sobald jede Insel
+  des vorigen vollständigen Ticks in ihm gemeldet hat, spätestens aber, wenn der nächste Tick
+  beginnt – das ist die einzige Tick-Grenze, die das Protokoll kennt; ein Ende-Signal gibt es
+  nicht, und es wird auch keins angenommen. Fehlt eine Insel in einem Tick, fällt sie aus ihm
+  heraus, statt mit alten Zahlen darin zu stehen. Direkt nach dem Verbinden oder Laden ist noch
+  kein Tick vollständig, und der leere Tick nach dem Laden zählt nicht (`ready: false`). Die
+  Namen sind die aktuellen, auch wenn die Bilanz aus dem vollständigen Tick stammt. Ein Filter
+  „gleicher Tick wie die gefragte Insel“ wäre keine Lösung: Die Warentabelle lädt genau dann neu,
+  wenn der Snapshot ihrer Insel eintrifft, und für die zuerst gemeldete Insel wäre die Liste
+  dann fast immer leer gewesen (254 Fälle im Mitschnitt vom 2026-09-23).
 - **`tick`** ist der Spielzeit-Zeitstempel der Pipe (§4). Er identifiziert den Tick und wird nicht
   angezeigt – rohe Spiel-Millisekunden sagen Spielenden nichts; die Statusleiste zeigt weiter
   „letzte Meldung vor X“.

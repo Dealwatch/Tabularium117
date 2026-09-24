@@ -4,6 +4,7 @@ import { i18n } from "../i18n.js";
 import { api } from "../api.js";
 import { byProduct, isWarning, ruleLabel } from "../alerts.js";
 import { renderIslandHeader } from "./island-header.js";
+import { createSources, detailRow, toggleButton } from "../sources.js";
 
 const numberFormatCache = new Map();
 
@@ -94,6 +95,9 @@ export async function renderIslandDetail(container, islandId, store) {
   container.append(wrapper);
 
   let productsDTO = null;
+  // The possible production sources of the "import needed" rows, each opened
+  // under its own row.
+  const sources = createSources(() => renderTable());
 
   function headerRow() {
     const tr = document.createElement("tr");
@@ -146,6 +150,7 @@ export async function renderIslandDetail(container, islandId, store) {
     // out of the warnings filter.
     const alerted = byProduct(store.alerts.filter(isWarning), islandId);
     const imports = byProduct(store.alerts.filter((a) => !isWarning(a)), islandId);
+    sources.closeAllBut(new Set([...imports.keys()].map((guid) => sources.keyOf(islandId, guid))));
 
     let rows = productsDTO.products;
     if (filter === "deficits") rows = rows.filter((p) => p.delta < 0);
@@ -161,6 +166,11 @@ export async function renderIslandDetail(container, islandId, store) {
       return sortAsc ? cmp : -cmp;
     });
 
+    // Opening a row rebuilds the table, and so does its answer arriving a
+    // moment later: each time, the button that had the keyboard is replaced
+    // by a new one, which has to get the focus back.
+    const focused = document.activeElement?.className?.includes?.("sources-toggle")
+      ? document.activeElement.getAttribute("data-guid") : null;
     tbody.replaceChildren();
     if (rows.length === 0) {
       const tr = document.createElement("tr");
@@ -218,12 +228,13 @@ export async function renderIslandDetail(container, islandId, store) {
       historyLink.append(hint);
       nameTd.append(historyLink);
       // Outside the link: the tag explains the row, it is not a way into the
-      // history.
-      if (imports.has(String(p.guid))) {
-        const tag = document.createElement("span");
-        tag.className = "import-tag";
-        tag.textContent = i18n.t("importTag");
-        tag.title = i18n.t("importTagTitle");
+      // history. It opens the row's possible production sources.
+      const needed = imports.has(String(p.guid));
+      if (needed) {
+        const expanded = sources.isOpen(islandId, p.guid);
+        const tag = toggleButton(i18n.t("importTag"), expanded,
+          () => sources.toggle(islandId, p.guid), i18n.t("importTagTitle"));
+        tag.setAttribute("data-guid", String(p.guid));
         nameTd.append(" ", tag);
       }
 
@@ -244,6 +255,15 @@ export async function renderIslandDetail(container, islandId, store) {
 
       tr.append(nameTd, genTd, consTd, deltaTd, buildingsTd);
       tbody.append(tr);
+      if (needed && sources.isOpen(islandId, p.guid)) {
+        tbody.append(detailRow(sources.panel(islandId, p.guid), columns.length));
+      }
+    }
+    // Without preventScroll the browser scrolls the rebuilt button into
+    // view, which drags a wide table sideways under the thumb that tapped it.
+    if (focused !== null) {
+      [...tbody.querySelectorAll(".sources-toggle")]
+        .find((b) => b.getAttribute("data-guid") === focused)?.focus({ preventScroll: true });
     }
   }
 
@@ -266,10 +286,15 @@ export async function renderIslandDetail(container, islandId, store) {
     if (e.detail && e.detail.id === islandId) {
       load().catch((err) => console.error("tabularium117: cannot refresh products", err));
     }
+    // Any island's snapshot may complete the tick the sources come from.
+    sources.refresh();
   };
   document.addEventListener("tabularium-snapshot", onSnapshot);
 
-  const onLang = () => renderTable();
+  const onLang = () => {
+    renderTable();
+    sources.refresh();
+  };
   document.addEventListener("tabularium-lang-changed", onLang);
 
   const onAlerts = () => renderTable();
@@ -277,6 +302,7 @@ export async function renderIslandDetail(container, islandId, store) {
 
   return () => {
     disposed = true;
+    sources.dispose();
     document.removeEventListener("tabularium-snapshot", onSnapshot);
     document.removeEventListener("tabularium-lang-changed", onLang);
     document.removeEventListener("tabularium-alerts-changed", onAlerts);

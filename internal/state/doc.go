@@ -1,5 +1,6 @@
 // Package state holds the current picture of the game: the latest snapshot per
-// island, the current session, and the connection status.
+// island, the newest complete statistics tick, the current session, and the
+// connection status.
 //
 // It is the "state (in-memory, aktuell)" box of KONZEPT.md section 3 and the
 // only place the HTTP layer reads the live view from. It depends on

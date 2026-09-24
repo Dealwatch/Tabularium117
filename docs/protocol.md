@@ -290,7 +290,14 @@ game paused, minimised, maximised; main menu; save reloaded; stop.
   stored as an opaque `int64`. Since the live capture shows it is a per-tick
   game-time id, it is also the right key for grouping the islands of one tick
   (all frames of a tick share it; the islands of one tick arrive over ~10 s
-  of wall-clock time).
+  of wall-clock time). In the 2026-09-23 capture they came in the same order
+  in every tick. While a tick arrives, the latest snapshot per island mixes
+  it with the previous one, so anything that compares islands with each
+  other (the possible production sources, KONZEPT.md §2.4) reads the newest
+  *complete* tick instead: complete once every island of the previous
+  complete tick has reported in it, or at the latest when the next
+  `timeStamp` begins. That is a conclusion from the islands seen, not an
+  end-of-tick signal - the protocol has none.
 - Ticks every ~2 min mean: a "3 consecutive samples" rule needs ~6 min to
   fire; a 5-minute trailing window holds at most two ticks; 24 h of raw
   samples is only ~720 rows per product and island. Retention, windows and

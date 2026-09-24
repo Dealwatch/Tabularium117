@@ -5,6 +5,7 @@ import { i18n } from "../i18n.js";
 import { api, ApiError } from "../api.js";
 import { isWarning, ruleLabel } from "../alerts.js";
 import { formatAge, formatTime, formatDateTime } from "../format.js";
+import { createSources, detailRow, toggleButton } from "../sources.js";
 
 // renderAlerts mounts the list. The active list comes from the shared store,
 // which the event stream keeps fresh; the history is fetched once, because
@@ -52,6 +53,9 @@ export async function renderAlerts(container, store, showHistory) {
 
   let history = null;
   let historyError = "";
+  // The possible production sources of the "import needed" entries, opened
+  // under the entry like in the goods table.
+  const sources = createSources(() => render());
 
   if (showHistory) {
     try {
@@ -80,7 +84,9 @@ export async function renderAlerts(container, store, showHistory) {
     target.replaceChildren(tr);
   }
 
-  function row(alert) {
+  // row renders one alert. withSources makes the rule a button that opens
+  // the possible production sources below the row.
+  function row(alert, withSources = false) {
     const tr = document.createElement("tr");
 
     const islandTd = document.createElement("td");
@@ -96,7 +102,16 @@ export async function renderAlerts(container, store, showHistory) {
     productTd.append(productLink);
 
     const ruleTd = document.createElement("td");
-    ruleTd.textContent = ruleLabel(alert.rule);
+    if (withSources) {
+      const expanded = sources.isOpen(alert.islandId, alert.productGuid);
+      const key = sources.keyOf(alert.islandId, alert.productGuid);
+      const button = toggleButton(ruleLabel(alert.rule), expanded,
+        () => sources.toggle(alert.islandId, alert.productGuid));
+      button.setAttribute("data-key", key);
+      ruleTd.append(button);
+    } else {
+      ruleTd.textContent = ruleLabel(alert.rule);
+    }
 
     const detailTd = document.createElement("td");
     detailTd.textContent = alert.detail;
@@ -137,8 +152,24 @@ export async function renderAlerts(container, store, showHistory) {
     importsHeading.textContent = `${i18n.t("importsHeading")} (${imports.length})`;
     importsExplain.textContent = i18n.t("importsExplain");
     headerRow(importsThead);
+    // Opening an entry re-renders, and so does its answer: the focus goes
+    // back to the button that had it (as in the goods table).
+    const focused = document.activeElement?.className?.includes?.("sources-toggle")
+      ? document.activeElement.getAttribute("data-key") : null;
     importsTbody.replaceChildren();
-    for (const alert of imports) importsTbody.append(row(alert));
+    sources.closeAllBut(new Set(imports.map((a) => sources.keyOf(a.islandId, a.productGuid))));
+    for (const alert of imports) {
+      importsTbody.append(row(alert, true));
+      if (sources.isOpen(alert.islandId, alert.productGuid)) {
+        importsTbody.append(detailRow(sources.panel(alert.islandId, alert.productGuid), columns().length));
+      }
+    }
+    // Without preventScroll the browser scrolls the rebuilt button into
+    // view, which drags a wide table sideways under the thumb that tapped it.
+    if (focused !== null) {
+      [...importsTbody.querySelectorAll(".sources-toggle")]
+        .find((b) => b.getAttribute("data-key") === focused)?.focus({ preventScroll: true });
+    }
 
     if (historyError) {
       message.textContent = `${i18n.t("errorPrefix")} ${historyError}`;
@@ -157,12 +188,20 @@ export async function renderAlerts(container, store, showHistory) {
   const onAlerts = () => {
     if (!showHistory) render();
   };
-  const onLang = () => render();
+  const onLang = () => {
+    render();
+    sources.refresh();
+  };
+  // Any island's snapshot may complete the tick the sources come from.
+  const onSnapshot = () => sources.refresh();
   document.addEventListener("tabularium-alerts-changed", onAlerts);
   document.addEventListener("tabularium-lang-changed", onLang);
+  document.addEventListener("tabularium-snapshot", onSnapshot);
 
   return () => {
+    sources.dispose();
     document.removeEventListener("tabularium-alerts-changed", onAlerts);
     document.removeEventListener("tabularium-lang-changed", onLang);
+    document.removeEventListener("tabularium-snapshot", onSnapshot);
   };
 }

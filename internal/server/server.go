@@ -352,6 +352,7 @@ func (s *Server) routes() http.Handler {
 	api.HandleFunc("/api/v1/islands", s.handleIslands)
 	api.HandleFunc("/api/v1/islands/{id}/products", s.handleProducts)
 	api.HandleFunc("/api/v1/islands/{id}/products/{guid}/history", s.handleHistory)
+	api.HandleFunc("/api/v1/islands/{id}/products/{guid}/sources", s.handleSources)
 	api.HandleFunc("/api/v1/islands/{id}/efficiency", s.handleEfficiency)
 	api.HandleFunc("/api/v1/alerts", s.handleAlerts)
 	api.HandleFunc("/api/v1/events", s.handleEvents)

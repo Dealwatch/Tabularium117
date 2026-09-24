@@ -65,6 +65,20 @@ type State struct {
 	headline  string
 	startedAt time.Time
 	conn      Connection
+
+	// receiving is the tick whose islands are arriving now, complete the
+	// newest tick known to be whole (see CompleteTick). Once the tick being
+	// received is found complete, both share one map, so an island of it
+	// that arrives late still lands in the complete tick.
+	receiving tick
+	complete  tick
+}
+
+// tick is the islands of one statistics tick: every snapshot that carried
+// one game timestamp. A nil islands map is "no tick".
+type tick struct {
+	stamp   int64
+	islands map[model.IslandKey]model.IslandSnapshot
 }
 
 // New returns an empty State.
@@ -81,6 +95,37 @@ func (s *State) Put(snap model.IslandSnapshot) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.islands[snap.Key] = snap
+
+	// The islands of one tick arrive one by one over several seconds, and
+	// the protocol has no end-of-tick marker (docs/protocol.md,
+	// "AreaProductionStatistics"). A different timestamp is the boundary it
+	// does have: the tick before it is over.
+	if s.receiving.islands == nil || snap.GameTimestamp != s.receiving.stamp {
+		if s.receiving.islands != nil {
+			s.complete = s.receiving
+		}
+		s.receiving = tick{stamp: snap.GameTimestamp, islands: make(map[model.IslandKey]model.IslandSnapshot)}
+	}
+	s.receiving.islands[snap.Key] = snap
+	// Waiting for the next tick would hold every complete tick back by two
+	// minutes. So a tick also counts as complete as soon as every island of
+	// the previous complete tick has reported in it. That is a conclusion
+	// from the islands already seen, not a signal: an island missing from
+	// the new tick just leaves it to the boundary above. Once the two share
+	// a map, this finds it covering itself and changes nothing.
+	if s.complete.islands != nil && covers(s.receiving, s.complete) {
+		s.complete = s.receiving
+	}
+}
+
+// covers reports whether every island of prev has reported in t.
+func covers(t, prev tick) bool {
+	for key := range prev.islands {
+		if _, ok := t.islands[key]; !ok {
+			return false
+		}
+	}
+	return true
 }
 
 // Snapshot returns the latest snapshot of one island.
@@ -104,17 +149,51 @@ func (s *State) Islands() []model.IslandSnapshot {
 		out = append(out, snap)
 	}
 	s.mu.RUnlock()
+	sortIslands(out)
+	return out
+}
 
+// sortIslands orders snapshots by SessionGUID and then IslandID.
+func sortIslands(out []model.IslandSnapshot) {
 	sort.Slice(out, func(i, j int) bool {
 		if out[i].Key.SessionGUID != out[j].Key.SessionGUID {
 			return out[i].Key.SessionGUID < out[j].Key.SessionGUID
 		}
 		return out[i].Key.IslandID < out[j].Key.IslandID
 	})
-	return out
 }
 
-// Reset drops every island.
+// CompleteTick returns the islands of the newest statistics tick known to be
+// complete, ordered like Islands, and that tick's game timestamp. ok is false
+// while no tick is known to be complete: after a Reset, until the first tick
+// is over.
+//
+// Islands mixes ticks while one is arriving - for a few seconds, the islands
+// that already reported carry the new tick and the rest the previous one.
+// CompleteTick never does: every snapshot it returns carries the same
+// timestamp. A tick is complete when the next one begins, or earlier, once
+// every island of the previous complete tick has reported in it. The price is
+// that it can lag the newest numbers by those few seconds, and by a whole
+// tick when an island stops being reported.
+//
+// The returned values must not be mutated.
+func (s *State) CompleteTick() (stamp int64, islands []model.IslandSnapshot, ok bool) {
+	s.mu.RLock()
+	if s.complete.islands == nil {
+		s.mu.RUnlock()
+		return 0, nil, false
+	}
+	stamp = s.complete.stamp
+	islands = make([]model.IslandSnapshot, 0, len(s.complete.islands))
+	for _, snap := range s.complete.islands {
+		islands = append(islands, snap)
+	}
+	s.mu.RUnlock()
+	sortIslands(islands)
+	return stamp, islands, true
+}
+
+// Reset drops every island and every tick.
 //
 // It is called at a session boundary (SessionStart or SessionEnd), where
 // island identity stops being meaningful. It leaves the session headline and
@@ -123,6 +202,8 @@ func (s *State) Reset() {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	clear(s.islands)
+	// A tick of the old session is no tick of the new one.
+	s.receiving, s.complete = tick{}, tick{}
 }
 
 // SetSession records the headline of a newly started session and stamps its

@@ -102,6 +102,13 @@ const dictionaries = {
     importsExplain: "Goods these islands consume but do not produce locally, so they have to come from "
       + "elsewhere. Tabularium cannot see whether or how they are actually delivered - trade routes and "
       + "ships are not in the game's data. They are listed here and not counted as warnings.",
+    sourcesShow: "Show possible production sources",
+    sourcesHeading: "Possible production sources",
+    sourcesBalance: "Local balance {value}/min",
+    sourcesNone: "No island with a positive local balance found.",
+    sourcesPending: "Waiting for a complete statistics tick - the islands of one tick arrive over a few seconds.",
+    sourcesLoading: "Loading…",
+    sourcesNote: "Possible sources only. Trade routes and actual deliveries are not available in the game data.",
     alertActive: "active",
     alertMarker: "Active warning",
     alertSince: "since {age}",
@@ -260,6 +267,13 @@ const dictionaries = {
       + "anderswo kommen. Ob und wie sie tatsächlich geliefert werden, kann Tabularium nicht erkennen: "
       + "Handelsrouten und Schiffe stehen nicht in den Daten des Spiels. Sie stehen hier und zählen nicht "
       + "als Warnung.",
+    sourcesShow: "Mögliche Produktionsquellen anzeigen",
+    sourcesHeading: "Mögliche Produktionsquellen",
+    sourcesBalance: "Lokale Bilanz {value}/min",
+    sourcesNone: "Keine Insel mit positivem lokalem Saldo gefunden.",
+    sourcesPending: "Warte auf einen vollständigen Statistik-Tick – die Inseln eines Ticks kommen über einige Sekunden verteilt an.",
+    sourcesLoading: "Wird geladen …",
+    sourcesNote: "Nur mögliche Quellen. Handelsrouten und tatsächliche Lieferungen sind in den Spieldaten nicht verfügbar.",
     alertActive: "aktiv",
     alertMarker: "Aktive Warnung",
     alertSince: "seit {age}",

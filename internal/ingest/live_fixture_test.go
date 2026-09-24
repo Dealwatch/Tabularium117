@@ -2,7 +2,9 @@ package ingest_test
 
 import (
 	"context"
+	"fmt"
 	"os"
+	"strings"
 	"testing"
 	"time"
 
@@ -72,5 +74,67 @@ func TestLiveFixtureEmptyTickRaisesNoAlerts(t *testing.T) {
 	}
 	if stats := p.Stats(); stats.Frames != 35 || stats.Snapshots != 30 || stats.DecodeErrors != 0 {
 		t.Fatalf("stats = %+v, want 35 frames, 30 snapshots, 0 decode errors", stats)
+	}
+}
+
+// The live recording's ticks arrive island by island, ten frames one second
+// apart. The complete tick the possible sources are read from must never mix
+// two of them, must follow a new tick as soon as its last island is in rather
+// than a whole tick later, and must forget the old session at the reload.
+func TestLiveFixtureCompleteTickIsOneTick(t *testing.T) {
+	f, err := os.Open("../../testdata/live-2026-09-22.jsonl")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer f.Close()
+
+	st := state.New()
+	var seen []string // the complete tick after every snapshot, as "stamp/islands"
+	p := &ingest.Pipeline{
+		State: st,
+		OnSnapshot: func(snap model.IslandSnapshot) {
+			stamp, islands, ok := st.CompleteTick()
+			if !ok {
+				seen = append(seen, "none")
+				return
+			}
+			for _, is := range islands {
+				if is.GameTimestamp != stamp {
+					t.Fatalf("after %q: the complete tick %d holds %q from tick %d", snap.Name, stamp, is.Name, is.GameTimestamp)
+				}
+			}
+			seen = append(seen, fmt.Sprintf("%d/%d", stamp, len(islands)))
+		},
+	}
+	if err := p.Run(context.Background(), replay.NewReader(f, replay.Options{})); err != nil {
+		t.Fatal(err)
+	}
+	if len(seen) != 30 {
+		t.Fatalf("got %d snapshots, want 30", len(seen))
+	}
+
+	// Tick 1 is the first after connecting: nothing to compare it with, so
+	// it is complete only when tick 2 begins. Tick 2 is complete with its
+	// tenth island. The reload resets; the empty tick after it is the first
+	// of the new session again.
+	first, second := seen[10], seen[19]
+	for i, got := range seen {
+		var want string
+		switch {
+		case i < 10:
+			want = "none"
+		case i < 19:
+			want = first
+		case i < 20:
+			want = second
+		default:
+			want = "none"
+		}
+		if got != want {
+			t.Errorf("after snapshot %d: complete tick %s, want %s", i+1, got, want)
+		}
+	}
+	if !strings.HasSuffix(first, "/10") || !strings.HasSuffix(second, "/10") || first == second {
+		t.Errorf("ticks %s and %s: want two different ticks of ten islands", first, second)
 	}
 }

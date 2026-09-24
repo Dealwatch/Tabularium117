@@ -513,6 +513,37 @@ tr.no-data { opacity: .5; }
 }
 .imports-section { margin-top: 1.5rem; }
 
+/* The tag doubles as the button that opens the possible production sources.
+   The button has no look of its own - the tag inside keeps its quiet one -
+   and only grows to a finger's size on touch screens (see below). */
+.sources-toggle {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.sources-toggle:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: .6rem; }
+.sources-toggle:hover .import-tag,
+.sources-toggle[aria-expanded="true"] .import-tag { color: var(--fg); border-color: var(--fg-muted); }
+
+/* The sources sit in a row of their own under the good. The table can be
+   wider than a phone; the box stays in view at the left edge while the
+   table scrolls, and wraps at the screen width instead of the table's. */
+.sources-row > td { white-space: normal; }
+.sources {
+  position: sticky;
+  left: .5rem;
+  max-width: min(40rem, calc(100vw - 3rem));
+  padding: .25rem 0 .5rem;
+}
+.sources p { margin: .25rem 0; }
+.sources-heading { font-weight: 600; }
+.sources-session { color: var(--fg-muted); font-size: .85rem; }
+.sources ul { margin: 0 0 .25rem; padding-left: 1.25rem; }
+.sources li { margin: .15rem 0; }
+.sources-note { font-size: .8rem; }
+
 .setting {
   display: flex;
   align-items: center;
@@ -589,6 +620,10 @@ tr.no-data { opacity: .5; }
   .island-item button { min-height: 48px; }
   .setting { min-height: 48px; }
   .product-link, .filter-buttons button, th button { min-height: 44px; }
+  /* The tag is a control now, and a finger has to hit it too: the invisible
+     button around it grows, the tag does not. */
+  .sources-toggle { min-height: 44px; min-width: 44px; }
+  .sources li { min-height: 44px; display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
 
   /* Scrolling a six-column table sideways on a phone loses the one column
      that says which row you are looking at. The name stays put; everything

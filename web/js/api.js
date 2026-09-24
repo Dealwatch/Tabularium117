@@ -74,6 +74,10 @@ export const api = {
   islands: () => get("/api/v1/islands"),
   products: (islandId) => get(`/api/v1/islands/${encodeURIComponent(islandId)}/products`),
   efficiency: (islandId) => get(`/api/v1/islands/${encodeURIComponent(islandId)}/efficiency`),
+  // sources: the possible production sources of a good for an island, from
+  // the newest complete tick. Possible only - see sources.js.
+  sources: (islandId, guid) =>
+    get(`/api/v1/islands/${encodeURIComponent(islandId)}/products/${encodeURIComponent(guid)}/sources`),
   history: (islandId, guid, range) =>
     get(
       `/api/v1/islands/${encodeURIComponent(islandId)}/products/${encodeURIComponent(guid)}/history?range=${encodeURIComponent(range)}`,
