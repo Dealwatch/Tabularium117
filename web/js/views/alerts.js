@@ -3,7 +3,7 @@
 
 import { i18n } from "../i18n.js";
 import { api, ApiError } from "../api.js";
-import { ruleLabel } from "../alerts.js";
+import { isWarning, ruleLabel } from "../alerts.js";
 import { formatAge, formatTime, formatDateTime } from "../format.js";
 
 // renderAlerts mounts the list. The active list comes from the shared store,
@@ -30,14 +30,34 @@ export async function renderAlerts(container, store, showHistory) {
   const tableBox = document.createElement("div");
   tableBox.className = "table-scroll";
   tableBox.append(table);
-  container.append(heading, toolbar, explain, message, tableBox);
+
+  // Goods an island consumes but does not produce are info, not warnings.
+  // The active view lists them in a section of their own under the
+  // warnings; the history, a list of warnings, leaves them out.
+  const importsHeading = document.createElement("h3");
+  const importsExplain = document.createElement("p");
+  importsExplain.className = "muted";
+  const importsTable = document.createElement("table");
+  const importsThead = document.createElement("thead");
+  const importsTbody = document.createElement("tbody");
+  importsTable.append(importsThead, importsTbody);
+  const importsBox = document.createElement("div");
+  importsBox.className = "table-scroll";
+  importsBox.append(importsTable);
+  const importsSection = document.createElement("section");
+  importsSection.className = "imports-section";
+  importsSection.append(importsHeading, importsExplain, importsBox);
+
+  container.append(heading, toolbar, explain, message, tableBox, importsSection);
 
   let history = null;
   let historyError = "";
 
   if (showHistory) {
     try {
-      history = await api.alerts(false, 200);
+      // Warnings only: the info alerts would fill the 200 rows up - an
+      // island records one for every good it does not produce itself.
+      history = await api.alerts(false, 200, false);
     } catch (err) {
       history = [];
       historyError = err instanceof ApiError ? err.message : String(err);
@@ -50,14 +70,14 @@ export async function renderAlerts(container, store, showHistory) {
       : ["colIsland", "colProduct", "colRule", "colDetail", "colSince"];
   }
 
-  function headerRow() {
+  function headerRow(target) {
     const tr = document.createElement("tr");
     for (const key of columns()) {
       const th = document.createElement("th");
       th.textContent = i18n.t(key);
       tr.append(th);
     }
-    thead.replaceChildren(tr);
+    target.replaceChildren(tr);
   }
 
   function row(alert) {
@@ -107,10 +127,18 @@ export async function renderAlerts(container, store, showHistory) {
     toggle.textContent = showHistory ? i18n.t("alertsShowActive") : i18n.t("alertsShowHistory");
     explain.textContent = i18n.t("alertsExplain");
 
-    const rows = showHistory ? history : store.alerts;
-    headerRow();
+    const rows = showHistory ? history : store.alerts.filter(isWarning);
+    headerRow(thead);
     tbody.replaceChildren();
     for (const alert of rows) tbody.append(row(alert));
+
+    const imports = showHistory ? [] : store.alerts.filter((a) => !isWarning(a));
+    importsSection.hidden = imports.length === 0;
+    importsHeading.textContent = `${i18n.t("importsHeading")} (${imports.length})`;
+    importsExplain.textContent = i18n.t("importsExplain");
+    headerRow(importsThead);
+    importsTbody.replaceChildren();
+    for (const alert of imports) importsTbody.append(row(alert));
 
     if (historyError) {
       message.textContent = `${i18n.t("errorPrefix")} ${historyError}`;

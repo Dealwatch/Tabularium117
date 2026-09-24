@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/Dealwatch/Tabularium117/internal/alerts"
+	"github.com/Dealwatch/Tabularium117/internal/model"
 	"github.com/Dealwatch/Tabularium117/internal/replay"
 	"github.com/Dealwatch/Tabularium117/internal/source"
 	"github.com/Dealwatch/Tabularium117/internal/store"
@@ -20,6 +21,10 @@ import (
 
 // fixturePath is the re-encoded connector capture (see testdata/README.md).
 const fixturePath = "../../testdata/connector-reencoded.jsonl"
+
+// tunicsGUID is the tunics product, which Juliana consumes in the capture
+// without a building of its own for it.
+const tunicsGUID = 2141
 
 // parse builds a config the way main does, failing the test on a bad line.
 func parse(t *testing.T, args ...string) config {
@@ -477,6 +482,22 @@ func TestReplayRaisesAndRecordsAlerts(t *testing.T) {
 	}
 	if !found {
 		t.Errorf("no deficit alert for Juliana's oats among %d recorded alerts", len(rows))
+	}
+
+	// Juliana consumes tunics but has no building for them (8.4/min, 0
+	// buildings in the capture): that is an import, recorded as info.
+	var tunics *store.AlertRow
+	for i, r := range rows {
+		if r.Island == (model.IslandKey{SessionGUID: 3245, IslandID: 5}) && r.ProductGUID == tunicsGUID {
+			tunics = &rows[i]
+		}
+	}
+	switch {
+	case tunics == nil:
+		t.Errorf("no alert for Juliana's tunics among %d recorded alerts", len(rows))
+	case tunics.Rule != alerts.RuleNoLocalProduction || tunics.Severity != alerts.SeverityInfo:
+		t.Errorf("tunics: rule/severity = %q/%q, want %q/%q",
+			tunics.Rule, tunics.Severity, alerts.RuleNoLocalProduction, alerts.SeverityInfo)
 	}
 }
 

@@ -5,6 +5,36 @@ All notable changes to Tabularium 117 are documented here, in the
 
 ## [Unreleased]
 
+### Changed
+
+- **Productivity warnings** now follow the buildings' productivity instead
+  of production against potential. The pipe counts finished production
+  cycles per update, so the production of a building that runs without
+  pause jumps between zero and its full rate - which the old rule read as a
+  drop: 37 warnings in a 35-minute live recording, most of them for
+  buildings running at 86-100 %. Productivity is capped at 100 %, so a boost
+  wearing off is not a drop. And a drop is only raised while the good's
+  local balance - production minus consumption as the game reports them
+  for this island - has been negative for two updates. The storage is not
+  in the game's data, and a full storage stops buildings just like missing
+  workers or input goods do; idling like that tends to keep the local
+  balance at zero or above. In the recording every drop happened like that,
+  and none is raised any more. Readings taken while the buildings idle with
+  a balance of zero or more no longer drag the comparison baseline down. The
+  warning ends when productivity recovers, the balance is no longer
+  negative, or the buildings are gone.
+- **Goods without local production no longer raise deficit warnings.** A
+  negative local balance of a good the island has no building for is marked
+  quietly as "import needed" ("Importbedarf"): a tag in the goods table and
+  its own section on the warnings page, not counted in the warning badges,
+  not in the warnings filter or the warning history, and never announced.
+  The goods table still counts it as a deficit. Tabularium cannot see
+  whether the good is actually delivered - trade routes and ships are not in
+  the data - and does not claim to. In the recording, 81 of 102 deficit
+  warnings were of this kind; 21 local-production deficit warnings remain.
+- The efficiency view names common reasons why buildings produce nothing:
+  full storage, missing workers or missing input goods.
+
 ## [0.1.0-beta.3] - 2026-09-23
 
 Third beta: a clearer status bar and efficiency view, and a ready-made

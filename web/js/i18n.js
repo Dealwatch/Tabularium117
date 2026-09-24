@@ -57,7 +57,8 @@ const dictionaries = {
     productivityMeaning: "Average building productivity; boosts can take it above 100 %.",
     unusedMeaning: "Potential minus actual production, per minute.",
     productivityIdleNote: "not producing",
-    productivityIdleMeaning: "Buildings are present but produce nothing right now. The data does not say why.",
+    productivityIdleMeaning: "Buildings are present but produce nothing right now. Common reasons: "
+      + "full storage, missing workers or missing input goods – the data does not say which.",
     productivityNoBuildingsNote: "no buildings",
     productivityNoBuildingsMeaning: "No buildings for this good on this island; there is no potential to compare.",
     productivityNoPotentialNote: "no potential",
@@ -92,7 +93,15 @@ const dictionaries = {
     colSince: "Since",
     colUntil: "Until",
     ruleDeficit: "Deficit",
+    ruleNoLocalProduction: "Import needed",
     ruleProductivityDrop: "Productivity drop",
+    importTag: "import needed",
+    importTagTitle: "Consumed on this island, but not produced locally. Tabularium cannot see whether "
+      + "or how the good is actually delivered. Not counted as a warning.",
+    importsHeading: "Import needed",
+    importsExplain: "Goods these islands consume but do not produce locally, so they have to come from "
+      + "elsewhere. Tabularium cannot see whether or how they are actually delivered - trade routes and "
+      + "ships are not in the game's data. They are listed here and not counted as warnings.",
     alertActive: "active",
     alertMarker: "Active warning",
     alertSince: "since {age}",
@@ -205,7 +214,8 @@ const dictionaries = {
     productivityMeaning: "Durchschnittliche Gebäudeproduktivität; Boni können sie über 100 % heben.",
     unusedMeaning: "Potenzial minus tatsächliche Produktion, pro Minute.",
     productivityIdleNote: "produziert nicht",
-    productivityIdleMeaning: "Gebäude sind vorhanden, produzieren aber gerade nichts. Den Grund liefern die Daten nicht.",
+    productivityIdleMeaning: "Gebäude sind vorhanden, produzieren aber gerade nichts. Häufige Gründe: "
+      + "volles Lager, fehlende Arbeitskräfte oder fehlende Rohstoffe – welcher, verraten die Daten nicht.",
     productivityNoBuildingsNote: "keine Gebäude",
     productivityNoBuildingsMeaning: "Für diese Ware gibt es hier keine Gebäude und somit kein vergleichbares Potenzial.",
     productivityNoPotentialNote: "kein Potenzial",
@@ -240,7 +250,16 @@ const dictionaries = {
     colSince: "Seit",
     colUntil: "Bis",
     ruleDeficit: "Defizit",
+    ruleNoLocalProduction: "Importbedarf",
     ruleProductivityDrop: "Produktivitätseinbruch",
+    importTag: "Importbedarf",
+    importTagTitle: "Wird auf dieser Insel verbraucht, aber nicht lokal produziert. Tabularium kann nicht "
+      + "erkennen, ob oder wie die Ware tatsächlich geliefert wird. Zählt nicht als Warnung.",
+    importsHeading: "Importbedarf",
+    importsExplain: "Waren, die diese Inseln verbrauchen, aber nicht selbst produzieren – sie müssen von "
+      + "anderswo kommen. Ob und wie sie tatsächlich geliefert werden, kann Tabularium nicht erkennen: "
+      + "Handelsrouten und Schiffe stehen nicht in den Daten des Spiels. Sie stehen hier und zählen nicht "
+      + "als Warnung.",
     alertActive: "aktiv",
     alertMarker: "Aktive Warnung",
     alertSince: "seit {age}",

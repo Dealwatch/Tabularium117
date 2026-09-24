@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/Dealwatch/Tabularium117/internal/alerts"
@@ -36,7 +37,10 @@ const (
 		FROM alert a JOIN island i ON i.id = a.island`
 
 	// alertsActiveWhere restricts that list to the open alerts.
-	alertsActiveWhere = ` WHERE a.cleared_at IS NULL`
+	alertsActiveWhere = `a.cleared_at IS NULL`
+
+	// alertsSeverityNot leaves out one severity.
+	alertsSeverityNot = `a.severity <> ?`
 
 	// alertsOrder is newest first. id breaks the tie so that two alerts
 	// raised in the same millisecond still have a stable order.
@@ -153,12 +157,34 @@ func (s *Store) CloseOpenAlerts(ctx context.Context, at time.Time) error {
 // Alerts returns stored alerts, newest first. activeOnly restricts the list
 // to alerts that are still open; a limit of zero or less returns all of them.
 func (s *Store) Alerts(ctx context.Context, activeOnly bool, limit int) ([]AlertRow, error) {
+	return s.alerts(ctx, activeOnly, "", limit)
+}
+
+// AlertsWithout is Alerts over open and closed alerts, leaving out every
+// alert of the given severity. The warning history uses it to keep the info
+// alerts out: an island without local production of a good records one for
+// every such good, and they would push the warnings out of any limit.
+func (s *Store) AlertsWithout(ctx context.Context, severity string, limit int) ([]AlertRow, error) {
+	return s.alerts(ctx, false, severity, limit)
+}
+
+// alerts builds and runs the list query; an empty skipSeverity leaves
+// nothing out.
+func (s *Store) alerts(ctx context.Context, activeOnly bool, skipSeverity string, limit int) ([]AlertRow, error) {
 	query := alertsSQL
+	var where []string
+	var args []any
 	if activeOnly {
-		query += alertsActiveWhere
+		where = append(where, alertsActiveWhere)
+	}
+	if skipSeverity != "" {
+		where = append(where, alertsSeverityNot)
+		args = append(args, skipSeverity)
+	}
+	if len(where) > 0 {
+		query += " WHERE " + strings.Join(where, " AND ")
 	}
 	query += alertsOrder
-	var args []any
 	if limit > 0 {
 		query += ` LIMIT ?`
 		args = append(args, limit)

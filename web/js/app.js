@@ -11,7 +11,7 @@ import { renderHelp } from "./views/help.js";
 import { renderPhone } from "./views/phone.js";
 import { renderAlerts } from "./views/alerts.js";
 import { buildPipeHelp } from "./pipe-help.js";
-import { alertKey, announce, countByIsland } from "./alerts.js";
+import { alertKey, announce, countByIsland, isWarning } from "./alerts.js";
 import { formatAge } from "./format.js";
 
 const THEME_KEY = "tabularium.theme";
@@ -174,7 +174,7 @@ function sortAlerts() {
 }
 
 function renderAlertBadge() {
-  const count = store.alerts.length;
+  const count = store.alerts.filter(isWarning).length;
   els.alertBadge.hidden = count === 0;
   els.alertCount.textContent = String(count);
   els.alertBadge.title = i18n.t("alertsBadge", { count });

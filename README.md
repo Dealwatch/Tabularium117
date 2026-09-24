@@ -38,8 +38,12 @@ gegenüber dem Spiel.
    Produktion je Ware, dazu die mittlere Produktivität der Gebäude, um zu
    sehen, welche Kette unter ihrem Potenzial läuft.
 4. **Warnungen** – regelbasiert: ein anhaltendes Defizit oder ein Einbruch der
-   Effizienz wird in der UI angezeigt (optional mit Browser-Benachrichtigung
-   oder Ton, standardmäßig aus).
+   Gebäude-Produktivität wird in der UI angezeigt (optional mit
+   Browser-Benachrichtigung oder Ton, standardmäßig aus). Waren, für die eine
+   Insel gar kein Gebäude hat, lösen keine Defizit-Warnung aus, sondern werden
+   leise als **Importbedarf** markiert – in der Warentabelle zählen sie
+   weiterhin als Defizit. Ob die Ware tatsächlich geliefert wird, kann
+   Tabularium nicht sehen.
 5. **Handy-Modus** – per Schalter im UI einschaltbar, zeigt einen QR-Code mit
    der Adresse im eigenen Netzwerk.
 
@@ -209,8 +213,8 @@ experimentell: Namen und Labels können sich bis Version 1.0 noch ändern.
 | `--lan-allow-loopback` | `false` | **Testhilfe:** erlaubt `--lan-ip` eine Loopback-Adresse (nur von diesem PC erreichbar) |
 | `--serve-after-replay` | `false` | nach Ende eines Mitschnitts weiter bedienen, bis Strg+C |
 | `--no-db` | `false` | keine Verlaufsdatenbank führen, nur Live-Daten zeigen |
-| `--alert-deficit-samples <n>` | `3` | Defizit-Warnung nach so vielen aufeinanderfolgenden Messungen mit negativem Delta |
-| `--alert-drop-pp <n>` | `20` | Effizienz-Warnung, wenn die Effizienz um so viele Prozentpunkte unter ihr 15-Minuten-Mittel fällt (≈ 7 Statistik-Ticks) |
+| `--alert-deficit-samples <n>` | `3` | Defizit-Warnung nach so vielen aufeinanderfolgenden Messungen mit negativem Delta (ohne eigenes Gebäude für die Ware: leiser Hinweis „Importbedarf“) |
+| `--alert-drop-pp <n>` | `20` | Produktivitäts-Warnung, wenn die Produktivität der Gebäude um so viele Prozentpunkte unter ihr 15-Minuten-Mittel fällt (≈ 7 Statistik-Ticks), während die lokale Bilanz der Ware (Produktion minus Verbrauch auf der Insel) negativ ist |
 | `--verbose` | `false` | auf Debug-Ebene loggen |
 | `--version` | – | Version ausgeben und beenden |
 
@@ -288,9 +292,12 @@ step, no Docker, no mod, strictly read-only towards the game.
 3. **Efficiency view** – actual production against the theoretical perfect
    production for each good, plus the average productivity of its buildings,
    to spot which chain runs below its potential.
-4. **Alerts** – rule-based: a lasting deficit or a drop in efficiency shows
-   up in the UI (optionally with a browser notification or sound, off by
-   default).
+4. **Alerts** – rule-based: a lasting deficit or a drop in building
+   productivity shows up in the UI (optionally with a browser notification or
+   sound, off by default). Goods an island has no building for do not raise
+   a deficit warning; they are quietly marked as **import needed** - the goods
+   table still counts them as deficits. Whether they are actually delivered is
+   not something Tabularium can see.
 5. **Phone mode** – a switch in the UI shows a QR code with the address on
    your own network.
 
@@ -450,8 +457,8 @@ names and labels may still change before version 1.0.
 | `--lan-allow-loopback` | `false` | **test aid:** allow `--lan-ip` to name a loopback address (reachable from this PC only) |
 | `--serve-after-replay` | `false` | keep serving after a replay has ended, until Ctrl+C |
 | `--no-db` | `false` | do not keep a history database; show the live data only |
-| `--alert-deficit-samples <n>` | `3` | raise a deficit warning after this many consecutive measurements with a negative delta |
-| `--alert-drop-pp <n>` | `20` | raise a productivity warning when efficiency falls this many percentage points below its 15-minute mean (about 7 statistics ticks) |
+| `--alert-deficit-samples <n>` | `3` | raise a deficit warning after this many consecutive measurements with a negative delta (with no building of its own for the good: a quiet "import needed" note instead) |
+| `--alert-drop-pp <n>` | `20` | raise a productivity warning when the buildings' productivity falls this many percentage points below its 15-minute mean (about 7 statistics ticks) while the good's local balance (production minus consumption on the island) is negative |
 | `--verbose` | `false` | log at debug level |
 | `--version` | – | print the version and exit |
 

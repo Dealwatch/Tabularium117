@@ -2,7 +2,7 @@
 
 import { i18n } from "../i18n.js";
 import { api } from "../api.js";
-import { byProduct, ruleLabel } from "../alerts.js";
+import { byProduct, isWarning, ruleLabel } from "../alerts.js";
 import { renderIslandHeader } from "./island-header.js";
 
 const numberFormatCache = new Map();
@@ -132,7 +132,7 @@ export async function renderIslandDetail(container, islandId, store) {
     if (!productsDTO) return;
     headerRow();
     const island = productsDTO.island;
-    const alertCount = store.alerts.filter((a) => a.islandId === islandId).length;
+    const alertCount = store.alerts.filter((a) => a.islandId === islandId && isWarning(a)).length;
     // The name and the session are in the header; repeating them here only
     // made the line long enough to be skipped. What is left are the counts.
     header.update(island);
@@ -141,8 +141,11 @@ export async function renderIslandDetail(container, islandId, store) {
       + (alertCount > 0 ? ` · ${alertCount} ${i18n.t("alertsHeading")}` : "");
 
     // Warnings are per (island, product); a row carries a marker when the
-    // rule engine has one open for it.
-    const alerted = byProduct(store.alerts, islandId);
+    // rule engine has one open for it. A good the island does not produce
+    // itself is info, not a warning: it gets a quiet tag of its own and stays
+    // out of the warnings filter.
+    const alerted = byProduct(store.alerts.filter(isWarning), islandId);
+    const imports = byProduct(store.alerts.filter((a) => !isWarning(a)), islandId);
 
     let rows = productsDTO.products;
     if (filter === "deficits") rows = rows.filter((p) => p.delta < 0);
@@ -214,6 +217,15 @@ export async function renderIslandDetail(container, islandId, store) {
       hint.setAttribute("aria-hidden", "true");
       historyLink.append(hint);
       nameTd.append(historyLink);
+      // Outside the link: the tag explains the row, it is not a way into the
+      // history.
+      if (imports.has(String(p.guid))) {
+        const tag = document.createElement("span");
+        tag.className = "import-tag";
+        tag.textContent = i18n.t("importTag");
+        tag.title = i18n.t("importTagTitle");
+        nameTd.append(" ", tag);
+      }
 
       const genTd = document.createElement("td");
       genTd.className = "num";
