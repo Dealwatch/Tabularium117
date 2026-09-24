@@ -12,11 +12,12 @@ const (
 	// RuleDeficit fires when a product's delta stays negative on an island
 	// that produces the product itself.
 	RuleDeficit = "deficit"
-	// RuleImport fires when a product's delta stays negative on an island
-	// with no building of its own for it: the island lives on imports of it.
-	// That is how most goods reach most islands, not a fault, so it carries
-	// SeverityInfo.
-	RuleImport = "import"
+	// RuleNoLocalProduction fires when a product's delta stays negative on
+	// an island with no building of its own for it. The island needs the
+	// product from elsewhere; whether and how it actually arrives is not in
+	// the pipe. That is how most goods reach most islands, not a fault in
+	// itself, so it carries SeverityInfo.
+	RuleNoLocalProduction = "no_local_production"
 	// RuleProductivityDrop fires when the productivity of a product's
 	// buildings falls well below its own trailing mean.
 	RuleProductivityDrop = "productivity_drop"
@@ -47,7 +48,7 @@ const (
 // ClearedAt is the zero time while the alert is active. Detail is short
 // English text with the numbers that triggered the rule, ready to be shown
 // next to a translated rule name. Value is the current delta (deficit,
-// import) or the current productivity in percent (productivity_drop); it is
+// no_local_production) or the current productivity in percent (productivity_drop); it is
 // refreshed while the alert is active, so a live view shows how bad it is
 // now, not how bad it was when it started.
 type Alert struct {

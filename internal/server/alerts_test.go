@@ -240,7 +240,7 @@ func TestStatusCountsTheActiveAlerts(t *testing.T) {
 	// An import is info, not a warning: listed, but not counted.
 	imported := oatsDeficit(fx.now)
 	imported.ProductGUID = 2069
-	imported.Rule, imported.Severity = alerts.RuleImport, alerts.SeverityInfo
+	imported.Rule, imported.Severity = alerts.RuleNoLocalProduction, alerts.SeverityInfo
 	_, url := newServerWithAlerts(t, fx, fixedAlerts{oatsDeficit(fx.now), second, imported})
 	var got statusJSON
 	getJSON(t, url+"/api/v1/status", http.StatusOK, &got)
@@ -338,4 +338,47 @@ func TestPublishAlertWithoutClients(t *testing.T) {
 	fx := loadFixture(t, false)
 	srv, _ := newServerWithAlerts(t, fx, fixedAlerts{})
 	srv.PublishAlert(alerts.Event{Kind: alerts.KindRaised, Alert: oatsDeficit(fx.now)})
+}
+
+// ?info=false leaves out the info alerts - no_local_production - in both
+// lists. The warning history uses it, so that a limit is not filled up by
+// the goods an island does not produce itself.
+func TestInfoAlertsCanBeLeftOut(t *testing.T) {
+	ctx := context.Background()
+	fx := loadFixture(t, true)
+	at := fx.now.Add(-time.Hour)
+
+	noLocal := oatsDeficit(at)
+	noLocal.ProductGUID = 2141
+	noLocal.Rule, noLocal.Severity = alerts.RuleNoLocalProduction, alerts.SeverityInfo
+	for _, a := range []alerts.Alert{oatsDeficit(at), noLocal} {
+		if _, err := fx.store.RaiseAlert(ctx, a); err != nil {
+			t.Fatalf("RaiseAlert: %v", err)
+		}
+	}
+	_, url := newServerWithAlerts(t, fx, fixedAlerts{oatsDeficit(at), noLocal})
+
+	for _, tc := range []struct {
+		query string
+		want  int
+	}{
+		{"?active=true", 2},
+		{"?active=true&info=false", 1},
+		{"?active=false", 2},
+		{"?active=false&info=false", 1},
+		{"?active=false&info=false&limit=1", 1},
+	} {
+		var got []alertJSON
+		getJSON(t, url+"/api/v1/alerts"+tc.query, http.StatusOK, &got)
+		if len(got) != tc.want {
+			t.Errorf("GET /api/v1/alerts%s = %d alerts, want %d", tc.query, len(got), tc.want)
+			continue
+		}
+		if tc.want == 1 && got[0].Rule != alerts.RuleDeficit {
+			t.Errorf("GET /api/v1/alerts%s kept %q, want the deficit", tc.query, got[0].Rule)
+		}
+	}
+	if msg := errorOf(t, url+"/api/v1/alerts?info=perhaps", http.StatusBadRequest); msg == "" {
+		t.Error("an invalid info value has no message")
+	}
 }

@@ -9,7 +9,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Dealwatch/Tabularium117/internal/alerts"
 	"github.com/Dealwatch/Tabularium117/internal/model"
+	"github.com/Dealwatch/Tabularium117/internal/store"
 )
 
 // historyRanges are the windows the UI offers (KONZEPT.md section 2.2).
@@ -143,6 +145,10 @@ func (s *Server) handleHistory(w http.ResponseWriter, r *http.Request) {
 // ?active=false is the recorded history - open and closed alerts, newest
 // first - and needs the database, so it answers 503 without one, exactly as
 // the history endpoint does.
+//
+// ?info=false leaves the info alerts (no_local_production) out, in both
+// lists. The warning history asks for that: an island records one for every
+// good it does not produce, and a limit would otherwise fill up with them.
 func (s *Server) handleAlerts(w http.ResponseWriter, r *http.Request) {
 	lang := s.language(r)
 	query := r.URL.Query()
@@ -157,6 +163,16 @@ func (s *Server) handleAlerts(w http.ResponseWriter, r *http.Request) {
 		}
 		active = parsed
 	}
+	withInfo := true
+	if raw := query.Get("info"); raw != "" {
+		parsed, err := strconv.ParseBool(raw)
+		if err != nil {
+			writeError(w, http.StatusBadRequest,
+				fmt.Sprintf("info must be true or false, not %q", raw))
+			return
+		}
+		withInfo = parsed
+	}
 	limit, ok := alertLimit(w, query.Get("limit"))
 	if !ok {
 		return
@@ -164,6 +180,15 @@ func (s *Server) handleAlerts(w http.ResponseWriter, r *http.Request) {
 
 	if active {
 		live := s.activeAlerts()
+		if !withInfo {
+			kept := live[:0:0]
+			for _, a := range live {
+				if a.Severity != alerts.SeverityInfo {
+					kept = append(kept, a)
+				}
+			}
+			live = kept
+		}
 		if limit > 0 && len(live) > limit {
 			live = live[:limit]
 		}
@@ -179,7 +204,13 @@ func (s *Server) handleAlerts(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusServiceUnavailable, "this run keeps no history (--no-db)")
 		return
 	}
-	rows, err := s.store.Alerts(r.Context(), false, limit)
+	var rows []store.AlertRow
+	var err error
+	if withInfo {
+		rows, err = s.store.Alerts(r.Context(), false, limit)
+	} else {
+		rows, err = s.store.AlertsWithout(r.Context(), alerts.SeverityInfo, limit)
+	}
 	if err != nil {
 		s.logError("cannot read the recorded alerts", err)
 		writeError(w, http.StatusInternalServerError, "cannot read the recorded alerts")

@@ -20,14 +20,15 @@ export function alertKey(alert) {
 export function ruleLabel(rule) {
   switch (rule) {
     case "deficit": return i18n.t("ruleDeficit");
-    case "import": return i18n.t("ruleImport");
+    case "no_local_production": return i18n.t("ruleNoLocalProduction");
     case "productivity_drop": return i18n.t("ruleProductivityDrop");
     default: return rule;
   }
 }
 
-// isWarning tells a warning from an info alert. An import - a good the island
-// consumes but has no building for - is info: it is listed, but it is not
+// isWarning tells a warning from an info alert. A good the island consumes
+// but has no building for (no_local_production) is info: it is listed, but
+// it is not
 // counted, badged, filtered for or announced as a problem. Anything that is
 // not explicitly info counts as a warning, so an unknown severity is never
 // quietly swallowed.
@@ -188,7 +189,8 @@ function notify(alert) {
 
 // announce is called for a warning that is new to this page. Cleared alerts
 // never announce - a problem going away is not something to interrupt for -
-// and neither does an info alert: an island that imports a good is not news.
+// and neither does an info alert: a good the island does not produce itself
+// is not news.
 export function announce(alert) {
   if (!isWarning(alert)) return;
   if (prefs.notifications) notify(alert);

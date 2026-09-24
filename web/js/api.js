@@ -64,9 +64,11 @@ export const api = {
   setLan: (enabled) => post("/api/v1/lan", { enabled: !!enabled }),
   // alerts: active=true is the live picture from the rule engine, false the
   // recorded history (which needs the database and answers 503 without it).
-  alerts: (active = true, limit = 0) => {
+  // withInfo=false leaves the info alerts (no local production) out.
+  alerts: (active = true, limit = 0, withInfo = true) => {
     const params = new URLSearchParams({ active: String(!!active) });
     if (limit > 0) params.set("limit", String(limit));
+    if (!withInfo) params.set("info", "false");
     return get(`/api/v1/alerts?${params.toString()}`);
   },
   islands: () => get("/api/v1/islands"),

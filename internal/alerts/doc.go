@@ -12,15 +12,20 @@
 //     consecutive samples, on an island with buildings of its own for it.
 //     It clears after DeficitClearSamples consecutive samples with a Delta
 //     of zero or more. Severity warning.
-//   - "import": the same streak on an island without any building for the
-//     product. The island lives on imports of it, which is how most goods
-//     reach most islands - not a fault, so the severity is info: kept and
-//     listed, but not counted or announced as a warning.
+//   - "no_local_production": the same streak on an island without any
+//     building for the product. The island needs it from elsewhere, which is
+//     how most goods reach most islands - not a fault in itself, so the
+//     severity is info: kept and listed, but not counted or announced as a
+//     warning. The pipe says nothing about trade: whether a ship actually
+//     brings the product, or the storage is running empty, is not in the
+//     data, and the rule claims neither.
 //   - "productivity_drop": the productivity of the product's buildings has
 //     fallen more than DropPercentagePoints below its trailing mean over
-//     DropWindow, and the product was consumed on the island within that
-//     window. It clears once the productivity is back within
-//     DropClearPercentagePoints of that mean. Severity warning.
+//     DropWindow, while the island has been short of the product for
+//     DropShortfallSamples consecutive samples. It clears once the
+//     productivity is back within DropClearPercentagePoints of that mean,
+//     or the shortfall has been over for DeficitClearSamples samples, or
+//     the buildings are gone. Severity warning.
 //
 // The drop rule reads AverageProductivity (SummedProductivity /
 // AmountOfBuildings x 100, docs/protocol.md), not Generation /
@@ -35,12 +40,13 @@
 // boost wearing off (174 % down to 151 % in the capture) is not a stall.
 //
 // Storage is not in the pipe. A building whose storage is full stops, and
-// that looks exactly like one that lacks workers or input goods. Gating the
-// drop rule on consumption is how the common harmless case - a surplus
-// product that nobody takes from the storage - stays quiet. It cannot catch
-// every one: on the same capture the rule raises 4 alerts, two of them real
-// slowdowns (sausages at 77 %, ornate wood at 55 %) and two for marble,
-// whose storage was full while a construction site took some now and then.
+// that looks exactly like one that lacks workers or input goods - an island
+// with far more capacity than it consumes spends most of its time like that.
+// The difference that is in the data is the delta: a full storage keeps it
+// at zero or above, a stalled chain drives it below. Hence the shortfall
+// condition. On the capture every productivity drop happened with a delta of
+// zero or more, and the rule raises none; what it keeps is a drop that
+// explains a shortage, not every building that pauses.
 //
 // One sample is one statistics tick, and the game produces a tick roughly
 // every two minutes (docs/protocol.md). Every count and window in Config is
@@ -51,8 +57,12 @@
 // alternates around a threshold never produces a stream of events.
 //
 // State is per (island, product). A product that stops appearing in an
-// island's snapshots keeps its state and its alert: the engine cannot tell
-// "the chain was demolished" from "the game left it out of this tick", and
-// silently clearing a warning is the worse of the two mistakes. A session
-// boundary is the one place where state is dropped, through Reset.
+// island's snapshots keeps its deficit state and its alert: the engine
+// cannot tell "the chain was demolished" from "the game left it out of this
+// tick", and silently clearing a warning is the worse of the two mistakes.
+// A productivity drop is the exception: a product without buildings, or
+// missing from a snapshot that has goods in it, has nothing left that could
+// have stalled, so its drop alert ends. An empty snapshot - the warm-up
+// after a save loads - changes nothing. A session boundary is the one place
+// where all state is dropped, through Reset.
 package alerts

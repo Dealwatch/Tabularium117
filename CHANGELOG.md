@@ -11,20 +11,23 @@ All notable changes to Tabularium 117 are documented here, in the
   of production against potential. The pipe counts finished production
   cycles per update, so the production of a building that runs without
   pause jumps between zero and its full rate - which the old rule read as a
-  drop. In a 35-minute live recording that meant 37 warnings, most of them
-  for buildings running at 86-100 %. Productivity is capped at 100 %, so a
-  boost wearing off is not a drop, and a drop is only raised for goods
-  consumed on the island in the last 15 minutes, so a full storage of a
-  surplus good nobody needs stays quiet. On the same recording 4 warnings
-  remain: two real slowdowns, and twice marble, whose storage was full while
-  a construction site took some now and then - without storage data that
-  cannot be told apart.
-- **Imports are no longer deficit warnings.** A shortfall of a good the
-  island has no building for is how goods arrive by ship, not a fault. It
-  is now listed as an import: a quiet tag in the goods table and its own
+  drop: 37 warnings in a 35-minute live recording, most of them for
+  buildings running at 86-100 %. Productivity is capped at 100 %, so a boost
+  wearing off is not a drop. And a drop is only raised while the island is
+  also short of the good: the storage is not in the game's data, and a full
+  storage stops buildings just like missing workers or input goods do - but
+  it keeps the balance at zero or above. In the recording every drop
+  happened like that, and none is raised any more. The warning ends when
+  productivity recovers, the shortfall is over, or the buildings are gone.
+- **Goods without local production no longer raise deficit warnings.** A
+  shortfall of a good the island has no building for is marked quietly as
+  "import needed" ("Importbedarf"): a tag in the goods table and its own
   section on the warnings page, not counted in the warning badges, not in
-  the warnings filter, and never announced. In the same recording, 81 of 102
-  deficit warnings were of this kind.
+  the warnings filter or the warning history, and never announced. The goods
+  table still counts it as a deficit. Tabularium cannot see whether the good
+  is actually delivered - trade routes and ships are not in the data - and
+  does not claim to. In the recording, 81 of 102 deficit warnings were of
+  this kind; 21 real deficit warnings remain.
 - The efficiency view names common reasons why buildings produce nothing:
   full storage, missing workers or missing input goods.
 

@@ -274,17 +274,17 @@ test("the efficiency view separates the two ways of producing nothing", async ()
   cleanup();
 });
 
-test("an import is marked quietly and is not a warning", async () => {
+test("a good without local production is marked quietly and is not a warning", async () => {
   i18n.lang = "en";
   api.products = async () => ({ island, products });
   const root = new Element();
   // Wheat is short on this island, but the island has no building for it:
-  // the engine reports that as an import (severity info), not a deficit.
+  // the engine reports no local production (severity info), not a deficit.
   const store = {
     islands: [island],
     alerts: [
       { islandId: island.id, productGuid: 1, rule: "productivity_drop", severity: "warning", detail: "test" },
-      { islandId: island.id, productGuid: 2, rule: "import", severity: "info", detail: "delta -4.0 for 3 samples" },
+      { islandId: island.id, productGuid: 2, rule: "no_local_production", severity: "info", detail: "delta -4.0 for 3 samples" },
     ],
     status: {},
   };
@@ -293,13 +293,16 @@ test("an import is marked quietly and is not a warning", async () => {
   const tags = nodes(root, ".import-tag");
   assert.equal(tags.length, 1, "exactly the imported good carries the tag");
   assert.match(tags[0].parent.textContent, /Wheat/);
+  assert.match(tags[0].textContent, /import needed/);
+  assert.match(tags[0].getAttribute("title"), /cannot see whether or how the good is actually delivered/,
+    "the tag does not claim a delivery the data cannot show");
   assert.match(tags[0].getAttribute("title"), /Not counted as a warning/);
   assert.equal(nodes(root, ".alert-marker").length, 1, "only the real warning gets the warning marker");
   assert.match(root.textContent, /1 Warnings/, "the summary counts the warning, not the import");
 
   button(root, "Warnings").click();
   assert.match(rowText(root), /Bread/);
-  assert.doesNotMatch(rowText(root), /Wheat/, "the warnings filter leaves the import out");
+  assert.doesNotMatch(rowText(root), /Wheat/, "the warnings filter leaves it out");
   cleanup();
 });
 

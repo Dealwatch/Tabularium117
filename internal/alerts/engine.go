@@ -46,20 +46,18 @@ type islandState struct {
 // productState is one product's rule state on one island.
 type productState struct {
 	// negative and nonNegative are the deficit rule's streak counters. Only
-	// one of them is ever non-zero. deficit is the open deficit or import
-	// alert - the same streak, told apart by whether the island produces the
-	// product itself.
+	// one of them is ever non-zero. deficit is the open deficit or
+	// no_local_production alert - the same streak, told apart by whether the
+	// island produces the product itself. The drop rule reads the streak as
+	// well: a drop only counts while the island is short.
 	negative    int
 	nonNegative int
 	deficit     *Alert
 
 	// samples is the productivity history the drop rule averages over,
-	// oldest first, and drop is its alert. lastConsumed is when the product
-	// was last consumed on the island; the drop rule only speaks up for a
-	// product somebody needs.
-	samples      []productivitySample
-	drop         *Alert
-	lastConsumed time.Time
+	// oldest first, and drop is its alert.
+	samples []productivitySample
+	drop    *Alert
 }
 
 // productivitySample is one productivity reading, in percent.
@@ -112,6 +110,22 @@ func (e *Engine) Apply(snap model.IslandSnapshot) []Event {
 		}
 		events = e.applyDeficit(events, snap, is.name, ps, p)
 		events = e.applyDrop(events, snap, is.name, ps, p)
+	}
+
+	// A product that has vanished from a snapshot with goods in it has no
+	// buildings left to have stalled, so an open drop ends. Everything else
+	// about it is kept (see the package documentation), and an empty
+	// snapshot - the warm-up after a save loads - changes nothing at all.
+	if len(snap.Products) > 0 {
+		present := make(map[int32]bool, len(snap.Products))
+		for _, p := range snap.Products {
+			present[p.ProductGUID] = true
+		}
+		for guid, ps := range is.products {
+			if !present[guid] {
+				events = e.endDrop(events, ps, snap.ReceivedAt)
+			}
+		}
 	}
 
 	sort.SliceStable(events, func(i, j int) bool {
@@ -189,10 +203,12 @@ func (e *Engine) Reset() []Event {
 //
 // A sustained negative delta means two different things. On an island with
 // buildings of its own for the product it is a shortfall in its own chain:
-// a deficit warning. On an island without any, the product can only arrive
-// by ship, and a negative delta there is how every imported good looks - in
-// the live capture of 2026-09-23, 81 of 102 deficit warnings were of this
-// kind. Those become the quieter import alert.
+// a deficit warning. On an island without any, the product has to come from
+// elsewhere, and a negative delta is how every such good looks - in the live
+// capture of 2026-09-23, 81 of 102 deficit warnings were of this kind. Those
+// become the quieter no_local_production alert. It says what the pipe
+// shows, no more: whether any ship actually brings the product, or the last
+// of the storage is being eaten, is not in the data.
 func (e *Engine) applyDeficit(events []Event, snap model.IslandSnapshot, name string, ps *productState, p model.ProductStat) []Event {
 	delta := float64(p.Delta)
 	if delta < 0 {
@@ -205,7 +221,7 @@ func (e *Engine) applyDeficit(events []Event, snap model.IslandSnapshot, name st
 
 	rule, severity := RuleDeficit, SeverityWarning
 	if p.Buildings == 0 {
-		rule, severity = RuleImport, SeverityInfo
+		rule, severity = RuleNoLocalProduction, SeverityInfo
 	}
 	// The island started producing the product itself, or stopped: the open
 	// alert describes the other situation and ends here. The streak carries
@@ -254,25 +270,25 @@ func (e *Engine) applyDeficit(events []Event, snap model.IslandSnapshot, name st
 
 // applyDrop runs the productivity_drop rule for one product.
 //
-// Without buildings there is no productivity to speak of, so the rule is
-// inactive for that sample: no reading is recorded and an alert that is
-// already open stays open until a defined productivity clears it.
-//
 // The productivity is capped at 100 %. Items and effects push it well above
 // that (live up to 270 %), and such a boost wearing off - 174 % down to
 // 151 % - is not a building that stalls; below 100 % it is.
 //
-// A drop is only raised for a product that was consumed on the island within
-// the window. Buildings stop when the storage is full, and a product nobody
-// consumes fills its storage and then stops for good - which is nothing to
-// act on. Clearing is not gated: an alert ends when the productivity is back,
-// whoever needs the product by then.
+// A drop alone is not a problem. The storage is not in the pipe, and a
+// building whose storage is full stops exactly like one without workers or
+// input goods - an island with four times the capacity it needs spends most
+// of its time like that. So a drop is only raised while the island is also
+// short of the product: its delta has been negative in DropShortfallSamples
+// consecutive samples (the deficit rule's streak, which runs first). A full
+// storage keeps the delta at zero or above. It clears when the productivity
+// is back, or when the shortfall is over for DeficitClearSamples samples.
+//
+// Without buildings there is no productivity, and no chain that could have
+// stalled: an open alert ends, and the history is dropped, so that a chain
+// built again later is measured from scratch.
 func (e *Engine) applyDrop(events []Event, snap model.IslandSnapshot, name string, ps *productState, p model.ProductStat) []Event {
-	if p.Consumption > 0 {
-		ps.lastConsumed = snap.ReceivedAt
-	}
 	if p.Buildings == 0 {
-		return events
+		return e.endDrop(events, ps, snap.ReceivedAt)
 	}
 	prod := float64(p.AvgProductivity)
 	if math.IsNaN(prod) || math.IsInf(prod, 0) {
@@ -290,10 +306,11 @@ func (e *Engine) applyDrop(events []Event, snap model.IslandSnapshot, name strin
 		return events
 	}
 	drop := mean - prod
-	consumed := !ps.lastConsumed.IsZero() && !ps.lastConsumed.Before(snap.ReceivedAt.Add(-e.cfg.DropWindow))
+	short := ps.negative >= e.cfg.DropShortfallSamples
+	recovered := drop <= e.cfg.DropClearPercentagePoints || ps.nonNegative >= e.cfg.DeficitClearSamples
 
 	switch {
-	case ps.drop == nil && drop > e.cfg.DropPercentagePoints && consumed:
+	case ps.drop == nil && drop > e.cfg.DropPercentagePoints && short:
 		a := Alert{
 			Island:      snap.Key,
 			IslandName:  name,
@@ -307,7 +324,7 @@ func (e *Engine) applyDrop(events []Event, snap model.IslandSnapshot, name strin
 		ps.drop = &a
 		return append(events, Event{Kind: KindRaised, Alert: a})
 
-	case ps.drop != nil && drop <= e.cfg.DropClearPercentagePoints:
+	case ps.drop != nil && recovered:
 		a := *ps.drop
 		ps.drop = nil
 		a.ClearedAt = snap.ReceivedAt
@@ -321,6 +338,19 @@ func (e *Engine) applyDrop(events []Event, snap model.IslandSnapshot, name strin
 		ps.drop.Detail = dropDetail(prod, mean, e.cfg.DropWindow)
 	}
 	return events
+}
+
+// endDrop is the drop rule for a product whose buildings are gone: it closes
+// an open alert and forgets the productivity history.
+func (e *Engine) endDrop(events []Event, ps *productState, at time.Time) []Event {
+	ps.samples = ps.samples[:0]
+	if ps.drop == nil {
+		return events
+	}
+	a := *ps.drop
+	ps.drop = nil
+	a.ClearedAt = at
+	return append(events, Event{Kind: KindCleared, Alert: a})
 }
 
 // prune drops every reading older than cutoff. The history is kept oldest

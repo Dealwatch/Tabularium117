@@ -141,7 +141,8 @@ type historyDTO struct {
 }
 
 // alertsStatusDTO is the status bar's badge: how many warnings are open right
-// now. Info alerts - the imports - are not warnings and are not counted; the
+// now. Info alerts - no_local_production - are not warnings and are not
+// counted; the
 // list itself, with both, is /api/v1/alerts.
 type alertsStatusDTO struct {
 	Active int `json:"active"`

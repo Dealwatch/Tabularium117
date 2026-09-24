@@ -29,27 +29,37 @@ func snapshot(offset time.Duration, p model.ProductStat) model.IslandSnapshot {
 }
 
 // delta is a product whose only interesting value is its delta, on an island
-// that produces it itself - so a shortfall is a deficit, not an import. Its
-// productivity is a constant zero, so the drop rule stays out of the way.
+// that produces it itself - so a shortfall is a deficit, not a
+// no_local_production. Its productivity is a constant zero, so the drop rule
+// stays out of the way.
 func delta(v float32) model.ProductStat {
 	return model.ProductStat{ProductGUID: product, Delta: v, Buildings: 1}
 }
 
 // imported is a product with the given delta on an island with no building
-// for it: it can only arrive by ship.
+// for it: it has to come from elsewhere.
 func imported(v float32) model.ProductStat {
 	return model.ProductStat{ProductGUID: product, Delta: v, Consumption: -v}
 }
 
 // productivity is a product whose buildings run at the given productivity in
-// percent, and which is consumed on the island - the drop rule's case.
+// percent while the island is short of it - the drop rule's case.
 func productivity(percent float32) model.ProductStat {
 	return model.ProductStat{
 		ProductGUID:     product,
 		Buildings:       4,
 		AvgProductivity: percent,
-		Consumption:     1,
+		Consumption:     2,
+		Delta:           -1,
 	}
+}
+
+// dropOnly is an engine for the drop rule's tests. The drop rule needs a
+// negative delta, which would raise a deficit after three samples as well;
+// a deficit threshold nothing reaches keeps those events out of the tables.
+func dropOnly(cfg alerts.Config) *alerts.Engine {
+	cfg.DeficitSamples = 1 << 20
+	return alerts.New(cfg)
 }
 
 // kinds renders a run's events as "raised"/"cleared" per sample, so a table
@@ -231,7 +241,7 @@ func TestProductivityDropRule(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			e := alerts.New(alerts.Config{})
+			e := dropOnly(alerts.Config{})
 			samples := make([]model.ProductStat, 0, len(tc.series))
 			for _, v := range tc.series {
 				samples = append(samples, productivity(v))
@@ -266,7 +276,7 @@ func TestProductivityDropNeedsBuildings(t *testing.T) {
 
 // Readings older than the window must not hold the mean up for ever.
 func TestTrailingMeanForgetsOldSamples(t *testing.T) {
-	e := alerts.New(alerts.Config{DropWindow: time.Minute})
+	e := dropOnly(alerts.Config{DropWindow: time.Minute})
 
 	// Three readings at 90 %, then a gap longer than the window, then three
 	// at 40 %. The old readings are out of the window by then, so the drop
@@ -485,7 +495,7 @@ func BenchmarkApplyOneTick(b *testing.B) {
 func TestProductivityDropFiresOnATwoMinuteTickCadence(t *testing.T) {
 	const tick = 2 * time.Minute
 
-	e := alerts.New(alerts.DefaultConfig())
+	e := dropOnly(alerts.DefaultConfig())
 	for i := range 3 {
 		if evs := e.Apply(snapshot(time.Duration(i)*tick, productivity(80))); len(evs) != 0 {
 			t.Fatalf("tick %d at 80%% produced %v, want no event", i, evs)
@@ -502,7 +512,7 @@ func TestProductivityDropFiresOnATwoMinuteTickCadence(t *testing.T) {
 
 	// The same run against the pre-2026-09-22 five-minute window cannot
 	// fire: the window holds at most two of these ticks.
-	old := alerts.New(alerts.Config{DropWindow: 5 * time.Minute})
+	old := dropOnly(alerts.Config{DropWindow: 5 * time.Minute})
 	for i := range 3 {
 		old.Apply(snapshot(time.Duration(i)*tick, productivity(80)))
 	}
@@ -543,48 +553,134 @@ func TestProductionCyclesDoNotLookLikeADrop(t *testing.T) {
 	}
 }
 
-// A building whose storage is full stops. For a product nobody consumes that
-// is the normal end state of a surplus, not something to act on, so the drop
-// rule stays quiet; the same drop on a consumed product is raised.
-func TestProductivityDropOnlyForConsumedProducts(t *testing.T) {
+// A building whose storage is full stops, and the pipe does not report the
+// storage. An island with far more capacity than it consumes keeps its
+// balance at zero or above while its buildings idle; a stalled chain drives
+// it below. Only the second is raised - and one negative tick is not yet a
+// shortfall, because a production cycle can fall on either side of a tick.
+func TestProductivityDropNeedsAShortfall(t *testing.T) {
 	const tick = 2 * time.Minute
 	series := []float32{100, 100, 100, 66, 26, 0}
-
-	unused := alerts.New(alerts.DefaultConfig())
-	for i, v := range series {
-		p := productivity(v)
-		p.Consumption = 0
-		if evs := unused.Apply(snapshot(time.Duration(i)*tick, p)); len(evs) != 0 {
-			t.Fatalf("an unconsumed product at %v %% produced %v", v, kinds(evs))
+	run := func(deltas []float32) string {
+		e := dropOnly(alerts.DefaultConfig())
+		var got []string
+		for i, v := range series {
+			p := productivity(v)
+			p.Delta = deltas[i]
+			got = append(got, kinds(e.Apply(snapshot(time.Duration(i)*tick, p))))
 		}
+		return strings.Join(got, " ")
 	}
 
-	used := alerts.New(alerts.DefaultConfig())
+	if got := run([]float32{0, 0, 0, 0, 0, 0}); got != "- - - - - -" {
+		t.Errorf("full storage, balance at zero: events = %q, want none", got)
+	}
+	if got := run([]float32{-1, -1, -1, -1, -1, -1}); got != "- - - raised - -" {
+		t.Errorf("short all along: events = %q, want the drop raised at 66 %%", got)
+	}
+	if got := run([]float32{0, 0, 0, -1, 0, -1}); got != "- - - - - -" {
+		t.Errorf("single negative ticks: events = %q, want none", got)
+	}
+	if got := run([]float32{0, 0, 0, -1, -1, -1}); got != "- - - - raised -" {
+		t.Errorf("short from the drop on: events = %q, want it raised on the second short tick", got)
+	}
+}
+
+// The chain stays slow, but the island is no longer short - the storage
+// filled up, or consumption fell. The alert has nothing left to explain.
+func TestProductivityDropClearsWhenTheShortfallEnds(t *testing.T) {
+	const tick = 2 * time.Minute
+	e := dropOnly(alerts.DefaultConfig())
+	for i, v := range []float32{100, 100, 100, 40} {
+		e.Apply(snapshot(time.Duration(i)*tick, productivity(v)))
+	}
+	if len(e.Active()) != 1 {
+		t.Fatalf("setup: active = %d, want the drop", len(e.Active()))
+	}
 	var got []string
-	for i, v := range series {
-		got = append(got, kinds(used.Apply(snapshot(time.Duration(i)*tick, productivity(v)))))
+	for i := range 3 {
+		p := productivity(40)
+		p.Delta = 0
+		got = append(got, kinds(e.Apply(snapshot(time.Duration(4+i)*tick, p))))
 	}
-	if want := "- - - raised - -"; strings.Join(got, " ") != want {
-		t.Errorf("a consumed product: events = %q, want %q", strings.Join(got, " "), want)
+	if want := "- - cleared"; strings.Join(got, " ") != want {
+		t.Errorf("events = %q, want %q", strings.Join(got, " "), want)
+	}
+}
+
+// The player tears the stalled chain down. Without buildings nothing is
+// stalling any more: the alert ends at once, and a chain built again later
+// starts without the old readings.
+func TestProductivityDropEndsWhenTheBuildingsAreGone(t *testing.T) {
+	const tick = 2 * time.Minute
+	e := dropOnly(alerts.DefaultConfig())
+	for i, v := range []float32{100, 100, 100, 40} {
+		e.Apply(snapshot(time.Duration(i)*tick, productivity(v)))
+	}
+	if len(e.Active()) != 1 {
+		t.Fatalf("setup: active = %d, want the drop", len(e.Active()))
 	}
 
-	// Consumption older than the window does not count: a construction site
-	// that took marble twenty minutes ago does not make the marble needed now.
-	stale := alerts.New(alerts.DefaultConfig())
-	for i, v := range []float32{100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 0} {
-		p := productivity(v)
-		if i > 0 {
-			p.Consumption = 0
+	gone := model.ProductStat{ProductGUID: product, Consumption: 2, Delta: -2}
+	evs := e.Apply(snapshot(4*tick, gone))
+	var cleared bool
+	for _, ev := range evs {
+		if ev.Kind == alerts.KindCleared && ev.Alert.Rule == alerts.RuleProductivityDrop {
+			cleared = true
 		}
-		if evs := stale.Apply(snapshot(time.Duration(i)*tick, p)); len(evs) != 0 {
-			t.Fatalf("tick %d: consumption %v ago still counted: %v", i, time.Duration(i)*tick, kinds(evs))
+	}
+	if !cleared {
+		t.Fatalf("tearing the buildings down produced %v, want the drop cleared", evs)
+	}
+
+	// Rebuilt at 30 %: without the old 100 % readings there is no drop to
+	// see yet, however short the island is.
+	for i := range 3 {
+		evs := e.Apply(snapshot(time.Duration(5+i)*tick, productivity(30)))
+		for _, ev := range evs {
+			if ev.Alert.Rule == alerts.RuleProductivityDrop {
+				t.Fatalf("tick %d after rebuilding: %s %s, want the old history gone", i, ev.Kind, ev.Alert.Rule)
+			}
 		}
 	}
 }
 
-// A shortfall on an island without any building for the product is an
-// import: kept and listed, but as info, not as a warning.
-func TestImportIsItsOwnQuietRule(t *testing.T) {
+// A product that disappears from the island's statistics altogether has no
+// buildings left either. An empty snapshot - the warm-up after loading a
+// save - is not evidence of anything and must not clear.
+func TestProductivityDropEndsWhenTheProductVanishes(t *testing.T) {
+	const tick = 2 * time.Minute
+	raise := func() *alerts.Engine {
+		e := dropOnly(alerts.DefaultConfig())
+		for i, v := range []float32{100, 100, 100, 40} {
+			e.Apply(snapshot(time.Duration(i)*tick, productivity(v)))
+		}
+		if len(e.Active()) != 1 {
+			t.Fatalf("setup: active = %d, want the drop", len(e.Active()))
+		}
+		return e
+	}
+
+	e := raise()
+	warmup := snapshot(4*tick, productivity(0))
+	warmup.Products = nil
+	if evs := e.Apply(warmup); len(evs) != 0 {
+		t.Errorf("an empty snapshot produced %v, want nothing", evs)
+	}
+	if len(e.Active()) != 1 {
+		t.Error("an empty snapshot cleared the drop")
+	}
+
+	other := snapshot(5*tick, model.ProductStat{ProductGUID: product + 1, Buildings: 1, AvgProductivity: 100})
+	evs := e.Apply(other)
+	if len(evs) != 1 || evs[0].Kind != alerts.KindCleared || evs[0].Alert.Rule != alerts.RuleProductivityDrop {
+		t.Fatalf("a snapshot without the product produced %v, want the drop cleared", evs)
+	}
+}
+
+// A shortfall on an island without any building for the product is
+// no_local_production: kept and listed, but as info, not as a warning.
+func TestNoLocalProductionIsItsOwnQuietRule(t *testing.T) {
 	e := alerts.New(alerts.DefaultConfig())
 	var raised []alerts.Event
 	for i := range 3 {
@@ -593,8 +689,8 @@ func TestImportIsItsOwnQuietRule(t *testing.T) {
 	if len(raised) != 1 || raised[0].Kind != alerts.KindRaised {
 		t.Fatalf("events = %v, want one raised after three samples", kinds(raised))
 	}
-	if a := raised[0].Alert; a.Rule != alerts.RuleImport || a.Severity != alerts.SeverityInfo {
-		t.Errorf("rule/severity = %q/%q, want %q/%q", a.Rule, a.Severity, alerts.RuleImport, alerts.SeverityInfo)
+	if a := raised[0].Alert; a.Rule != alerts.RuleNoLocalProduction || a.Severity != alerts.SeverityInfo {
+		t.Errorf("rule/severity = %q/%q, want %q/%q", a.Rule, a.Severity, alerts.RuleNoLocalProduction, alerts.SeverityInfo)
 	}
 
 	// The same streak with a building of its own is a deficit warning.
@@ -609,38 +705,40 @@ func TestImportIsItsOwnQuietRule(t *testing.T) {
 }
 
 // The player builds the first producer while the island is still short: the
-// import ends, and - the shortfall going on - a deficit starts in the same
+// no_local_production alert ends, and - the shortfall going on - a deficit
+// starts in the same
 // tick. Tearing it down again turns it back. The alert never silently
 // changes its rule, because the history stores the rule it was raised with.
-func TestImportAndDeficitHandOver(t *testing.T) {
+func TestNoLocalProductionAndDeficitHandOver(t *testing.T) {
 	e := alerts.New(alerts.DefaultConfig())
 	for i := range 3 {
 		e.Apply(snapshot(time.Duration(i)*time.Second, imported(-2)))
 	}
 
 	// Apply orders events by product and then rule, so the raised deficit
-	// comes before the cleared import; the history keeps one open row per
+	// comes before the cleared no_local_production; the history keeps one
+	// open row per
 	// rule, so the order does not matter there.
 	evs := e.Apply(snapshot(3*time.Second, delta(-1)))
 	var got []string
 	for _, ev := range evs {
 		got = append(got, ev.Kind+" "+ev.Alert.Rule)
 	}
-	if want := "raised deficit, cleared import"; strings.Join(got, ", ") != want {
+	if want := "raised deficit, cleared no_local_production"; strings.Join(got, ", ") != want {
 		t.Fatalf("the first building produced %q, want %q", strings.Join(got, ", "), want)
 	}
 	if active := e.Active(); len(active) != 1 || active[0].Rule != alerts.RuleDeficit {
 		t.Errorf("active = %v, want only the deficit", active)
 	}
 
-	// A building that closes the gap ends the import and raises nothing.
+	// A building that closes the gap ends it and raises nothing.
 	f := alerts.New(alerts.DefaultConfig())
 	for i := range 3 {
 		f.Apply(snapshot(time.Duration(i)*time.Second, imported(-2)))
 	}
 	evs = f.Apply(snapshot(3*time.Second, delta(0.5)))
-	if len(evs) != 1 || evs[0].Kind != alerts.KindCleared || evs[0].Alert.Rule != alerts.RuleImport {
-		t.Fatalf("a building that closes the gap produced %v, want only the import cleared", evs)
+	if len(evs) != 1 || evs[0].Kind != alerts.KindCleared || evs[0].Alert.Rule != alerts.RuleNoLocalProduction {
+		t.Fatalf("a building that closes the gap produced %v, want only the no_local_production cleared", evs)
 	}
 	if n := len(f.Active()); n != 0 {
 		t.Errorf("active = %d, want none", n)
@@ -662,7 +760,7 @@ func TestBoostWearingOffIsNotADrop(t *testing.T) {
 		{"a boosted chain stalls", []float32{174, 180, 176, 60}, "- - - raised"},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
-			e := alerts.New(alerts.DefaultConfig())
+			e := dropOnly(alerts.DefaultConfig())
 			var got []string
 			for i, v := range tc.series {
 				got = append(got, kinds(e.Apply(snapshot(time.Duration(i)*tick, productivity(v)))))

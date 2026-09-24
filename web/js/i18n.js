@@ -93,14 +93,15 @@ const dictionaries = {
     colSince: "Since",
     colUntil: "Until",
     ruleDeficit: "Deficit",
-    ruleImport: "Import",
+    ruleNoLocalProduction: "Import needed",
     ruleProductivityDrop: "Productivity drop",
-    importTag: "import",
-    importTagTitle: "Consumed here, but this island has no building for it: it has to be shipped in. "
-      + "Not counted as a warning.",
-    importsHeading: "Imports",
-    importsExplain: "Goods these islands consume but have no building for. A negative balance is normal "
-      + "for them as long as ships bring them in, so they are listed here and not counted as warnings.",
+    importTag: "import needed",
+    importTagTitle: "Consumed on this island, but not produced locally. Tabularium cannot see whether "
+      + "or how the good is actually delivered. Not counted as a warning.",
+    importsHeading: "Import needed",
+    importsExplain: "Goods these islands consume but do not produce locally, so they have to come from "
+      + "elsewhere. Tabularium cannot see whether or how they are actually delivered - trade routes and "
+      + "ships are not in the game's data. They are listed here and not counted as warnings.",
     alertActive: "active",
     alertMarker: "Active warning",
     alertSince: "since {age}",
@@ -249,15 +250,16 @@ const dictionaries = {
     colSince: "Seit",
     colUntil: "Bis",
     ruleDeficit: "Defizit",
-    ruleImport: "Import",
+    ruleNoLocalProduction: "Importbedarf",
     ruleProductivityDrop: "Produktivitätseinbruch",
-    importTag: "Import",
-    importTagTitle: "Wird hier verbraucht, aber die Insel hat kein Gebäude dafür: Die Ware muss per Schiff "
-      + "kommen. Zählt nicht als Warnung.",
-    importsHeading: "Importe",
-    importsExplain: "Waren, die diese Inseln verbrauchen, für die sie aber kein Gebäude haben. Eine negative "
-      + "Bilanz ist bei ihnen normal, solange Schiffe sie liefern – deshalb stehen sie hier und zählen "
-      + "nicht als Warnung.",
+    importTag: "Importbedarf",
+    importTagTitle: "Wird auf dieser Insel verbraucht, aber nicht lokal produziert. Tabularium kann nicht "
+      + "erkennen, ob oder wie die Ware tatsächlich geliefert wird. Zählt nicht als Warnung.",
+    importsHeading: "Importbedarf",
+    importsExplain: "Waren, die diese Inseln verbrauchen, aber nicht selbst produzieren – sie müssen von "
+      + "anderswo kommen. Ob und wie sie tatsächlich geliefert werden, kann Tabularium nicht erkennen: "
+      + "Handelsrouten und Schiffe stehen nicht in den Daten des Spiels. Sie stehen hier und zählen nicht "
+      + "als Warnung.",
     alertActive: "aktiv",
     alertMarker: "Aktive Warnung",
     alertSince: "seit {age}",

@@ -141,8 +141,9 @@ export async function renderIslandDetail(container, islandId, store) {
       + (alertCount > 0 ? ` · ${alertCount} ${i18n.t("alertsHeading")}` : "");
 
     // Warnings are per (island, product); a row carries a marker when the
-    // rule engine has one open for it. Imports are info, not warnings: they
-    // get a quiet tag of their own and stay out of the warnings filter.
+    // rule engine has one open for it. A good the island does not produce
+    // itself is info, not a warning: it gets a quiet tag of its own and stays
+    // out of the warnings filter.
     const alerted = byProduct(store.alerts.filter(isWarning), islandId);
     const imports = byProduct(store.alerts.filter((a) => !isWarning(a)), islandId);
 

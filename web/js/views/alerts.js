@@ -31,9 +31,9 @@ export async function renderAlerts(container, store, showHistory) {
   tableBox.className = "table-scroll";
   tableBox.append(table);
 
-  // Imports are info, not warnings: goods an island consumes but has no
-  // building for. The active view lists them in a section of their own
-  // under the warnings; the history keeps everything in one list.
+  // Goods an island consumes but does not produce are info, not warnings.
+  // The active view lists them in a section of their own under the
+  // warnings; the history, a list of warnings, leaves them out.
   const importsHeading = document.createElement("h3");
   const importsExplain = document.createElement("p");
   importsExplain.className = "muted";
@@ -55,7 +55,9 @@ export async function renderAlerts(container, store, showHistory) {
 
   if (showHistory) {
     try {
-      history = await api.alerts(false, 200);
+      // Warnings only: the info alerts would fill the 200 rows up - an
+      // island records one for every good it does not produce itself.
+      history = await api.alerts(false, 200, false);
     } catch (err) {
       history = [];
       historyError = err instanceof ApiError ? err.message : String(err);

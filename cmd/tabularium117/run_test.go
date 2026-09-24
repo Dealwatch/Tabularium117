@@ -495,9 +495,9 @@ func TestReplayRaisesAndRecordsAlerts(t *testing.T) {
 	switch {
 	case tunics == nil:
 		t.Errorf("no alert for Juliana's tunics among %d recorded alerts", len(rows))
-	case tunics.Rule != alerts.RuleImport || tunics.Severity != alerts.SeverityInfo:
+	case tunics.Rule != alerts.RuleNoLocalProduction || tunics.Severity != alerts.SeverityInfo:
 		t.Errorf("tunics: rule/severity = %q/%q, want %q/%q",
-			tunics.Rule, tunics.Severity, alerts.RuleImport, alerts.SeverityInfo)
+			tunics.Rule, tunics.Severity, alerts.RuleNoLocalProduction, alerts.SeverityInfo)
 	}
 }
 
