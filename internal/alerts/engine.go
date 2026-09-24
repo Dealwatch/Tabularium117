@@ -18,6 +18,10 @@ import (
 // turns "unbounded" into "at most a few kilobytes per product".
 const maxDropSamples = 512
 
+// maxProductivity is where the drop rule caps the productivity (see
+// applyDrop).
+const maxProductivity = 100
+
 // Engine keeps the per-product rule state and turns snapshots into events.
 //
 // It is safe for concurrent use: Apply runs in the ingest goroutine while
@@ -254,6 +258,10 @@ func (e *Engine) applyDeficit(events []Event, snap model.IslandSnapshot, name st
 // inactive for that sample: no reading is recorded and an alert that is
 // already open stays open until a defined productivity clears it.
 //
+// The productivity is capped at 100 %. Items and effects push it well above
+// that (live up to 270 %), and such a boost wearing off - 174 % down to
+// 151 % - is not a building that stalls; below 100 % it is.
+//
 // A drop is only raised for a product that was consumed on the island within
 // the window. Buildings stop when the storage is full, and a product nobody
 // consumes fills its storage and then stops for good - which is nothing to
@@ -270,6 +278,7 @@ func (e *Engine) applyDrop(events []Event, snap model.IslandSnapshot, name strin
 	if math.IsNaN(prod) || math.IsInf(prod, 0) {
 		return events
 	}
+	prod = min(prod, maxProductivity)
 
 	ps.samples = prune(ps.samples, snap.ReceivedAt.Add(-e.cfg.DropWindow))
 	mean, n := meanOf(ps.samples)

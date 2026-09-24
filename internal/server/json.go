@@ -452,11 +452,13 @@ func (s *Server) alertRow(r store.AlertRow, lang string) alertDTO {
 	return out
 }
 
-// countWarnings counts the alerts of severity warning.
+// countWarnings counts every alert that is not info. It is the same test the
+// UI applies (web/js/alerts.js, isWarning), so the badge and the list agree,
+// and a severity added later is counted rather than quietly dropped.
 func countWarnings(active []alerts.Alert) int {
 	n := 0
 	for _, a := range active {
-		if a.Severity == alerts.SeverityWarning {
+		if a.Severity != alerts.SeverityInfo {
 			n++
 		}
 	}

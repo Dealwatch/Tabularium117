@@ -59,10 +59,14 @@ die Wirtschaftsdaten live, mit Verlauf und handyfreundlich anzeigt.
    35-Minuten-Mitschnitt vom 2026-09-23 zeigte, warum das nicht trägt: Die Pipe zählt fertige
    Produktionszyklen pro Tick, die Generation eines durchlaufenden Gebäudes springt deshalb
    zwischen 0 und dem vollen Wert. Das ergab 37 Warnungen in 35 Minuten, die meisten für Gebäude
-   mit 86–100 % Produktivität. Auf der Produktivität sind es 6, jede ein echter Stopp. Die
-   Bedingung „verbraucht“ fängt das **volle Lager** ab: Die Pipe liefert keinen Lagerbestand,
-   ein volles Lager stoppt die Gebäude, und bei einer Ware, die niemand abholt, ist das der
-   normale Endzustand eines Überschusses. Die beiden unterschiedlichen Schwellen sind die
+   mit 86–100 % Produktivität. Die Produktivität wird dabei bei **100 % gekappt**: Boni heben sie
+   weit darüber (live bis 270 %), und ein nachlassender Bonus (174 % → 151 %) ist kein
+   Stillstand. Die Bedingung „verbraucht“ fängt den häufigsten Fall des **vollen Lagers** ab:
+   Die Pipe liefert keinen Lagerbestand, ein volles Lager stoppt die Gebäude, und bei einer
+   Ware, die niemand abholt, ist das der normale Endzustand eines Überschusses. Ganz trennen
+   lässt sich das ohne Lagerdaten nicht: Im selben Mitschnitt bleiben 4 Warnungen – zwei echte
+   Verlangsamungen (Würste 77 %, Zierholz 55 %) und zweimal Marmor, dessen Lager voll war,
+   während eine Baustelle ab und zu etwas entnahm. Die beiden unterschiedlichen Schwellen sind die
    Hysterese: eine Warnung flackert nicht, wenn ein Wert um die Schwelle pendelt. Schwellwerte
    per `--alert-deficit-samples` und `--alert-drop-pp` einstellbar.
    **Eine „Messung“ ist ein Statistik-Tick, und das Spiel liefert etwa alle zwei Minuten einen**
@@ -597,8 +601,9 @@ Voreinstellungen bestimmen:
 - **Produktivität geklärt:** In allen 462 Einträgen mit Gebäuden gilt exakt
   `AverageProductivity = SummedProductivity / AmountOfBuildings × 100`. `SummedProductivity` ist
   die Summe der Produktivitätsfaktoren, `AverageProductivity` das Mittel in Prozent (live 0–270 %,
-  Boosts eingerechnet). Damit ist der Wert anzeigbar (§2.3) – die Warnregel bleibt trotzdem auf
-  der Effizienz.
+  Boosts eingerechnet). Damit ist der Wert anzeigbar (§2.3). Die Warnregel `productivity_drop`
+  lief zunächst weiter auf der Effizienz und nutzt seit dem Mitschnitt vom 2026-09-23 die
+  Produktivität (§2.4).
 - **Umlaute:** Das Spiel ersetzt Nicht-ASCII-Zeichen in Inselnamen durch `_`
   („Römische Küste“ → `R_mische K_ste`). Nichts auf unserer Seite kann das zurückholen; Identität
   ist ohnehin der Schlüssel, nie der Name.

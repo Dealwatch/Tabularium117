@@ -646,3 +646,30 @@ func TestImportAndDeficitHandOver(t *testing.T) {
 		t.Errorf("active = %d, want none", n)
 	}
 }
+
+// Items and effects push productivity above 100 % (live up to 270 %). A boost
+// that wears off is not a stall: 174 % down to 151 % raises nothing. Falling
+// below 100 % is measured from 100 %, so a real stall of a boosted chain is
+// still caught.
+func TestBoostWearingOffIsNotADrop(t *testing.T) {
+	const tick = 2 * time.Minute
+	for _, tc := range []struct {
+		name   string
+		series []float32
+		want   string
+	}{
+		{"a boost wears off", []float32{174, 180, 176, 151}, "- - - -"},
+		{"a boosted chain stalls", []float32{174, 180, 176, 60}, "- - - raised"},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			e := alerts.New(alerts.DefaultConfig())
+			var got []string
+			for i, v := range tc.series {
+				got = append(got, kinds(e.Apply(snapshot(time.Duration(i)*tick, productivity(v)))))
+			}
+			if strings.Join(got, " ") != tc.want {
+				t.Errorf("events = %q, want %q", strings.Join(got, " "), tc.want)
+			}
+		})
+	}
+}

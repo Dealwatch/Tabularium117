@@ -30,13 +30,17 @@
 // without pause still jumps between 0 and its full rate from tick to tick.
 // Measured against a trailing mean, that is a drop every few ticks - 37
 // alerts in that capture, most of them for buildings running at 86-100 %.
-// The productivity is the game's own running average and does not jitter;
-// on the same capture the rule raises 6 alerts, each a real stop.
+// The productivity is the game's own running average and does not jitter.
+// It is capped at 100 %: items and effects push it far above that, and a
+// boost wearing off (174 % down to 151 % in the capture) is not a stall.
 //
 // Storage is not in the pipe. A building whose storage is full stops, and
 // that looks exactly like one that lacks workers or input goods. Gating the
-// drop rule on consumption is how the harmless case - a surplus product that
-// nobody takes from the storage - stays quiet.
+// drop rule on consumption is how the common harmless case - a surplus
+// product that nobody takes from the storage - stays quiet. It cannot catch
+// every one: on the same capture the rule raises 4 alerts, two of them real
+// slowdowns (sausages at 77 %, ornate wood at 55 %) and two for marble,
+// whose storage was full while a construction site took some now and then.
 //
 // One sample is one statistics tick, and the game produces a tick roughly
 // every two minutes (docs/protocol.md). Every count and window in Config is

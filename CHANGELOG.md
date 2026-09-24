@@ -12,9 +12,13 @@ All notable changes to Tabularium 117 are documented here, in the
   cycles per update, so the production of a building that runs without
   pause jumps between zero and its full rate - which the old rule read as a
   drop. In a 35-minute live recording that meant 37 warnings, most of them
-  for buildings running at 86-100 %; the new rule raises 6, each a real
-  stop. A drop is only raised for goods consumed on the island in the last
-  15 minutes, so a full storage of a surplus good nobody needs stays quiet.
+  for buildings running at 86-100 %. Productivity is capped at 100 %, so a
+  boost wearing off is not a drop, and a drop is only raised for goods
+  consumed on the island in the last 15 minutes, so a full storage of a
+  surplus good nobody needs stays quiet. On the same recording 4 warnings
+  remain: two real slowdowns, and twice marble, whose storage was full while
+  a construction site took some now and then - without storage data that
+  cannot be told apart.
 - **Imports are no longer deficit warnings.** A shortfall of a good the
   island has no building for is how goods arrive by ship, not a fault. It
   is now listed as an import: a quiet tag in the goods table and its own
