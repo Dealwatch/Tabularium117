@@ -2,6 +2,7 @@ package server_test
 
 import (
 	"fmt"
+	"math"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -125,6 +126,10 @@ func world() []model.IslandSnapshot {
 		isle(albion, 2, "Eboracum", good(oats, 1, 1.5)),
 		// Listed twice: the later entry counts, as everywhere else.
 		isle(albion, 3, "Gwynford", good(oats, 2, 5), good(oats, 2, -1)),
+		// Not a number, and not a finite one: no balance, and JSON cannot
+		// carry either.
+		isle(albion, 4, "Caperby", good(oats, 1, float32(math.NaN()))),
+		isle(albion, 5, "Tor Dolya", good(oats, 1, float32(math.Inf(1)))),
 	}
 }
 

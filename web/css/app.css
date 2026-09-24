@@ -623,7 +623,8 @@ tr.no-data { opacity: .5; }
   /* The tag is a control now, and a finger has to hit it too: the invisible
      button around it grows, the tag does not. */
   .sources-toggle { min-height: 44px; min-width: 44px; }
-  .sources li { min-height: 44px; display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+  .sources li { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+  .sources li a { display: inline-flex; align-items: center; min-height: 44px; }
 
   /* Scrolling a six-column table sideways on a phone loses the one column
      that says which row you are looking at. The name stays put; everything

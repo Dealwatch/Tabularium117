@@ -2,6 +2,7 @@ package server
 
 import (
 	"cmp"
+	"math"
 	"net/http"
 	"slices"
 	"strconv"
@@ -137,9 +138,11 @@ type possibleSource struct {
 // from the islands of one tick, grouped by session.
 //
 // A possible source is another island - any session, since goods cross
-// between provinces - with at least one building for the good and a positive
-// local balance. No building means the island does not produce the good
-// itself, and a balance of zero or less means it keeps all of it.
+// between provinces - with at least one building for the good and a positive,
+// finite local balance. No building means the island does not produce the
+// good itself, and a balance of zero or less means it keeps all of it. NaN
+// and infinity are not balances at all, and JSON cannot carry them: one of
+// them would turn the whole answer into an error.
 //
 // Groups come in the order the handler documents; within a group the highest
 // balance comes first, ties by name and then island ID so the order is stable.
@@ -150,7 +153,7 @@ func possibleSources(target model.IslandKey, guid int32, islands []model.IslandS
 			continue
 		}
 		p, ok := lastEntry(snap.Products, guid)
-		if !ok || p.Buildings <= 0 || !(p.Delta > 0) {
+		if !ok || p.Buildings <= 0 || !(p.Delta > 0) || math.IsInf(float64(p.Delta), 1) {
 			continue
 		}
 		bySession[snap.Key.SessionGUID] = append(bySession[snap.Key.SessionGUID],
