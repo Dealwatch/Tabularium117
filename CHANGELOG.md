@@ -5,6 +5,25 @@ All notable changes to Tabularium 117 are documented here, in the
 
 ## [Unreleased]
 
+### Changed
+
+- **Productivity warnings** now follow the buildings' productivity instead
+  of production against potential. The pipe counts finished production
+  cycles per update, so the production of a building that runs without
+  pause jumps between zero and its full rate - which the old rule read as a
+  drop. In a 35-minute live recording that meant 37 warnings, most of them
+  for buildings running at 86-100 %; the new rule raises 6, each a real
+  stop. A drop is only raised for goods consumed on the island in the last
+  15 minutes, so a full storage of a surplus good nobody needs stays quiet.
+- **Imports are no longer deficit warnings.** A shortfall of a good the
+  island has no building for is how goods arrive by ship, not a fault. It
+  is now listed as an import: a quiet tag in the goods table and its own
+  section on the warnings page, not counted in the warning badges, not in
+  the warnings filter, and never announced. In the same recording, 81 of 102
+  deficit warnings were of this kind.
+- The efficiency view names common reasons why buildings produce nothing:
+  full storage, missing workers or missing input goods.
+
 ## [0.1.0-beta.3] - 2026-09-23
 
 Third beta: a clearer status bar and efficiency view, and a ready-made

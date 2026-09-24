@@ -11,7 +11,7 @@ import (
 	"github.com/Dealwatch/Tabularium117/internal/model"
 )
 
-// maxDropSamples bounds one product's efficiency history. Pruning by time is
+// maxDropSamples bounds one product's productivity history. Pruning by time is
 // what normally keeps it small, but a recording that is replayed in a loop
 // delivers the same timestamps over and over, and a clock that jumps
 // backwards would defeat the time bound altogether. This is the backstop that
@@ -42,19 +42,24 @@ type islandState struct {
 // productState is one product's rule state on one island.
 type productState struct {
 	// negative and nonNegative are the deficit rule's streak counters. Only
-	// one of them is ever non-zero.
+	// one of them is ever non-zero. deficit is the open deficit or import
+	// alert - the same streak, told apart by whether the island produces the
+	// product itself.
 	negative    int
 	nonNegative int
 	deficit     *Alert
 
-	// samples is the efficiency history the drop rule averages over, oldest
-	// first, and drop is its alert.
-	samples []efficiencySample
-	drop    *Alert
+	// samples is the productivity history the drop rule averages over,
+	// oldest first, and drop is its alert. lastConsumed is when the product
+	// was last consumed on the island; the drop rule only speaks up for a
+	// product somebody needs.
+	samples      []productivitySample
+	drop         *Alert
+	lastConsumed time.Time
 }
 
-// efficiencySample is one efficiency reading, in percent.
-type efficiencySample struct {
+// productivitySample is one productivity reading, in percent.
+type productivitySample struct {
 	at    time.Time
 	value float64
 }
@@ -177,6 +182,13 @@ func (e *Engine) Reset() []Event {
 }
 
 // applyDeficit runs the deficit rule for one product.
+//
+// A sustained negative delta means two different things. On an island with
+// buildings of its own for the product it is a shortfall in its own chain:
+// a deficit warning. On an island without any, the product can only arrive
+// by ship, and a negative delta there is how every imported good looks - in
+// the live capture of 2026-09-23, 81 of 102 deficit warnings were of this
+// kind. Those become the quieter import alert.
 func (e *Engine) applyDeficit(events []Event, snap model.IslandSnapshot, name string, ps *productState, p model.ProductStat) []Event {
 	delta := float64(p.Delta)
 	if delta < 0 {
@@ -187,14 +199,30 @@ func (e *Engine) applyDeficit(events []Event, snap model.IslandSnapshot, name st
 		ps.negative = 0
 	}
 
+	rule, severity := RuleDeficit, SeverityWarning
+	if p.Buildings == 0 {
+		rule, severity = RuleImport, SeverityInfo
+	}
+	// The island started producing the product itself, or stopped: the open
+	// alert describes the other situation and ends here. The streak carries
+	// on, so a shortfall that persists is raised again under the right rule
+	// in the same tick.
+	if ps.deficit != nil && ps.deficit.Rule != rule {
+		a := *ps.deficit
+		ps.deficit = nil
+		a.ClearedAt = snap.ReceivedAt
+		a.Value = delta
+		events = append(events, Event{Kind: KindCleared, Alert: a})
+	}
+
 	switch {
 	case ps.deficit == nil && ps.negative >= e.cfg.DeficitSamples:
 		a := Alert{
 			Island:      snap.Key,
 			IslandName:  name,
 			ProductGUID: p.ProductGUID,
-			Rule:        RuleDeficit,
-			Severity:    SeverityWarning,
+			Rule:        rule,
+			Severity:    severity,
 			RaisedAt:    snap.ReceivedAt,
 			Detail:      deficitDetail(delta, ps.negative),
 			Value:       delta,
@@ -222,29 +250,41 @@ func (e *Engine) applyDeficit(events []Event, snap model.IslandSnapshot, name st
 
 // applyDrop runs the productivity_drop rule for one product.
 //
-// Without a perfect generation there is nothing to be a percentage of, so the
-// rule is inactive for that sample: no reading is recorded and an alert that
-// is already open stays open until a defined efficiency clears it.
+// Without buildings there is no productivity to speak of, so the rule is
+// inactive for that sample: no reading is recorded and an alert that is
+// already open stays open until a defined productivity clears it.
+//
+// A drop is only raised for a product that was consumed on the island within
+// the window. Buildings stop when the storage is full, and a product nobody
+// consumes fills its storage and then stops for good - which is nothing to
+// act on. Clearing is not gated: an alert ends when the productivity is back,
+// whoever needs the product by then.
 func (e *Engine) applyDrop(events []Event, snap model.IslandSnapshot, name string, ps *productState, p model.ProductStat) []Event {
-	if p.PerfectGeneration == 0 {
+	if p.Consumption > 0 {
+		ps.lastConsumed = snap.ReceivedAt
+	}
+	if p.Buildings == 0 {
 		return events
 	}
-	eff := float64(p.Generation) / float64(p.PerfectGeneration) * 100
-	if math.IsNaN(eff) || math.IsInf(eff, 0) {
+	prod := float64(p.AvgProductivity)
+	if math.IsNaN(prod) || math.IsInf(prod, 0) {
 		return events
 	}
 
 	ps.samples = prune(ps.samples, snap.ReceivedAt.Add(-e.cfg.DropWindow))
 	mean, n := meanOf(ps.samples)
-	defer func() { ps.samples = appendSample(ps.samples, efficiencySample{at: snap.ReceivedAt, value: eff}) }()
+	defer func() {
+		ps.samples = appendSample(ps.samples, productivitySample{at: snap.ReceivedAt, value: prod})
+	}()
 
 	if n < e.cfg.MinSamplesForDrop {
 		return events
 	}
-	drop := mean - eff
+	drop := mean - prod
+	consumed := !ps.lastConsumed.IsZero() && !ps.lastConsumed.Before(snap.ReceivedAt.Add(-e.cfg.DropWindow))
 
 	switch {
-	case ps.drop == nil && drop > e.cfg.DropPercentagePoints:
+	case ps.drop == nil && drop > e.cfg.DropPercentagePoints && consumed:
 		a := Alert{
 			Island:      snap.Key,
 			IslandName:  name,
@@ -252,8 +292,8 @@ func (e *Engine) applyDrop(events []Event, snap model.IslandSnapshot, name strin
 			Rule:        RuleProductivityDrop,
 			Severity:    SeverityWarning,
 			RaisedAt:    snap.ReceivedAt,
-			Detail:      dropDetail(eff, mean, e.cfg.DropWindow),
-			Value:       eff,
+			Detail:      dropDetail(prod, mean, e.cfg.DropWindow),
+			Value:       prod,
 		}
 		ps.drop = &a
 		return append(events, Event{Kind: KindRaised, Alert: a})
@@ -262,21 +302,21 @@ func (e *Engine) applyDrop(events []Event, snap model.IslandSnapshot, name strin
 		a := *ps.drop
 		ps.drop = nil
 		a.ClearedAt = snap.ReceivedAt
-		a.Value = eff
-		a.Detail = dropDetail(eff, mean, e.cfg.DropWindow)
+		a.Value = prod
+		a.Detail = dropDetail(prod, mean, e.cfg.DropWindow)
 		return append(events, Event{Kind: KindCleared, Alert: a})
 
 	case ps.drop != nil:
 		ps.drop.IslandName = name
-		ps.drop.Value = eff
-		ps.drop.Detail = dropDetail(eff, mean, e.cfg.DropWindow)
+		ps.drop.Value = prod
+		ps.drop.Detail = dropDetail(prod, mean, e.cfg.DropWindow)
 	}
 	return events
 }
 
 // prune drops every reading older than cutoff. The history is kept oldest
 // first, so this is a prefix.
-func prune(samples []efficiencySample, cutoff time.Time) []efficiencySample {
+func prune(samples []productivitySample, cutoff time.Time) []productivitySample {
 	cut := 0
 	for cut < len(samples) && samples[cut].at.Before(cutoff) {
 		cut++
@@ -288,7 +328,7 @@ func prune(samples []efficiencySample, cutoff time.Time) []efficiencySample {
 }
 
 // appendSample adds one reading and enforces the length backstop.
-func appendSample(samples []efficiencySample, s efficiencySample) []efficiencySample {
+func appendSample(samples []productivitySample, s productivitySample) []productivitySample {
 	samples = append(samples, s)
 	if len(samples) > maxDropSamples {
 		samples = append(samples[:0], samples[len(samples)-maxDropSamples:]...)
@@ -297,7 +337,7 @@ func appendSample(samples []efficiencySample, s efficiencySample) []efficiencySa
 }
 
 // meanOf returns the arithmetic mean of the readings and how many there were.
-func meanOf(samples []efficiencySample) (float64, int) {
+func meanOf(samples []productivitySample) (float64, int) {
 	if len(samples) == 0 {
 		return 0, 0
 	}
@@ -315,8 +355,8 @@ func deficitDetail(delta float64, samples int) string {
 }
 
 // dropDetail is the productivity rule's one-liner.
-func dropDetail(eff, mean float64, window time.Duration) string {
-	return fmt.Sprintf("efficiency %.0f%% vs %s mean %.0f%%", eff, windowLabel(window), mean)
+func dropDetail(prod, mean float64, window time.Duration) string {
+	return fmt.Sprintf("productivity %.0f%% vs %s mean %.0f%%", prod, windowLabel(window), mean)
 }
 
 // windowLabel names the trailing window the way a person would, e.g. "5-min".

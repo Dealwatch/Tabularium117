@@ -498,6 +498,21 @@ tr.no-data { opacity: .5; }
   font-weight: 700;
 }
 
+/* An import is info, not a warning: a quiet outlined tag, in the muted
+   colour, so it explains a red balance without competing with the ⚠. */
+.import-tag {
+  display: inline-block;
+  padding: 0 .35rem;
+  border: 1px solid var(--border);
+  border-radius: .6rem;
+  color: var(--fg-muted);
+  font-size: .72rem;
+  line-height: 1.4;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.imports-section { margin-top: 1.5rem; }
+
 .setting {
   display: flex;
   align-items: center;

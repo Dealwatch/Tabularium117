@@ -237,11 +237,20 @@ func TestStatusCountsTheActiveAlerts(t *testing.T) {
 
 	second := oatsDeficit(fx.now)
 	second.ProductGUID = 1010
-	_, url := newServerWithAlerts(t, fx, fixedAlerts{oatsDeficit(fx.now), second})
+	// An import is info, not a warning: listed, but not counted.
+	imported := oatsDeficit(fx.now)
+	imported.ProductGUID = 2069
+	imported.Rule, imported.Severity = alerts.RuleImport, alerts.SeverityInfo
+	_, url := newServerWithAlerts(t, fx, fixedAlerts{oatsDeficit(fx.now), second, imported})
 	var got statusJSON
 	getJSON(t, url+"/api/v1/status", http.StatusOK, &got)
 	if got.Alerts.Active != 2 {
-		t.Errorf("alerts.active = %d, want 2", got.Alerts.Active)
+		t.Errorf("alerts.active = %d, want the 2 warnings without the import", got.Alerts.Active)
+	}
+	var list []alertJSON
+	getJSON(t, url+"/api/v1/alerts?active=true", http.StatusOK, &list)
+	if len(list) != 3 {
+		t.Errorf("the list has %d alerts, want all 3 including the import", len(list))
 	}
 }
 

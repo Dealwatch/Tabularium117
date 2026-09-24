@@ -11,7 +11,8 @@ import "time"
 // behaviour for the rest.
 type Config struct {
 	// DeficitSamples is how many consecutive samples with Delta < 0 raise a
-	// deficit alert. Default 3.
+	// deficit alert, or an import alert on an island without buildings of
+	// its own for the product. Default 3.
 	//
 	// One sample is one statistics tick, and the game produces a tick about
 	// every two minutes (docs/protocol.md, "Live capture 2026-09-22"), so
@@ -22,12 +23,12 @@ type Config struct {
 	// DeficitClearSamples is how many consecutive samples with Delta >= 0
 	// clear it again. Default 3.
 	DeficitClearSamples int
-	// DropPercentagePoints is how far, in percentage points, efficiency has
-	// to fall below its trailing mean to raise a productivity_drop alert.
-	// Default 20.
+	// DropPercentagePoints is how far, in percentage points, the buildings'
+	// productivity has to fall below its trailing mean to raise a
+	// productivity_drop alert. Default 20.
 	DropPercentagePoints float64
-	// DropClearPercentagePoints is how close to the trailing mean efficiency
-	// has to come back for that alert to clear. It is smaller than
+	// DropClearPercentagePoints is how close to the trailing mean the
+	// productivity has to come back for that alert to clear. It is smaller than
 	// DropPercentagePoints on purpose - that gap is the hysteresis.
 	// Default 10.
 	DropClearPercentagePoints float64

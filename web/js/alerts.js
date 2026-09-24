@@ -20,15 +20,26 @@ export function alertKey(alert) {
 export function ruleLabel(rule) {
   switch (rule) {
     case "deficit": return i18n.t("ruleDeficit");
+    case "import": return i18n.t("ruleImport");
     case "productivity_drop": return i18n.t("ruleProductivityDrop");
     default: return rule;
   }
+}
+
+// isWarning tells a warning from an info alert. An import - a good the island
+// consumes but has no building for - is info: it is listed, but it is not
+// counted, badged, filtered for or announced as a problem. Anything that is
+// not explicitly info counts as a warning, so an unknown severity is never
+// quietly swallowed.
+export function isWarning(alert) {
+  return alert.severity !== "info";
 }
 
 // countByIsland returns a map of island id -> number of active warnings.
 export function countByIsland(alerts) {
   const counts = new Map();
   for (const a of alerts) {
+    if (!isWarning(a)) continue;
     counts.set(a.islandId, (counts.get(a.islandId) || 0) + 1);
   }
   return counts;
@@ -176,8 +187,10 @@ function notify(alert) {
 }
 
 // announce is called for a warning that is new to this page. Cleared alerts
-// never announce - a problem going away is not something to interrupt for.
+// never announce - a problem going away is not something to interrupt for -
+// and neither does an info alert: an island that imports a good is not news.
 export function announce(alert) {
+  if (!isWarning(alert)) return;
   if (prefs.notifications) notify(alert);
   if (prefs.sound) beep();
 }

@@ -57,7 +57,8 @@ const dictionaries = {
     productivityMeaning: "Average building productivity; boosts can take it above 100 %.",
     unusedMeaning: "Potential minus actual production, per minute.",
     productivityIdleNote: "not producing",
-    productivityIdleMeaning: "Buildings are present but produce nothing right now. The data does not say why.",
+    productivityIdleMeaning: "Buildings are present but produce nothing right now. Common reasons: "
+      + "full storage, missing workers or missing input goods – the data does not say which.",
     productivityNoBuildingsNote: "no buildings",
     productivityNoBuildingsMeaning: "No buildings for this good on this island; there is no potential to compare.",
     productivityNoPotentialNote: "no potential",
@@ -92,7 +93,14 @@ const dictionaries = {
     colSince: "Since",
     colUntil: "Until",
     ruleDeficit: "Deficit",
+    ruleImport: "Import",
     ruleProductivityDrop: "Productivity drop",
+    importTag: "import",
+    importTagTitle: "Consumed here, but this island has no building for it: it has to be shipped in. "
+      + "Not counted as a warning.",
+    importsHeading: "Imports",
+    importsExplain: "Goods these islands consume but have no building for. A negative balance is normal "
+      + "for them as long as ships bring them in, so they are listed here and not counted as warnings.",
     alertActive: "active",
     alertMarker: "Active warning",
     alertSince: "since {age}",
@@ -205,7 +213,8 @@ const dictionaries = {
     productivityMeaning: "Durchschnittliche Gebäudeproduktivität; Boni können sie über 100 % heben.",
     unusedMeaning: "Potenzial minus tatsächliche Produktion, pro Minute.",
     productivityIdleNote: "produziert nicht",
-    productivityIdleMeaning: "Gebäude sind vorhanden, produzieren aber gerade nichts. Den Grund liefern die Daten nicht.",
+    productivityIdleMeaning: "Gebäude sind vorhanden, produzieren aber gerade nichts. Häufige Gründe: "
+      + "volles Lager, fehlende Arbeitskräfte oder fehlende Rohstoffe – welcher, verraten die Daten nicht.",
     productivityNoBuildingsNote: "keine Gebäude",
     productivityNoBuildingsMeaning: "Für diese Ware gibt es hier keine Gebäude und somit kein vergleichbares Potenzial.",
     productivityNoPotentialNote: "kein Potenzial",
@@ -240,7 +249,15 @@ const dictionaries = {
     colSince: "Seit",
     colUntil: "Bis",
     ruleDeficit: "Defizit",
+    ruleImport: "Import",
     ruleProductivityDrop: "Produktivitätseinbruch",
+    importTag: "Import",
+    importTagTitle: "Wird hier verbraucht, aber die Insel hat kein Gebäude dafür: Die Ware muss per Schiff "
+      + "kommen. Zählt nicht als Warnung.",
+    importsHeading: "Importe",
+    importsExplain: "Waren, die diese Inseln verbrauchen, für die sie aber kein Gebäude haben. Eine negative "
+      + "Bilanz ist bei ihnen normal, solange Schiffe sie liefern – deshalb stehen sie hier und zählen "
+      + "nicht als Warnung.",
     alertActive: "aktiv",
     alertMarker: "Aktive Warnung",
     alertSince: "seit {age}",

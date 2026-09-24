@@ -42,14 +42,29 @@ die Wirtschaftsdaten live, mit Verlauf und handyfreundlich anzeigt.
    getrennt: Effizienz misst den Ausstoß gegen das Optimum, Produktivität den Laufgrad der
    Gebäude – Boosts heben beide über 100 %.
 4. **Warnungen** – regelbasiert, umgesetzt in `internal/alerts`:
-   `deficit` (Delta < 0 in 3 aufeinanderfolgenden Messungen, klärt sich nach 3 Messungen mit
-   Delta ≥ 0) und `productivity_drop` (**Effizienz** = `Generation / PerfectGeneration` in Prozent
-   fällt um mehr als 20 Prozentpunkte unter ihr eigenes 15-Minuten-Mittel; klärt sich, sobald sie
-   wieder innerhalb von 10 Prozentpunkten liegt). Bewusst **nicht** `AverageProductivity`: deren
-   Bedeutung ist inzwischen geklärt (§12), aber sie misst den Laufgrad der Gebäude, nicht den
-   Ausstoß gegen das Optimum – die Regel bleibt deshalb auf der Effizienz. Die beiden
-   unterschiedlichen Schwellen sind die Hysterese: eine Warnung flackert nicht, wenn ein Wert um die Schwelle pendelt. Schwellwerte per
-   `--alert-deficit-samples` und `--alert-drop-pp` einstellbar.
+   - `deficit` (Warnung): Delta < 0 in 3 aufeinanderfolgenden Messungen auf einer Insel, die
+     **eigene Gebäude** für die Ware hat; klärt sich nach 3 Messungen mit Delta ≥ 0.
+   - `import` (Stufe `info`, leise): dieselbe Serie auf einer Insel **ohne** Gebäude für die
+     Ware. Sie kommt dann nur per Schiff – so erreichen die meisten Waren die meisten Inseln,
+     das ist kein Fehler. Wird gelistet und in der Warentabelle markiert, aber nicht gezählt,
+     nicht gefiltert und nicht angekündigt. Im Mitschnitt vom 2026-09-23 waren 81 von 102
+     Defizit-Warnungen von dieser Art. Baut der Spieler das erste Gebäude, endet der Import
+     und – bei weiter negativem Delta – beginnt im selben Tick ein `deficit` (und umgekehrt).
+   - `productivity_drop` (Warnung): die **Produktivität** der Gebäude (`AverageProductivity`,
+     §12) fällt um mehr als 20 Prozentpunkte unter ihr eigenes 15-Minuten-Mittel, **und** die
+     Ware wurde in diesem Fenster auf der Insel verbraucht; klärt sich, sobald sie wieder
+     innerhalb von 10 Prozentpunkten liegt.
+
+   Die Regel lief zuerst auf der Effizienz (`Generation / PerfectGeneration`). Der
+   35-Minuten-Mitschnitt vom 2026-09-23 zeigte, warum das nicht trägt: Die Pipe zählt fertige
+   Produktionszyklen pro Tick, die Generation eines durchlaufenden Gebäudes springt deshalb
+   zwischen 0 und dem vollen Wert. Das ergab 37 Warnungen in 35 Minuten, die meisten für Gebäude
+   mit 86–100 % Produktivität. Auf der Produktivität sind es 6, jede ein echter Stopp. Die
+   Bedingung „verbraucht“ fängt das **volle Lager** ab: Die Pipe liefert keinen Lagerbestand,
+   ein volles Lager stoppt die Gebäude, und bei einer Ware, die niemand abholt, ist das der
+   normale Endzustand eines Überschusses. Die beiden unterschiedlichen Schwellen sind die
+   Hysterese: eine Warnung flackert nicht, wenn ein Wert um die Schwelle pendelt. Schwellwerte
+   per `--alert-deficit-samples` und `--alert-drop-pp` einstellbar.
    **Eine „Messung“ ist ein Statistik-Tick, und das Spiel liefert etwa alle zwei Minuten einen**
    (Live-Capture 2026-09-22, §12). Drei Messungen sind also rund sechs Minuten anhaltendes Defizit
    – genau das ist gewollt. Das Fenster des gleitenden Mittels muss dagegen mindestens drei Ticks
@@ -214,8 +229,8 @@ feststanden statt geraten zu sein.
 CREATE TABLE alert (
   id INTEGER PRIMARY KEY,
   island INTEGER NOT NULL REFERENCES island(id), product_guid INTEGER NOT NULL,
-  rule TEXT NOT NULL,                                   -- "deficit" | "productivity_drop"
-  severity TEXT NOT NULL,                               -- vorerst immer "warning"
+  rule TEXT NOT NULL,                                   -- "deficit" | "import" | "productivity_drop"
+  severity TEXT NOT NULL,                               -- "warning", bei "import" "info"
   raised_at INTEGER NOT NULL, cleared_at INTEGER,       -- cleared_at NULL = offen
   detail TEXT NOT NULL                                  -- kurzer englischer Text mit den Zahlen
 );
@@ -264,12 +279,12 @@ dieser Abschnitt ist die Referenz dafür.
 
 | Methode | Pfad | Inhalt |
 |---|---|---|
-| GET | `/status` | Version, Verbindung (Modus, Zustand, Fehlertext, seit, Protokollversion, letzter Frame), Session (Headline, Start), `lan` (`enabled` = zweiter Listener offen, `local` = Anfrage kam über den Loopback-Listener), Anzahl Inseln, Verlauf an/aus mit letztem Messzeitpunkt, `alerts.active` (Anzahl offener Warnungen), `tick` (Spielzeit-Zeitstempel des jüngsten Snapshots, `null` wenn noch keiner da ist) und `warmingUp` |
+| GET | `/status` | Version, Verbindung (Modus, Zustand, Fehlertext, seit, Protokollversion, letzter Frame), Session (Headline, Start), `lan` (`enabled` = zweiter Listener offen, `local` = Anfrage kam über den Loopback-Listener), Anzahl Inseln, Verlauf an/aus mit letztem Messzeitpunkt, `alerts.active` (Anzahl offener Warnungen; Importe mit Stufe `info` zählen nicht mit), `tick` (Spielzeit-Zeitstempel des jüngsten Snapshots, `null` wenn noch keiner da ist) und `warmingUp` |
 | GET | `/islands` | Bekannte Inseln, sortiert nach (SessionGUID, IslandID), je mit `products`, `deficits` (Delta < 0) und `tick` (Spielzeit-Zeitstempel des Ticks, aus dem dieser Snapshot stammt) |
 | GET | `/islands/{id}/products` | Insel plus alle Waren mit Namen, Kategorie, Rohwerten sowie `workforce`/`buildingsByGuid` (GUID → Name + Anzahl); Defizite zuerst, dann nach Name |
 | GET | `/islands/{id}/products/{guid}/history?range=1h\|4h\|24h\|7d\|session` | Zeitreihe mit `from`, `to` und `points` (`aggregated` markiert verdichtete Punkte, `bucketMs` ihre Breite in ms, `tick` die Spielzeit-Id); Standard `1h`, unbekannter Bereich → 400 |
 | GET | `/islands/{id}/efficiency` | Waren mit `efficiency` (Generation / PerfectGeneration, `null` wenn Perfekt = 0), `wasted` (Perfekt − Ist), `avgProductivity` (mittlere Gebäude-Produktivität in Prozent, §2.3) und `buildings` (Anzahl Gebäude – trennt „keine Gebäude“ von „Gebäude, aber kein Potenzial“), sortiert nach `wasted` absteigend |
-| GET | `/alerts?active=true\|false&limit=` | Warnungen, neueste zuerst. `active=true` (Standard) kommt aus der Regel-Engine, `active=false` aus der Datenbank (offene **und** beendete); ohne Datenbank 503 wie beim Verlauf |
+| GET | `/alerts?active=true\|false&limit=` | Warnungen und Importe (`severity` `warning` bzw. `info`), neueste zuerst. `active=true` (Standard) kommt aus der Regel-Engine, `active=false` aus der Datenbank (offene **und** beendete); ohne Datenbank 503 wie beim Verlauf |
 | GET | `/events` | SSE-Stream: `status`, `snapshot` (Inselübersicht wie in `/islands`) und `alert`; Heartbeat `: ping` alle 15 s |
 | GET | `/lan` | LAN-Zustand: `enabled`, `available` (eine private Adresse existiert), `ip`, `interface`, `port`, `reason` (wenn nicht möglich) und `url` – die Adresse **mit Token**, ausschließlich in Antworten an den Loopback-Listener |
 | POST | `/lan` | Der einzige schreibende Endpunkt: `{"enabled": true\|false}` schaltet den LAN-Listener an bzw. aus. Nur über den Loopback-Listener (ein LAN-Client bekommt 403, auch mit gültigem Token), nur mit `Content-Type: application/json`, nur von der eigenen Seite (fremder `Origin` → 403); belegter Port oder keine private Adresse → 409 mit Begründung |
@@ -297,7 +312,7 @@ Konventionen:
 - Eine **Warnung** ist
   `{id?, islandId, islandName, sessionName, productGuid, productName, rule,
   severity, raisedAt, clearedAt|null, detail, value}`. `id` gibt es nur für eine
-  gespeicherte Warnung, `value` (aktuelles Delta bzw. aktuelle Effizienz) nur für
+  gespeicherte Warnung, `value` (aktuelles Delta bzw. aktuelle Produktivität) nur für
   eine aus der Engine – der Verlauf speichert ihn nicht (§4). Das `alert`-Ereignis
   im Stream ist `{kind: "raised"|"cleared", alert: {…}}`. `rule` und `severity`
   sind Bezeichner, keine Anzeigetexte: die UI übersetzt sie.

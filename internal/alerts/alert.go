@@ -9,16 +9,25 @@ import (
 // Rule names. They are part of the API and the database, so they are stable
 // identifiers, not display text: the UI translates them.
 const (
-	// RuleDeficit fires when a product's delta stays negative.
+	// RuleDeficit fires when a product's delta stays negative on an island
+	// that produces the product itself.
 	RuleDeficit = "deficit"
-	// RuleProductivityDrop fires when a product's efficiency falls well
-	// below its own trailing mean.
+	// RuleImport fires when a product's delta stays negative on an island
+	// with no building of its own for it: the island lives on imports of it.
+	// That is how most goods reach most islands, not a fault, so it carries
+	// SeverityInfo.
+	RuleImport = "import"
+	// RuleProductivityDrop fires when the productivity of a product's
+	// buildings falls well below its own trailing mean.
 	RuleProductivityDrop = "productivity_drop"
 )
 
-// SeverityWarning is the only severity the MVP raises. The field exists so
-// that a second level can be added without changing the API shape.
-const SeverityWarning = "warning"
+// Severities. A warning is something to act on and is what the UI counts,
+// announces and badges; info is kept and listed, but quietly.
+const (
+	SeverityWarning = "warning"
+	SeverityInfo    = "info"
+)
 
 // Event kinds.
 const (
@@ -37,10 +46,10 @@ const (
 //
 // ClearedAt is the zero time while the alert is active. Detail is short
 // English text with the numbers that triggered the rule, ready to be shown
-// next to a translated rule name. Value is the current delta (deficit) or the
-// current efficiency in percent (productivity_drop); it is refreshed while
-// the alert is active, so a live view shows how bad it is now, not how bad it
-// was when it started.
+// next to a translated rule name. Value is the current delta (deficit,
+// import) or the current productivity in percent (productivity_drop); it is
+// refreshed while the alert is active, so a live view shows how bad it is
+// now, not how bad it was when it started.
 type Alert struct {
 	Island      model.IslandKey
 	IslandName  string

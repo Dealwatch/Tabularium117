@@ -6,21 +6,37 @@
 // goroutine for every stored snapshot and returns the events that snapshot
 // caused; the caller decides whether they are persisted, published or both.
 //
-// Two rules exist.
+// Three rules exist.
 //
 //   - "deficit": the product's Delta has been negative in DeficitSamples
-//     consecutive samples. It clears after DeficitClearSamples consecutive
-//     samples with a Delta of zero or more.
-//   - "productivity_drop": the product's efficiency has fallen more than
-//     DropPercentagePoints below its trailing mean over DropWindow. It clears
-//     once it is back within DropClearPercentagePoints of that mean.
+//     consecutive samples, on an island with buildings of its own for it.
+//     It clears after DeficitClearSamples consecutive samples with a Delta
+//     of zero or more. Severity warning.
+//   - "import": the same streak on an island without any building for the
+//     product. The island lives on imports of it, which is how most goods
+//     reach most islands - not a fault, so the severity is info: kept and
+//     listed, but not counted or announced as a warning.
+//   - "productivity_drop": the productivity of the product's buildings has
+//     fallen more than DropPercentagePoints below its trailing mean over
+//     DropWindow, and the product was consumed on the island within that
+//     window. It clears once the productivity is back within
+//     DropClearPercentagePoints of that mean. Severity warning.
 //
-// Efficiency is Generation / PerfectGeneration in percent, the measure
-// KONZEPT.md section 12 settled on. AverageProductivity is
-// deliberately not used. Its meaning is no longer open - the live capture of
-// 2026-09-22 showed it is SummedProductivity / AmountOfBuildings x 100 - but
-// it measures how hard the buildings run, not how the output compares with
-// its optimum, which is the question these rules ask.
+// The drop rule reads AverageProductivity (SummedProductivity /
+// AmountOfBuildings x 100, docs/protocol.md), not Generation /
+// PerfectGeneration. It first did the latter, and a 35-minute live capture
+// of 2026-09-23 showed why that cannot work: the pipe counts completed
+// production cycles per tick, so the generation of a building that runs
+// without pause still jumps between 0 and its full rate from tick to tick.
+// Measured against a trailing mean, that is a drop every few ticks - 37
+// alerts in that capture, most of them for buildings running at 86-100 %.
+// The productivity is the game's own running average and does not jitter;
+// on the same capture the rule raises 6 alerts, each a real stop.
+//
+// Storage is not in the pipe. A building whose storage is full stops, and
+// that looks exactly like one that lacks workers or input goods. Gating the
+// drop rule on consumption is how the harmless case - a surplus product that
+// nobody takes from the storage - stays quiet.
 //
 // One sample is one statistics tick, and the game produces a tick roughly
 // every two minutes (docs/protocol.md). Every count and window in Config is

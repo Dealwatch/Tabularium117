@@ -180,7 +180,7 @@ func parseFlags(args []string, stderr io.Writer) (config, error) {
 	fs.IntVar(&cfg.alertDeficitSamples, "alert-deficit-samples", defaultAlertConfig.DeficitSamples,
 		"raise a deficit warning after this many consecutive measurements with a negative delta")
 	fs.Float64Var(&cfg.alertDropPP, "alert-drop-pp", defaultAlertConfig.DropPercentagePoints,
-		"raise a productivity warning when efficiency falls this many percentage points below its 15-minute mean")
+		"raise a productivity warning when the buildings' productivity falls this many percentage points below its 15-minute mean")
 	fs.StringVar(&cfg.anonymizeIn, "anonymize-recording", "",
 		"rewrite this JSONL recording without the profile name in it and exit; nothing is served")
 	fs.StringVar(&cfg.anonymizeOut, "out", "",

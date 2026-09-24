@@ -140,8 +140,9 @@ type historyDTO struct {
 	LastSampleTime *time.Time `json:"lastSampleTime"`
 }
 
-// alertsStatusDTO is the status bar's badge: how many alerts are open right
-// now. The list itself is /api/v1/alerts.
+// alertsStatusDTO is the status bar's badge: how many warnings are open right
+// now. Info alerts - the imports - are not warnings and are not counted; the
+// list itself, with both, is /api/v1/alerts.
 type alertsStatusDTO struct {
 	Active int `json:"active"`
 }
@@ -186,7 +187,7 @@ func (s *Server) status(local bool) statusDTO {
 		Session:   sessionDTO{Headline: headline, StartedAt: jsonTime(startedAt)},
 		LAN:       lanDTO{Enabled: s.lan.isEnabled(), Local: local},
 		Islands:   len(islands),
-		Alerts:    alertsStatusDTO{Active: len(s.activeAlerts())},
+		Alerts:    alertsStatusDTO{Active: countWarnings(s.activeAlerts())},
 		Tick:      jsonTick(latestTick(islands)),
 		WarmingUp: warmingUp(islands),
 	}
@@ -393,7 +394,7 @@ func (s *Server) efficiencyProduct(p model.ProductStat, lang string) efficiencyP
 // (KONZEPT.md section 5). ID is absent for an alert that comes from the live
 // engine: only a stored alert has a row id.
 //
-// Value is the rule's current number - the delta, or the efficiency in
+// Value is the rule's current number - the delta, or the productivity in
 // percent. The history does not keep it (see internal/store, schema 2), so it
 // is zero for a stored alert; Detail carries the numbers it was raised with.
 type alertDTO struct {
@@ -449,6 +450,17 @@ func (s *Server) alertRow(r store.AlertRow, lang string) alertDTO {
 	id := r.ID
 	out.ID = &id
 	return out
+}
+
+// countWarnings counts the alerts of severity warning.
+func countWarnings(active []alerts.Alert) int {
+	n := 0
+	for _, a := range active {
+		if a.Severity == alerts.SeverityWarning {
+			n++
+		}
+	}
+	return n
 }
 
 // activeAlerts returns the open alerts, newest first, or nothing when this

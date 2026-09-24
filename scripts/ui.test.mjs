@@ -266,9 +266,40 @@ test("the efficiency view separates the two ways of producing nothing", async ()
   assert.ok(notes.some((node) => node.textContent === "not producing"));
   assert.ok(notes.some((node) => node.textContent === "no buildings"));
   assert.ok(notes.some((node) => node.textContent === "no potential"));
-  assert.match(nodes(root, "details")[0].textContent, /The data does not say why/,
-    "the expanded explanation does not guess why a building is idle");
+  const explainer = nodes(root, "details")[0].textContent;
+  assert.match(explainer, /full storage/, "a full storage is named as a common reason for idle buildings");
+  assert.match(explainer, /the data does not say which/,
+    "the expanded explanation names candidates but does not pretend to know which one it is");
   assert.match(rowText(root), /220%/, "productivity above 100 % is shown as it is");
+  cleanup();
+});
+
+test("an import is marked quietly and is not a warning", async () => {
+  i18n.lang = "en";
+  api.products = async () => ({ island, products });
+  const root = new Element();
+  // Wheat is short on this island, but the island has no building for it:
+  // the engine reports that as an import (severity info), not a deficit.
+  const store = {
+    islands: [island],
+    alerts: [
+      { islandId: island.id, productGuid: 1, rule: "productivity_drop", severity: "warning", detail: "test" },
+      { islandId: island.id, productGuid: 2, rule: "import", severity: "info", detail: "delta -4.0 for 3 samples" },
+    ],
+    status: {},
+  };
+  const cleanup = await renderIslandDetail(root, island.id, store);
+
+  const tags = nodes(root, ".import-tag");
+  assert.equal(tags.length, 1, "exactly the imported good carries the tag");
+  assert.match(tags[0].parent.textContent, /Wheat/);
+  assert.match(tags[0].getAttribute("title"), /Not counted as a warning/);
+  assert.equal(nodes(root, ".alert-marker").length, 1, "only the real warning gets the warning marker");
+  assert.match(root.textContent, /1 Warnings/, "the summary counts the warning, not the import");
+
+  button(root, "Warnings").click();
+  assert.match(rowText(root), /Bread/);
+  assert.doesNotMatch(rowText(root), /Wheat/, "the warnings filter leaves the import out");
   cleanup();
 });
 
