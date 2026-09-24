@@ -54,6 +54,9 @@ notieren, auch wenn es nicht wie ein Fehler wirkt:
 - [ ] Eine Ware bewusst ins Defizit laufen lassen (z. B. Produktion
       abschalten) und nach etwa 6 Minuten anhaltendem Defizit prüfen, ob
       eine Warnung erscheint.
+- [ ] Bei einer Ware mit „Importbedarf“ die möglichen Produktionsquellen
+      aufklappen (in der Warentabelle und auf der Warnungsseite) – passen
+      die genannten Inseln zu dem, was im Spiel die Ware herstellt?
 - [ ] Handy-Modus auf einem echten Handy im selben WLAN testen (siehe
       README, Abschnitt „Handy-Modus"), inklusive der
       Windows-Firewall-Abfrage beim ersten Mal – bitte **„Private
@@ -151,6 +154,9 @@ if it does not look like a bug:
 - [ ] Deliberately run a good into deficit (for example, turn off its
       production) and check whether a warning appears after about 6 minutes
       of sustained deficit.
+- [ ] For a good marked "import needed", open the possible production
+      sources (in the goods table and on the warnings page) – do the islands
+      listed match what produces the good in the game?
 - [ ] Test phone mode on a real phone on the same Wi-Fi (see the README,
       "Phone mode" section), including the Windows firewall prompt on first
       use – please allow **"Private networks"**.

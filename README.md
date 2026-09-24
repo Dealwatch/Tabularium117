@@ -44,6 +44,14 @@ gegenüber dem Spiel.
    leise als **Importbedarf** markiert – in der Warentabelle zählen sie
    weiterhin als Defizit. Ob die Ware tatsächlich geliefert wird, kann
    Tabularium nicht sehen.
+   Ein Klick (am Handy: Tippen) auf „Importbedarf“ zeigt die **möglichen
+   Produktionsquellen**: die anderen Inseln – auch in der anderen Provinz –,
+   die die Ware im letzten vollständigen Statistik-Tick mit positiver
+   lokaler Bilanz hergestellt haben, mit der Uhrzeit dieses Ticks. Mehr als
+   *mögliche* Quellen sind das nicht: Handelsrouten, Schiffe, Ladungen und
+   Lagerbestände stehen nicht in den Daten des Spiels, welche Insel eine
+   andere wirklich beliefert, kann Tabularium also nicht bestimmen – und
+   eine positive Bilanz kann schon anderswohin verschifft werden.
 5. **Handy-Modus** – per Schalter im UI einschaltbar, zeigt einen QR-Code mit
    der Adresse im eigenen Netzwerk.
 
@@ -298,6 +306,14 @@ step, no Docker, no mod, strictly read-only towards the game.
    a deficit warning; they are quietly marked as **import needed** - the goods
    table still counts them as deficits. Whether they are actually delivered is
    not something Tabularium can see.
+   Clicking (on a phone: tapping) "import needed" shows the **possible
+   production sources**: the other islands - in the other province too -
+   that produced the good with a positive local balance in the last
+   complete statistics tick, with the time of that tick. They are no more
+   than *possible* sources: trade routes, ships, cargo and warehouse stock
+   are not in the game's data, so Tabularium cannot tell which island really
+   supplies another - and a positive balance may already be shipped
+   elsewhere.
 5. **Phone mode** – a switch in the UI shows a QR code with the address on
    your own network.
 

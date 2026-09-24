@@ -5,6 +5,23 @@ All notable changes to Tabularium 117 are documented here, in the
 
 ## [Unreleased]
 
+### Added
+
+- **Possible production sources** for goods marked "import needed"
+  ("Importbedarf"). The tag in the goods table and the entry on the warnings
+  page open a list of the other islands that produced the good with a
+  positive local balance in the last complete statistics tick - in every
+  session, since goods travel between Latium and Albion too - grouped by
+  session, the island's own first, and sorted by balance. The list says
+  when that tick arrived. These are possible sources only: the game data has no
+  trade routes, ships, cargo or warehouse stock, so Tabularium cannot tell
+  which island really supplies another, and a positive balance may already
+  be shipped elsewhere or be filling a storage. The numbers all come from
+  the newest complete statistics tick, never from two ticks at once while
+  one is still arriving; right after connecting or loading a save, that can
+  take about two minutes, and the list says so. Nothing is stored, and the warning rules are
+  unchanged. New endpoint: `/api/v1/islands/{id}/products/{guid}/sources`.
+
 ### Changed
 
 - **Productivity warnings** now follow the buildings' productivity instead
@@ -34,6 +51,9 @@ All notable changes to Tabularium 117 are documented here, in the
   warnings were of this kind; 21 local-production deficit warnings remain.
 - The efficiency view names common reasons why buildings produce nothing:
   full storage, missing workers or missing input goods.
+- The "import needed" tag is now a button: it opens the possible production
+  sources below the row, and on a touch screen its tap area is 44 px high
+  while the tag keeps its size.
 
 ## [0.1.0-beta.3] - 2026-09-23
 
