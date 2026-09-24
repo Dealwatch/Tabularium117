@@ -169,19 +169,39 @@ func TestCompleteTickWithAnIslandMissing(t *testing.T) {
 	if got, want := completeTick(st), "300: a300 c300"; got != want {
 		t.Fatalf("after tick 400 began: %s, want %s", got, want)
 	}
-	// Tick 300 had islands 1 and 3, so tick 400 is complete once both of
-	// them reported.
+	// Islands 1 and 3 are in tick 400 - all of tick 300. But island 2 is
+	// still known and may yet come: tick 400 is not complete without it.
 	st.Put(ticked(1, 3, 400, "c400"))
-	if got, want := completeTick(st), "400: a400 c400"; got != want {
-		t.Fatalf("tick 400 covers tick 300: %s, want %s", got, want)
+	if got, want := completeTick(st), "300: a300 c300"; got != want {
+		t.Fatalf("tick 400 without island 2: %s, want %s - it may still arrive", got, want)
 	}
-	// Island 2 is back in tick 500. It arrives after its tick was found
-	// complete and still joins it.
+	st.Put(ticked(1, 2, 400, "b400"))
+	if got, want := completeTick(st), "400: a400 b400 c400"; got != want {
+		t.Fatalf("once island 2 arrived: %s, want %s", got, want)
+	}
+
+	// An island that is not reported again leaves every later tick to the
+	// boundary: late, never short.
 	st.Put(ticked(1, 1, 500, "a500"))
 	st.Put(ticked(1, 3, 500, "c500"))
-	st.Put(ticked(1, 2, 500, "b500"))
-	if got, want := completeTick(st), "500: a500 b500 c500"; got != want {
-		t.Fatalf("an island arriving after its tick was found complete: %s, want %s", got, want)
+	if got, want := completeTick(st), "400: a400 b400 c400"; got != want {
+		t.Fatalf("tick 500 without island 2: %s, want %s", got, want)
+	}
+	st.Put(ticked(1, 1, 600, "a600"))
+	if got, want := completeTick(st), "500: a500 c500"; got != want {
+		t.Fatalf("after tick 600 began: %s, want %s", got, want)
+	}
+
+	// A new island - one the session has not seen - arriving after the
+	// others still joins the tick they completed.
+	st.Put(ticked(1, 2, 600, "b600"))
+	st.Put(ticked(1, 3, 600, "c600"))
+	if got, want := completeTick(st), "600: a600 b600 c600"; got != want {
+		t.Fatalf("tick 600: %s, want %s", got, want)
+	}
+	st.Put(ticked(1, 4, 600, "d600"))
+	if got, want := completeTick(st), "600: a600 b600 c600 d600"; got != want {
+		t.Fatalf("a new island arriving after its tick was found complete: %s, want %s", got, want)
 	}
 }
 

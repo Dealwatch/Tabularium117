@@ -7,6 +7,7 @@ import (
 	"slices"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/Dealwatch/Tabularium117/internal/model"
 )
@@ -35,6 +36,11 @@ type possibleSourcesDTO struct {
 	// Tick is the game timestamp of the tick every balance below comes from,
 	// null while not ready.
 	Tick *int64 `json:"tick"`
+	// ReceivedAt is when the last island of that tick arrived: how old the
+	// balances are. The goods table can be a tick ahead of them for a few
+	// seconds, and with no new ticks - the game closed, the connection lost -
+	// they stay the last known ones. null while not ready.
+	ReceivedAt *time.Time `json:"receivedAt"`
 	// Groups holds the sessions that have at least one possible source: the
 	// island's own session first, the others after it by session GUID. The
 	// order is for reading only; a source in the own session is not a more
@@ -95,6 +101,13 @@ func (s *Server) handleSources(w http.ResponseWriter, r *http.Request) {
 	}
 	out.Ready = true
 	out.Tick = jsonTick(stamp)
+	var received time.Time
+	for _, snap := range islands {
+		if snap.ReceivedAt.After(received) {
+			received = snap.ReceivedAt
+		}
+	}
+	out.ReceivedAt = jsonTime(received)
 
 	for _, group := range possibleSources(snap.Key, int32(guid), islands) {
 		dto := sourceGroupDTO{

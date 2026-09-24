@@ -294,9 +294,9 @@ game paused, minimised, maximised; main menu; save reloaded; stop.
   in every tick. While a tick arrives, the latest snapshot per island mixes
   it with the previous one, so anything that compares islands with each
   other (the possible production sources, KONZEPT.md §2.4) reads the newest
-  *complete* tick instead: complete once every island of the previous
-  complete tick has reported in it, or at the latest when the next
-  `timeStamp` begins. That is a conclusion from the islands seen, not an
+  *complete* tick instead: complete once every island seen so far in the
+  session has reported in it, or at the latest when the next `timeStamp`
+  begins. That is a conclusion from the islands seen, not an
   end-of-tick signal - the protocol has none.
 - Ticks every ~2 min mean: a "3 consecutive samples" rule needs ~6 min to
   fire; a 5-minute trailing window holds at most two ticks; 24 h of raw

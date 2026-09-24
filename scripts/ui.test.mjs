@@ -335,11 +335,15 @@ const importStore = () => ({
   status: {},
 });
 
-const sourcesAnswer = (groups, ready = true) => ({
+// receivedAt is 13:49:01 local time, today - so the panel shows the time
+// alone - unless a test says otherwise.
+const today = (h, m, s) => { const d = new Date(); d.setHours(h, m, s, 0); return d.toISOString(); };
+const sourcesAnswer = (groups, ready = true, receivedAt = today(13, 49, 1)) => ({
   island,
   product: { guid: 2, name: "Wheat" },
   ready,
   tick: ready ? 152525000 : null,
+  receivedAt: ready ? receivedAt : null,
   groups,
 });
 
@@ -351,6 +355,7 @@ const twoProvinces = sourcesAnswer([
   { sessionGuid: 6627, sessionName: "Albion", own: false, sources: [
     { id: "6627-1", islandId: 1, name: "Argantum", delta: 4.25 },
     { id: "6627-2", islandId: 2, name: "Eboracum", delta: 0.03 },
+    { id: "6627-3", islandId: 3, name: "Gwynford", delta: 0.004 },
   ] },
 ]);
 
@@ -393,11 +398,16 @@ test("possible production sources open under the row, grouped by province", asyn
   assert.match(text, /Latium.*Megaron.*Local balance \+3\.5\/min.*Agathea.*\+2\.0\/min.*Albion.*Argantum.*\+4\.3\/min/,
     "the server's order, which is own province first and highest balance first");
   assert.match(text, /Eboracum.*Local balance \+0\.03\/min/, "a small positive balance is not written as +0.0");
+  assert.match(text, /Gwynford.*Local balance < \+0\.01\/min/, "nor one below what two decimals show as +0.00");
+  assert.match(text, /As of the last complete statistics tick, received at 1:49:01\sPM\./,
+    "the panel says which numbers these are, and when they arrived");
   assert.match(text, /Possible sources only\. Trade routes and actual deliveries are not available in the game data\./);
   assert.doesNotMatch(text, overclaims);
   const link = nodes(detail, "a").find((a) => a.textContent === "Argantum");
   assert.equal(link.href, "#/island/6627-1", "a source is a way to its island");
   assert.equal(nodes(root, ".sources-toggle")[0].getAttribute("aria-expanded"), "true");
+  assert.match(nodes(root, ".sources-toggle")[0].getAttribute("aria-label"), /import needed: Hide possible production sources/,
+    "open, a press hides them, and the name says so");
   assert.equal(document.activeElement, nodes(root, ".sources-toggle")[0],
     "the table is rebuilt on the click and again on the answer, and the focus has to survive both");
 
@@ -426,13 +436,18 @@ test("possible production sources say what is not known and what was not found",
   await settle();
   assert.match(nodes(root, ".sources-row")[0].textContent, /Waiting for a complete statistics tick/,
     "right after connecting nothing is known yet, which is not the same as none");
+  assert.match(nodes(root, ".sources-row")[0].textContent, /about two minutes/,
+    "the first tick waits for the next one: the wait is named, so it does not look stuck");
+  assert.doesNotMatch(nodes(root, ".sources-row")[0].textContent, /As of/, "no time for numbers there are none of");
 
   // A snapshot of any island may complete the tick: the open row asks again.
   answer = sourcesAnswer([]);
   document.dispatchEvent(new CustomEvent("tabularium-snapshot", { detail: { id: "6627-1" } }));
   await settle();
   const text = nodes(root, ".sources-row")[0].textContent;
-  assert.match(text, /No island with a positive local balance found\./);
+  assert.match(text, /No island with a positive local balance found in the last complete statistics tick\./,
+    "none is a statement about the tick that was looked at");
+  assert.match(text, /As of the last complete statistics tick/);
   assert.doesNotMatch(text, /no supplier|not being delivered|need to build/i,
     "none found is not a statement about deliveries or about what to build");
 
@@ -482,13 +497,22 @@ test("possible production sources in German", async () => {
   assert.match(text, /Mögliche Produktionsquellen/);
   assert.match(text, /Lokale Bilanz \+3,5\/min/, "German writes 3,5");
   assert.match(text, /Nur mögliche Quellen\. Handelsrouten und tatsächliche Lieferungen sind in den Spieldaten nicht verfügbar\./);
+  assert.match(text, /Stand: letzter vollständiger Statistik-Tick, empfangen um 13:49:01\./);
   assert.doesNotMatch(text, overclaims);
-  assert.match(nodes(root, ".sources-toggle")[0].getAttribute("aria-label"), /Importbedarf: Mögliche Produktionsquellen anzeigen/);
+  assert.match(nodes(root, ".sources-toggle")[0].getAttribute("aria-label"), /Importbedarf: Mögliche Produktionsquellen ausblenden/);
+
+  // Numbers from another day - a recording, or a PC left running - carry
+  // their date.
+  answer = sourcesAnswer(twoProvinces.groups, true, new Date(2026, 8, 23, 13, 49, 1).toISOString());
+  document.dispatchEvent(new CustomEvent("tabularium-snapshot", { detail: { id: island.id } }));
+  await settle();
+  assert.match(nodes(root, ".sources-row")[0].textContent, /empfangen um 23\.9\.2026, 13:49:01\./);
 
   answer = sourcesAnswer([]);
   document.dispatchEvent(new CustomEvent("tabularium-snapshot", { detail: { id: island.id } }));
   await settle();
-  assert.match(nodes(root, ".sources-row")[0].textContent, /Keine Insel mit positivem lokalem Saldo gefunden\./);
+  assert.match(nodes(root, ".sources-row")[0].textContent,
+    /Keine Insel mit positivem lokalem Saldo im letzten vollständigen Statistik-Tick gefunden\./);
   cleanup();
   i18n.lang = "en";
 });
@@ -517,5 +541,63 @@ test("the warnings page opens the same sources for each import needed entry", as
   assert.equal(detail.colSpan, 5);
   assert.match(detail.textContent, /Possible production sources.*Megaron.*Local balance \+3\.5\/min/);
   assert.match(detail.textContent, /Possible sources only/);
+  cleanup();
+});
+
+test("a slow answer is not asked for again ten times a tick", async () => {
+  i18n.lang = "en";
+  api.products = async () => ({ island, products });
+  // Every request hangs until the test answers it, like a slow phone.
+  const pending = [];
+  api.sources = () => new Promise((resolve) => pending.push(resolve));
+  const root = new Element();
+  const cleanup = await renderIslandDetail(root, island.id, importStore());
+  nodes(root, ".sources-toggle")[0].click();
+  await settle();
+  assert.equal(pending.length, 1);
+
+  // A tick arrives: ten snapshots, one per island, while the first request
+  // still hangs.
+  for (let i = 0; i < 10; i++) {
+    document.dispatchEvent(new CustomEvent("tabularium-snapshot", { detail: { id: `6627-${i}` } }));
+  }
+  await settle();
+  assert.equal(pending.length, 1, "one request in flight per row, not eleven");
+  assert.match(nodes(root, ".sources-row")[0].textContent, /Loading/);
+
+  // The first answer is shown at once - it is not thrown away for being
+  // overtaken - and the snapshots that came meanwhile cost one request more.
+  pending[0](sourcesAnswer([{ sessionGuid: 6627, sessionName: "Albion", own: false, sources: [
+    { id: "6627-1", islandId: 1, name: "Argantum", delta: 1 },
+  ] }]));
+  await settle();
+  assert.match(nodes(root, ".sources-row")[0].textContent, /Argantum.*\+1\.0\/min/);
+  assert.equal(pending.length, 2, "asked once more for what the snapshots may have changed");
+
+  pending[1](sourcesAnswer([{ sessionGuid: 6627, sessionName: "Albion", own: false, sources: [
+    { id: "6627-1", islandId: 1, name: "Argantum", delta: 2 },
+  ] }]));
+  await settle();
+  assert.match(nodes(root, ".sources-row")[0].textContent, /Argantum.*\+2\.0\/min/);
+  assert.equal(pending.length, 2, "and then it rests");
+
+  // An answer for a row that was closed in the meantime is dropped - with
+  // the follow-up it had been asked for - and reopening asks afresh.
+  document.dispatchEvent(new CustomEvent("tabularium-snapshot", { detail: { id: "6627-1" } }));
+  await settle();
+  assert.equal(pending.length, 3);
+  document.dispatchEvent(new CustomEvent("tabularium-snapshot", { detail: { id: "6627-2" } }));
+  nodes(root, ".sources-toggle")[0].click();
+  assert.equal(nodes(root, ".sources-row").length, 0, "closed");
+  nodes(root, ".sources-toggle")[0].click();
+  await settle();
+  assert.equal(pending.length, 4, "the reopened row asks for itself");
+  pending[2](sourcesAnswer([]));
+  await settle();
+  assert.match(nodes(root, ".sources-row")[0].textContent, /Loading/, "the old row's answer is not the new row's");
+  pending[3](sourcesAnswer([]));
+  await settle();
+  assert.match(nodes(root, ".sources-row")[0].textContent, /No island/);
+  assert.equal(pending.length, 4, "nor does the old row's follow-up become the new row's");
   cleanup();
 });

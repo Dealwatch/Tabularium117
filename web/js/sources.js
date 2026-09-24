@@ -9,37 +9,57 @@
 
 import { i18n } from "./i18n.js";
 import { api, ApiError } from "./api.js";
+import { formatDateTime, formatTime } from "./format.js";
 
 // createSources keeps track of which rows are open and what the server said
 // for each. onChange is called whenever an open row has something new to
 // show; the view re-renders then, and asks panel() for the content.
 export function createSources(onChange) {
-  // key -> { islandId, guid, dto, error, request }
+  // key -> { islandId, guid, dto, error, loading, again }
   const open = new Map();
   let disposed = false;
 
   const keyOf = (islandId, guid) => `${islandId}|${guid}`;
 
+  // load asks the server for one open row. At most one request per row is
+  // in flight: a tick brings ten snapshots within ten seconds, and asking
+  // ten times over a slow phone connection would only queue up answers that
+  // are thrown away. A snapshot arriving meanwhile marks the row to be
+  // asked once more when the answer is in.
   async function load(key) {
     const entry = open.get(key);
     if (!entry) return;
-    const current = ++entry.request;
+    if (entry.loading) {
+      entry.again = true;
+      return;
+    }
+    entry.loading = true;
+    let dto = null;
+    let error = "";
     try {
-      const dto = await api.sources(entry.islandId, entry.guid);
-      // Closed, reopened or asked again in the meantime: the newer answer
-      // is the one that counts.
-      if (disposed || open.get(key) !== entry || current !== entry.request) return;
-      // Most snapshots do not move the complete tick on, and the answer is
-      // the same as before. Re-rendering for it would rebuild the table ten
-      // times a tick, and take the keyboard focus with it every time.
-      if (!entry.error && JSON.stringify(dto) === JSON.stringify(entry.dto)) return;
+      dto = await api.sources(entry.islandId, entry.guid);
+    } catch (err) {
+      error = err instanceof ApiError ? err.message : String(err);
+    }
+    entry.loading = false;
+    // Closed or closed and reopened in the meantime: this answer belongs to
+    // a row that is gone.
+    if (disposed || open.get(key) !== entry) return;
+    // Most snapshots do not move the complete tick on, and the answer is the
+    // same as before. Re-rendering for it would rebuild the table for
+    // nothing.
+    const changed = error !== entry.error || (!error && JSON.stringify(dto) !== JSON.stringify(entry.dto));
+    if (error) {
+      entry.error = error;
+    } else {
       entry.dto = dto;
       entry.error = "";
-    } catch (err) {
-      if (disposed || open.get(key) !== entry || current !== entry.request) return;
-      entry.error = err instanceof ApiError ? err.message : String(err);
     }
-    onChange();
+    if (changed) onChange();
+    if (entry.again) {
+      entry.again = false;
+      load(key);
+    }
   }
 
   return {
@@ -50,7 +70,7 @@ export function createSources(onChange) {
       if (open.has(key)) {
         open.delete(key);
       } else {
-        open.set(key, { islandId, guid, dto: null, error: "", request: 0 });
+        open.set(key, { islandId, guid, dto: null, error: "", loading: false, again: false });
         load(key);
       }
       onChange();
@@ -87,11 +107,12 @@ export function createSources(onChange) {
 
 // toggleButton is the control that opens and closes a row's sources. It
 // carries the tag it replaces ("import needed"), so the row looks the same
-// as before; aria-expanded tells a screen reader it opens something. The
-// button itself is invisible and only as large as a finger needs (see
-// app.css); the tag inside it keeps its quiet size. title is the tooltip,
-// which defaults to what the button does.
-export function toggleButton(label, expanded, onClick, title = i18n.t("sourcesShow")) {
+// as before; aria-expanded tells a screen reader it opens something, and its
+// name says what a press does now: show or hide. The button itself is
+// invisible and only as large as a finger needs (see app.css); the tag
+// inside it keeps its quiet size. title is the tooltip, which defaults to
+// what the button does.
+export function toggleButton(label, expanded, onClick, title = i18n.t(expanded ? "sourcesHide" : "sourcesShow")) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "sources-toggle";
@@ -101,7 +122,7 @@ export function toggleButton(label, expanded, onClick, title = i18n.t("sourcesSh
   button.append(tag);
   button.title = title;
   button.setAttribute("aria-expanded", String(expanded));
-  button.setAttribute("aria-label", `${label}: ${i18n.t("sourcesShow")}`);
+  button.setAttribute("aria-label", `${label}: ${i18n.t(expanded ? "sourcesHide" : "sourcesShow")}`);
   button.addEventListener("click", onClick);
   return button;
 }
@@ -141,6 +162,7 @@ function renderPanel({ dto, error }) {
     box.append(muted(i18n.t("sourcesPending")));
   } else if (dto.groups.length === 0) {
     box.append(muted(i18n.t("sourcesNone")));
+    box.append(asOf(dto.receivedAt));
   } else {
     for (const group of dto.groups) {
       const section = document.createElement("div");
@@ -156,13 +178,14 @@ function renderPanel({ dto, error }) {
         link.textContent = source.name;
         const balance = document.createElement("span");
         balance.className = "sources-balance delta-positive";
-        balance.textContent = i18n.t("sourcesBalance", { value: `+${formatBalance(source.delta)}` });
+        balance.textContent = i18n.t("sourcesBalance", { value: formatBalance(source.delta) });
         li.append(link, " ", balance);
         list.append(li);
       }
       section.append(session, list);
       box.append(section);
     }
+    box.append(asOf(dto.receivedAt));
   }
 
   const note = muted(i18n.t("sourcesNote"));
@@ -178,11 +201,29 @@ function muted(text) {
   return p;
 }
 
-// formatBalance writes a balance with one decimal, like the goods table. A
-// source's balance is positive by definition, and 0.03 written as "+0.0"
-// would contradict that - so below 0.1 it gets a second decimal.
+// asOf says which numbers these are: the last complete tick's, and when it
+// arrived. A time of day rather than "2 min ago": nothing re-renders the
+// panel while no new tick comes, and an age would freeze at whatever it was
+// - exactly when the connection is gone and the age matters most. A time
+// from another day carries its date.
+function asOf(iso) {
+  const p = muted("");
+  p.className = "muted sources-asof";
+  if (!iso) return p;
+  const sameDay = new Date(iso).toDateString() === new Date().toDateString();
+  p.textContent = i18n.t("sourcesAsOf", { time: sameDay ? formatTime(iso) : formatDateTime(iso) });
+  p.title = formatDateTime(iso);
+  return p;
+}
+
+// formatBalance writes a balance, sign included, with one decimal like the
+// goods table. A source's balance is positive by definition, and 0.03
+// written as "+0.0" would contradict that - so below 0.1 it gets a second
+// decimal, and below what two decimals can show it says "< +0.01".
 function formatBalance(value) {
   const locale = i18n.lang === "de" ? "de-DE" : "en-US";
-  const digits = value < 0.1 ? 2 : 1;
-  return new Intl.NumberFormat(locale, { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(value);
+  const format = (digits, v) =>
+    new Intl.NumberFormat(locale, { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(v);
+  if (value < 0.005) return `< +${format(2, 0.01)}`;
+  return `+${format(value < 0.1 ? 2 : 1, value)}`;
 }

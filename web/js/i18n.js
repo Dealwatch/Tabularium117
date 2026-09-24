@@ -103,10 +103,13 @@ const dictionaries = {
       + "elsewhere. Tabularium cannot see whether or how they are actually delivered - trade routes and "
       + "ships are not in the game's data. They are listed here and not counted as warnings.",
     sourcesShow: "Show possible production sources",
+    sourcesHide: "Hide possible production sources",
     sourcesHeading: "Possible production sources",
     sourcesBalance: "Local balance {value}/min",
-    sourcesNone: "No island with a positive local balance found.",
-    sourcesPending: "Waiting for a complete statistics tick - the islands of one tick arrive over a few seconds.",
+    sourcesAsOf: "As of the last complete statistics tick, received at {time}.",
+    sourcesNone: "No island with a positive local balance found in the last complete statistics tick.",
+    sourcesPending: "Waiting for a complete statistics tick. The first one after connecting or loading a save "
+      + "only counts as complete when the next one begins - that can take about two minutes.",
     sourcesLoading: "Loading…",
     sourcesNote: "Possible sources only. Trade routes and actual deliveries are not available in the game data.",
     alertActive: "active",
@@ -268,10 +271,13 @@ const dictionaries = {
       + "Handelsrouten und Schiffe stehen nicht in den Daten des Spiels. Sie stehen hier und zählen nicht "
       + "als Warnung.",
     sourcesShow: "Mögliche Produktionsquellen anzeigen",
+    sourcesHide: "Mögliche Produktionsquellen ausblenden",
     sourcesHeading: "Mögliche Produktionsquellen",
     sourcesBalance: "Lokale Bilanz {value}/min",
-    sourcesNone: "Keine Insel mit positivem lokalem Saldo gefunden.",
-    sourcesPending: "Warte auf einen vollständigen Statistik-Tick – die Inseln eines Ticks kommen über einige Sekunden verteilt an.",
+    sourcesAsOf: "Stand: letzter vollständiger Statistik-Tick, empfangen um {time}.",
+    sourcesNone: "Keine Insel mit positivem lokalem Saldo im letzten vollständigen Statistik-Tick gefunden.",
+    sourcesPending: "Warte auf einen vollständigen Statistik-Tick. Der erste nach dem Verbinden oder Laden gilt "
+      + "erst als vollständig, wenn der nächste beginnt – das kann etwa zwei Minuten dauern.",
     sourcesLoading: "Wird geladen …",
     sourcesNote: "Nur mögliche Quellen. Handelsrouten und tatsächliche Lieferungen sind in den Spieldaten nicht verfügbar.",
     alertActive: "aktiv",

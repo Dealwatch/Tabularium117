@@ -108,24 +108,22 @@ func (s *State) Put(snap model.IslandSnapshot) {
 	}
 	s.receiving.islands[snap.Key] = snap
 	// Waiting for the next tick would hold every complete tick back by two
-	// minutes. So a tick also counts as complete as soon as every island of
-	// the previous complete tick has reported in it. That is a conclusion
-	// from the islands already seen, not a signal: an island missing from
-	// the new tick just leaves it to the boundary above. Once the two share
-	// a map, this finds it covering itself and changes nothing.
-	if s.complete.islands != nil && covers(s.receiving, s.complete) {
+	// minutes. So a tick also counts as complete as soon as every island
+	// this session has reported so far has reported in it - every one, not
+	// only those of the previous tick: an island that tick lacked may still
+	// be on its way, and a tick declared complete without it would say
+	// "none" where it has the answer. That is a conclusion from the islands
+	// seen, not a signal. An island missing from the new tick leaves it to
+	// the boundary above, and one that is never reported again leaves every
+	// later tick to it: two minutes late, but never short.
+	//
+	// It needs a complete tick before it: in the first tick after a start
+	// every island known is one of the tick's, so the count proves nothing.
+	// Once receiving is complete, this finds it complete again and changes
+	// nothing.
+	if s.complete.islands != nil && len(s.receiving.islands) == len(s.islands) {
 		s.complete = s.receiving
 	}
-}
-
-// covers reports whether every island of prev has reported in t.
-func covers(t, prev tick) bool {
-	for key := range prev.islands {
-		if _, ok := t.islands[key]; !ok {
-			return false
-		}
-	}
-	return true
 }
 
 // Snapshot returns the latest snapshot of one island.
@@ -166,15 +164,16 @@ func sortIslands(out []model.IslandSnapshot) {
 // CompleteTick returns the islands of the newest statistics tick known to be
 // complete, ordered like Islands, and that tick's game timestamp. ok is false
 // while no tick is known to be complete: after a Reset, until the first tick
-// is over.
+// is over - which only the start of the next one shows, up to two minutes
+// later.
 //
 // Islands mixes ticks while one is arriving - for a few seconds, the islands
 // that already reported carry the new tick and the rest the previous one.
 // CompleteTick never does: every snapshot it returns carries the same
 // timestamp. A tick is complete when the next one begins, or earlier, once
-// every island of the previous complete tick has reported in it. The price is
-// that it can lag the newest numbers by those few seconds, and by a whole
-// tick when an island stops being reported.
+// every island of this session has reported in it. The price is that it can
+// lag the newest numbers by those few seconds, and by a whole tick while an
+// island is missing.
 //
 // The returned values must not be mutated.
 func (s *State) CompleteTick() (stamp int64, islands []model.IslandSnapshot, ok bool) {

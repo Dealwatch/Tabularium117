@@ -20,9 +20,10 @@ type sourcesJSON struct {
 		GUID int32  `json:"guid"`
 		Name string `json:"name"`
 	} `json:"product"`
-	Ready  bool   `json:"ready"`
-	Tick   *int64 `json:"tick"`
-	Groups []struct {
+	Ready      bool       `json:"ready"`
+	Tick       *int64     `json:"tick"`
+	ReceivedAt *time.Time `json:"receivedAt"`
+	Groups     []struct {
 		SessionGUID int32  `json:"sessionGuid"`
 		SessionName string `json:"sessionName"`
 		Own         bool   `json:"own"`
@@ -218,8 +219,9 @@ func TestPossibleSourcesComeFromOneCompleteTick(t *testing.T) {
 	// the same as "none found".
 	putTick(st, 100, tick(1, 1)...)
 	got := sources(t, url, "3245-1", oats)
-	if got.render() != "not ready" || got.Tick != nil || got.Groups == nil {
-		t.Fatalf("first tick: %s (tick %v, groups %v), want not ready with an empty list", got.render(), got.Tick, got.Groups)
+	if got.render() != "not ready" || got.Tick != nil || got.ReceivedAt != nil || got.Groups == nil {
+		t.Fatalf("first tick: %s (tick %v, received %v, groups %v), want not ready with an empty list",
+			got.render(), got.Tick, got.ReceivedAt, got.Groups)
 	}
 
 	putTick(st, 200, tick(2, 2)...)
@@ -230,6 +232,11 @@ func TestPossibleSourcesComeFromOneCompleteTick(t *testing.T) {
 	if want := "Latium*: Agathea +2.0 | Albion: Argantum +2.0"; got.render() != want || *got.Tick != 200 {
 		t.Errorf("while tick 300 arrives: %s at tick %v, want %s at 200 - Agathea's 300 must not sit next to Argantum's 200",
 			got.render(), *got.Tick, want)
+	}
+	// The age is tick 200's: when its last island arrived, not when tick
+	// 300 began (putTick stamps each island with its tick as Unix time).
+	if got.ReceivedAt == nil || !got.ReceivedAt.Equal(time.Unix(200, 0)) {
+		t.Errorf("receivedAt = %v, want tick 200's %v", got.ReceivedAt, time.Unix(200, 0))
 	}
 	putTick(st, 300, next[2])
 	got = sources(t, url, "3245-1", oats)
@@ -327,5 +334,34 @@ func TestPossibleSourcesDoNotClaimDeliveries(t *testing.T) {
 		if strings.Contains(body, word) {
 			t.Errorf("the answer says %q: %s", word, body)
 		}
+	}
+}
+
+// A tick that lacked an island is no measure of when the next one is
+// complete: the missing island may still be on its way, and it may be the
+// only source there is. The answer must not say "none" before it had the
+// chance to arrive.
+func TestPossibleSourcesWaitForEveryKnownIsland(t *testing.T) {
+	st := state.New()
+	url := sourcesServer(t, st)
+	cinis := isle(latium, 1, "Cinis", good(oats, 0, -3))
+	putTick(st, 100, cinis, isle(latium, 2, "Agathea"), isle(latium, 3, "Megaron", good(oats, 2, 3)))
+	// Tick 200 lacks Megaron; the start of tick 300 closes it without.
+	putTick(st, 200, cinis, isle(latium, 2, "Agathea", good(oats, 1, 1)))
+	putTick(st, 300, cinis)
+	if got := sources(t, url, "3245-1", oats); got.render() != "Latium*: Agathea +1.0" || *got.Tick != 200 {
+		t.Fatalf("tick 200: %s at %v", got.render(), *got.Tick)
+	}
+	// Tick 300: Agathea no longer has a balance, and Megaron - the source -
+	// has not reported yet. Tick 200's islands are all in, but tick 300 is
+	// not complete: "none" here would be a statement about an island that
+	// is still on its way.
+	putTick(st, 300, isle(latium, 2, "Agathea"))
+	if got := sources(t, url, "3245-1", oats); got.render() != "Latium*: Agathea +1.0" || *got.Tick != 200 {
+		t.Errorf("while Megaron is still out: %s at %v, want tick 200's answer rather than none", got.render(), *got.Tick)
+	}
+	putTick(st, 300, isle(latium, 3, "Megaron", good(oats, 2, 4)))
+	if got := sources(t, url, "3245-1", oats); got.render() != "Latium*: Megaron +4.0" || *got.Tick != 300 {
+		t.Errorf("once Megaron is in: %s at %v, want Megaron at 300", got.render(), *got.Tick)
 	}
 }
